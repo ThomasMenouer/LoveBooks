@@ -1,0 +1,14 @@
+<div {{ attributes }}>
+
+    <input type="search" data-model="query">
+
+    <ul class="list-group mt-2">
+        {% for book in this.books %}
+            <li class="list-group-item">
+                {{ book.volumeInfo.title ?? 'Titre inconnu' }}
+            </li>
+        {% else %}
+            <li class="list-group-item text-muted">Aucun résultat</li>
+        {% endfor %}
+    </ul>
+</div>

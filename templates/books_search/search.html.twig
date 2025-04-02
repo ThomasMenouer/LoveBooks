@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<main>
+    <section class="d-flex align-items-stretch">
+        {% include "partials/navbar.html.twig" %}
+        <div class="container">
+            <div class="row text-center my-4">
+                <h1>Rechercher un livre</h1>
+            </div>
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    {{ form_start(form, {attr: {'data-turbo-frame': 'books_results'}}) }}
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.submit) }}
+                    {{ form_end(form) }}
+                
+                </div>                   
+            </div>
+
+            {% include 'books_search/results.html.twig'  with { books: books } %}
+
+        </div>
+
+    
+    </section>
+</main>
+{% endblock %}

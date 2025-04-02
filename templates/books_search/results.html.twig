@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <turbo-frame id="books_results" class="row row-cols-1 row-cols-4 g-4">
+        {% if books is defined %}
+            {% for book in books %}
+            {# Faire un formulaire avec input et type=hidden, value="book.truc.title etc" #}
+                <div class="col">
+                    <div class="card">
+                        {% if book.volumeInfo.imageLinks.thumbnail is defined %}
+                            <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" class="card-img-top img-fluid" alt="{{ book.volumeInfo.title }}">
+                        {% endif %}
+                        
+                        <div class="card-body">
+                        
+                            <h5 class="card-title">{{ book.volumeInfo.title }}</h5>
+                            
+                            {# {% if book.volumeInfo.authors is defined %}
+                                <p class="card-text">{{ book.volumeInfo.authors[0] }}</p>
+                            {% endif %}
+                            
+                            {% if book.volumeInfo.publisher is defined %}
+                                <p class="card-text">{{ book.volumeInfo.publisher }}</p>
+                            {% endif %}
+                            
+                            {% if book.volumeInfo.publishedDate is defined %}
+                                <p class="card-text">{{ book.volumeInfo.publishedDate }}</p>
+                            {% endif %}
+                            
+                            
+                            {% if book.volumeInfo.description is defined %}
+                                <p class="card-text">{{ book.volumeInfo.description }}</p>
+                            {% endif %}
+                            
+                            {% if book.volumeInfo.pageCount is defined %}
+                                <p class="card-text">{{ book.volumeInfo.pageCount }}</p>
+                            {% endif %} #}
+
+                            {# {# <a href="{{ path('newBook', { 'id': book.id }) }}">Add to Library</a> #}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun résultat trouvé.</p>
+        {% endif %}
+    
+    </turbo-frame>  
+{% endblock %}
