@@ -33,6 +33,7 @@ final class ProfileController extends AbstractController
     #[Route('/books', name: 'books')]
     public function profileBooks(): Response
     {
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $books = $user->getBooks();
 
@@ -59,34 +60,54 @@ final class ProfileController extends AbstractController
     public function editBook(Request $request, EntityManagerInterface $em, BooksRepository $booksRepository, $id): Response
     {
         $book = $booksRepository->find($id);
-
+    
         if (!$book) {
-            throw $this->createNotFoundException('The book does not exist.');
+            throw $this->createNotFoundException('Le livre n\'existe pas.');
         }
-
-
+    
         $form = $this->createForm(BooksType::class, $book);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
     
-            // 🔥 Vérifier si Turbo Stream est utilisé
-            if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+            $this->addFlash('success', 'Livre mis à jour avec succès.');
     
-                return $this->render('profile/books/book_edit.stream.html.twig', [
-                    'book' => $book,
-                ], new Response('', Response::HTTP_OK, ['Content-Type' => 'text/vnd.turbo-stream.html']));
-            }
-    
-            // Redirection classique si Turbo n'est pas actif
-            return $this->redirectToRoute('profile_books');
+            return $this->redirectToRoute('profile_book_details', ['id' => $book->getId()]);
         }
-
+    
         return $this->render('profile/books/book_edit.html.twig', [
             'form' => $form->createView(),
             'book' => $book,
         ]);
     }
+    
+    #[Route('/book/{id}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
+    public function deleteBook(Request $request, EntityManagerInterface $em, BooksRepository $booksRepository, $id): Response
+    {
+        $book = $booksRepository->find($id);
+    
+        if (!$book) {
+            throw $this->createNotFoundException('Livre introuvable.');
+        }
+    
+        $bookId = $book->getId();
+    
+        if ($this->isCsrfTokenValid('delete-book-' . $bookId, $request->request->get('_token'))) {
+            $em->remove($book);
+            $em->flush();
+        }
+    
+        if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+    
+            return $this->render('profile/books/book_delete.stream.html.twig', [
+                'bookId' => $bookId,
+            ]);
+        }
+    
+        // Redirection classique
+        return $this->redirectToRoute('profile_books');
+    }
+    
 }
