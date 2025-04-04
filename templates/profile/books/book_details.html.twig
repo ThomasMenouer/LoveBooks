@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book Detail{% endblock %}
+
+{% block body %}
+
+<turbo-frame id="profile_content">
+    <div class="container">
+        <div class="row text-center my-4">
+            <h1>Book Detail</h1>
+        </div>
+        <div class="row text-center">
+            <p>Title: {{ book.title }}</p>
+            <p>Authors: {{ book.authors }}</p>
+            <!-- Display other book details here -->
+            <div class="text-center">
+                <a href="{{ path('profile_book_edit', {'id': book.id}) }}" class="btn btn-outline-primary" data-turbo-frame="profile_content">Modifier</a> 
+            </div>
+        
+        </div>
+    </div>
+</turbo-frame>
+{% endblock %}

@@ -24,6 +24,30 @@ body{
     border: none;
 }
 
+.table > thead {
+
+    border-color: transparent;
+
+}
+
+.table > tbody {
+
+    border-color: var(--black-color);
+
+}
+
+.table > tbody > tr > td {
+
+    background-color: transparent !important;
+    color: var(--white-color);
+}
+
+.table > thead > tr > th {
+
+    background-color: var(--black-color) !important;
+    color: var(--white-color);
+}
+
 
 .btn-outline-custom {
     color: var(--green-color) !important;
