@@ -12,38 +12,56 @@ class Books
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column(length: 255)]
-    private ?string $authors = null;
+    private string $authors;
 
     #[ORM\Column(length: 255)]
-    private ?string $publisher = null;
+    private string $publisher;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private string $description;
 
     #[ORM\Column]
-    private ?int $pageCount = null;
+    private int $pageCount;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    private string $status = 'Non lu';
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Users $user = null;
+    private Users $user;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $publishedDate = null;
+    private \DateTimeInterface $publishedDate;
 
-    public function getId(): ?int
+    public function __construct(
+        string $title, 
+        string $authors, 
+        string $publisher, 
+        string $description, 
+        int $pageCount, 
+        \DateTimeInterface $publishedDate,  
+        Users $user)
+    {
+        $this->title = $title;
+        $this->authors = $authors;
+        $this->publisher = $publisher;
+        $this->description = $description;
+        $this->pageCount = $pageCount;
+        $this->publishedDate = $publishedDate;
+        $this->user = $user;
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -55,7 +73,7 @@ class Books
         return $this;
     }
 
-    public function getAuthors(): ?string
+    public function getAuthors(): string
     {
         return $this->authors;
     }
@@ -67,7 +85,7 @@ class Books
         return $this;
     }
 
-    public function getPublisher(): ?string
+    public function getPublisher(): string
     {
         return $this->publisher;
     }
@@ -79,7 +97,7 @@ class Books
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -91,7 +109,7 @@ class Books
         return $this;
     }
 
-    public function getPageCount(): ?int
+    public function getPageCount(): int
     {
         return $this->pageCount;
     }
@@ -103,7 +121,7 @@ class Books
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -115,19 +133,19 @@ class Books
         return $this;
     }
 
-    public function getUser(): ?Users
+    public function getUser(): Users
     {
         return $this->user;
     }
 
-    public function setUser(?Users $user): static
+    public function setUser(Users $user): static
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getPublishedDate(): ?\DateTimeInterface
+    public function getPublishedDate(): \DateTimeInterface
     {
         return $this->publishedDate;
     }

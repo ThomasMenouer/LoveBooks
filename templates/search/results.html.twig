@@ -14,7 +14,18 @@
                         <div class="card-body">
                         
                             <h5 class="card-title">{{ book.volumeInfo.title }}</h5>
-                            
+
+                            <a href="{{ path('search_add_book', {
+                                'title': book.volumeInfo.title is defined ? book.volumeInfo.title : 'Titre inconnu',
+                                'authors': book.volumeInfo.authors[0] is defined ? book.volumeInfo.authors[0] : 'Auteur inconnu',
+                                'publisher': book.volumeInfo.publisher is defined ? book.volumeInfo.publisher : 'Éditeur inconnu',
+                                'description': book.volumeInfo.description|default('Pas de description'),
+                                'publishedDate': book.volumeInfo.publishedDate is defined ? book.volumeInfo.publishedDate : 'Date de publication inconnue',
+                                'pageCount': book.volumeInfo.pageCount is defined ? book.volumeInfo.pageCount : 'Nombre de pages inconnu',
+                                
+                                }) }}" class="btn btn-outline-custom" data-turbo="false">
+                                    Ajouter le livre
+                            </a>
                             {# {% if book.volumeInfo.authors is defined %}
                                 <p class="card-text">{{ book.volumeInfo.authors[0] }}</p>
                             {% endif %}
@@ -36,7 +47,6 @@
                                 <p class="card-text">{{ book.volumeInfo.pageCount }}</p>
                             {% endif %} #}
 
-                            {# {# <a href="{{ path('newBook', { 'id': book.id }) }}">Add to Library</a> #}
                         </div>
                     </div>
                 </div>
