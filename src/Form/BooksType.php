@@ -22,6 +22,9 @@ class BooksType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label'
                 ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -31,18 +34,28 @@ class BooksType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label'
                 ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
             ->add('status', ChoiceType::class, [
+                'label' => 'Statut',
+                'label_attr' => [
+                    'class' => 'form-label'
+                ],
                 'choices' => [
                     'Lu' => 'Lu',
                     'En cours de lecture' => 'En cours de lecture',
                     'Non lu' => 'Non lu',
                 ],
+                'row_attr' => [
+                    'class' => 'mb-3'
+                ],
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-select'
                 ],
                 'required' => true,
             ])
@@ -52,7 +65,7 @@ class BooksType extends AbstractType
                     'class' => 'd-flex justify-content-center'
                 ],
                 'attr' => [
-                    'class' => 'btn btn-outline-custom'
+                    'class' => 'btn btn-outline-custom-yellow'
                 ]
             ])
         ;

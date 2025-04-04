@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Dto\BookDto;
-use App\Entity\Books;
+
 use App\Form\SearchBookType;
 use App\Service\BookFacade;
 use App\Service\GoogleBooksService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -70,9 +68,5 @@ final class BooksSearchController extends AbstractController
         $this->addFlash('success', 'Le livre a bien été ajouté à votre bibliothèque');
 
         return $this->redirectToRoute('search_book');
-
-        // return $this->render('search/search.html.twig', [
-        //     'book' => $book
-        // ]);
     }
 }

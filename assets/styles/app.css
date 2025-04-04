@@ -47,16 +47,3 @@ body{
     background-color: var(--black-color) !important;
     color: var(--white-color);
 }
-
-
-.btn-outline-custom {
-    color: var(--green-color) !important;
-    border-color: var(--green-color) !important;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-outline-custom:hover {
-    color: var(--black-color) !important;
-    border-color: var(--green-color) !important;
-    background-color: var(--green-color) !important;
-}

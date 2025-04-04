@@ -22,10 +22,10 @@
             </thead>
             <tbody>
                 {% for book in books %}
-                    <tr>
+                    <tr id="book_{{ book.id }}">
                         <td>
-                            <p>image</p>
-                            {# <p>{{ book.title }}</p> #}
+                           <p>image</p>
+                            
                         </td>
                         <td>
                             <p>{{ book.title }}</p>
@@ -38,12 +38,19 @@
                         </td>
                         <td>
                             <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
+                            {# <a href="{{ path("profile_book_edit", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Modifier</a> #}
+                            <form method="post" action="{{ path('profile_book_delete', { 'id': book.id }) }}" 
+                            data-turbo-frame="profile_content"
+                            onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"
+                            class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete-book-' ~ book.id) }}">
+                                <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-
     </div>
 </turbo-frame>
 
