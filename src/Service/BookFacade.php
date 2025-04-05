@@ -41,6 +41,7 @@ class BookFacade{
             $bookDto->getDescription(),
             $bookDto->getPageCount(),
             $bookDto->getPublishedDate(),
+            $bookDto->getThumbnail(),
             $this->security->getUser()
         );
 

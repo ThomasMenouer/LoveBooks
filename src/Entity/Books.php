@@ -32,6 +32,9 @@ class Books
     #[ORM\Column(length: 255, nullable: true)]
     private string $status = 'Non lu';
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnail = null;
+
     #[ORM\ManyToOne(inversedBy: 'books')]
     private Users $user;
 
@@ -45,6 +48,7 @@ class Books
         string $description, 
         int $pageCount, 
         \DateTimeInterface $publishedDate,  
+        string $thumbnail,
         Users $user)
     {
         $this->title = $title;
@@ -53,6 +57,7 @@ class Books
         $this->description = $description;
         $this->pageCount = $pageCount;
         $this->publishedDate = $publishedDate;
+        $this->thumbnail = $thumbnail;
         $this->user = $user;
     }
 
@@ -153,6 +158,17 @@ class Books
     public function setPublishedDate(\DateTimeInterface $publishedDate): static
     {
         $this->publishedDate = $publishedDate;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+    public function setThumbnail(string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }

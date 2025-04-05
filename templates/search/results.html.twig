@@ -22,6 +22,7 @@
                                 'description': book.volumeInfo.description|default('Pas de description'),
                                 'publishedDate': book.volumeInfo.publishedDate is defined ? book.volumeInfo.publishedDate : 'Date de publication inconnue',
                                 'pageCount': book.volumeInfo.pageCount is defined ? book.volumeInfo.pageCount : 'Nombre de pages inconnu',
+                                'thumbnail': book.volumeInfo.imageLinks.thumbnail is defined ? book.volumeInfo.imageLinks.thumbnail : 'Pas d\'image',
                                 
                                 }) }}" class="btn btn-outline-custom" data-turbo="false">
                                     Ajouter le livre
