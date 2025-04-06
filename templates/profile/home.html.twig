@@ -1,3 +1,52 @@
 <turbo-frame id="profile_content">
     <h1>home</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+            
+            
+            </div>
+        
+        </div>
+        <div class="col-6">
+            <h3 class="text-center mb-4">Statuts</h3>
+            <div class="col-12 mb-3">
+                <div class="card border-color-green">
+                    <div class="card-body text-color-green d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            {{ ux_icon('tabler:book-2', { style: 'width: 2rem; height: 2rem;' } ) }}
+                            <span class="ms-2">Livres lus</span>
+                        </div>
+                        <span class="badge border bg-transparent border-color-green text-color-green">{{ bookStats['Lu'] }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mb-3">
+                <div class="card border-color-yellow">
+                    <div class="card-body text-color-yellow d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            {{ ux_icon('tabler:book', { style: 'width: 2rem; height: 2rem;' } ) }}
+                            <span class="ms-2">En cours de lecture</span>
+                        </div>
+                        <span class="badge border bg-transparent border-color-yellow  text-color-yellow">{{ bookStats['En cours de lecture'] }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mb-3">
+                <div class="card border-color-red">
+                    <div class="card-body text-color-red d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            {{ ux_icon('tabler:books', { style: 'width: 2rem; height: 2rem;' } ) }}
+                            <span class="ms-2">Non lus</span>
+                        </div>
+                        <span class="badge border bg-transparent border-color-red  text-color-red">{{ bookStats['Non lu'] }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

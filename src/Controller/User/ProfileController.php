@@ -6,6 +6,7 @@ use App\Form\BooksType;
 use Symfony\UX\Turbo\TurboBundle;
 use App\Repository\BooksRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,9 +26,14 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/home', name: 'home')]
-    public function profileHome(): Response
+    public function profileHome(BooksRepository $bookRepository, Security $security): Response
     {
-        return $this->render('profile/home.html.twig');
+        $user = $security->getUser();
+        $bookStats = $bookRepository->countByStatusForUser($user);
+    
+        return $this->render('profile/home.html.twig', [
+            'bookStats' => $bookStats
+        ]);
     }
 
     #[Route('/books', name: 'books')]
