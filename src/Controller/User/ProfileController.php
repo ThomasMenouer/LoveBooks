@@ -17,22 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/profile', name: 'profile_')]
 final class ProfileController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index(): Response
-    {
-        return $this->render('profile/profile.html.twig', [
-            
-        ]);
-    }
 
-    #[Route('/home', name: 'home')]
+    #[Route('/', name: 'index')]
     public function profileHome(BooksRepository $bookRepository, Security $security): Response
     {
         $user = $security->getUser();
-        $bookStats = $bookRepository->countByStatusForUser($user);
     
-        return $this->render('profile/home.html.twig', [
-            'bookStats' => $bookStats
+        return $this->render('profile/profile.html.twig', [
+            'bookStats' => $bookRepository->countByStatusForUser($user),
+            'totalBooks' => $bookRepository->getTotalBooksForUser($user),
+            'totalPagesRead' => $bookRepository->getTotalPagesReadForUser($user),
         ]);
     }
 
@@ -75,11 +69,29 @@ final class ProfileController extends AbstractController
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($book->getStatus() === 'Lu') {
+                $book->setPagesRead($book->getPageCount());
+            }
+            elseif ($book->getStatus() === 'En cours de lecture') {
+                $book->setPagesRead($book->getPagesRead());
+            } 
+            else {
+                $book->setPagesRead(0);
+            }
+
+            if ($book->getPagesRead() >= $book->getPageCount()) {
+
+                $book->setStatus('Lu');
+                $book->setPagesRead($book->getPageCount());
+            } 
+            else {
+                $book->setStatus('En cours de lecture');
+            }
             $em->flush();
-    
-            $this->addFlash('success', 'Livre mis à jour avec succès.');
-    
-            return $this->redirectToRoute('profile_book_details', ['id' => $book->getId()]);
+
+            $this->addFlash('success', 'Livre modifié');
+            return $this->redirectToRoute('profile_index');
         }
     
         return $this->render('profile/books/book_edit.html.twig', [

@@ -3,14 +3,32 @@
 {% block title %}Modifier un livre{% endblock %}
 
 {% block body %}
-    <h1>Modifier un livre</h1>
 
-    {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.authors) }}
-        {{ form_row(form.status) }}
-        {{ form_row(form.submit) }}
-    {{ form_end(form) }}
+<main>
 
-    <a href="{{ path('profile_book_details', {'id': book.id}) }}" class="btn btn-outline-custom">Annuler</a>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <h2 class="text-center">Modifier le livre</h2>
+
+                    {{ form_start(form) }}
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.authors) }}
+                        {{ form_row(form.status) }}
+                        {{ form_row(form.pagesRead) }}
+                        {{ form_row(form.submit) }}
+
+                    {{ form_end(form) }}
+                    
+                    <div class="text-center mt-3">
+                        <a href="{{ path('profile_index') }}" class="btn btn-outline-custom">Retour profil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </section>
+
+</main>
 {% endblock %}

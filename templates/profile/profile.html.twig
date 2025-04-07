@@ -12,7 +12,7 @@
             <div class="row">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path("profile_home") }}" data-turbo-frame="profile_content">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ path("profile_index") }}" data-turbo-frame="profile_content">Home</a>
 
                     </li>
                     <li class="nav-item">
@@ -25,7 +25,7 @@
             <div class="row">
 
                 <turbo-frame id="profile_content">
-                    {# {% include 'profile/home.html.twig' %} #}
+                    {% include 'profile/home.html.twig' %}
                 </turbo-frame>
             
             </div>

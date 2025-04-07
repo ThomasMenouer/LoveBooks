@@ -26,8 +26,11 @@ class Books
     #[ORM\Column(length: 255)]
     private string $description;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $pageCount;
+
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $pagesRead = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private string $status = 'Non lu';
@@ -172,4 +175,16 @@ class Books
 
         return $this;
     }
+
+
+    public function getPagesRead(): int
+{
+    return $this->pagesRead;
+}
+
+public function setPagesRead(int $pagesRead): static
+{
+    $this->pagesRead = $pagesRead;
+    return $this;
+}
 }
