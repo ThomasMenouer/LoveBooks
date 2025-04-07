@@ -12,6 +12,7 @@ class BookDto
     private int $pageCount;
     private string $status;
     private \DateTimeInterface $publishedDate;
+    private string $thumbnail;
 
 
     public function __construct(
@@ -20,7 +21,8 @@ class BookDto
         string $publisher, 
         string $description, 
         int $pageCount, 
-        \DateTimeInterface $publishedDate
+        \DateTimeInterface $publishedDate,
+        string $thumbnail,
         )
     {
         $this->title = $title;
@@ -29,6 +31,8 @@ class BookDto
         $this->description = $description;
         $this->pageCount = $pageCount;
         $this->publishedDate = $publishedDate;
+        $this->thumbnail = $thumbnail;
+
     }
 
 
@@ -68,6 +72,10 @@ class BookDto
         return $this->publishedDate;
     }
 
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
 
 
 

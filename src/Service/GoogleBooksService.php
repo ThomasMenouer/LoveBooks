@@ -17,7 +17,7 @@ class GoogleBooksService
         $this->googleApiKey = $googleApiKey;
     }
 
-    public function searchBooks(string $title, int $maxResults = 10)
+    public function searchBooks(string $title, int $maxResults = 25): array
     {
         $url = $this->apiBaseUrl . urlencode($title) . 
             '&maxResults=' . $maxResults . 

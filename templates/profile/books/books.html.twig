@@ -24,7 +24,11 @@
                 {% for book in books %}
                     <tr id="book_{{ book.id }}">
                         <td>
-                           <p>image</p>
+                             {% if book.thumbnail is defined %}
+                                <img src="{{ book.thumbnail }}" alt="">
+                            {% else %}
+                                <img src="{{ book.thumbnail }}" alt="Image non disponible">
+                            {% endif %}
                             
                         </td>
                         <td>

@@ -47,3 +47,46 @@ body{
     background-color: var(--black-color) !important;
     color: var(--white-color);
 }
+
+.text-color-green {
+    color: var(--green-color) !important;
+}
+.text-color-red {
+    color: var(--red-color) !important;
+}
+.text-color-yellow {
+    color: var(--yellow-color) !important;
+}
+.text-color-blue {
+    color: var(--blue-color) !important;
+}
+
+.border-color-green {
+    border-color: var(--green-color) !important;
+}
+.border-color-red {
+    border-color: var(--red-color) !important;
+}
+.border-color-yellow {
+    border-color: var(--yellow-color) !important;
+}
+.border-color-blue {
+    border-color: var(--blue-color) !important;
+}
+
+.border-color-black {
+    border-color: var(--black-color) !important;
+}
+
+.bg-color-green {
+    background-color: var(--green-color) !important;
+}
+.bg-color-red {
+    background-color: var(--red-color) !important;
+}
+.bg-color-yellow {
+    background-color: var(--yellow-color) !important;
+}
+.bg-color-blue {
+    background-color: var(--blue-color) !important;
+}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Books;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,47 @@ class BooksRepository extends ServiceEntityRepository
         parent::__construct($registry, Books::class);
     }
 
-    //    /**
-    //     * @return Books[] Returns an array of Books objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function countByStatusForUser(Users $users): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.status, COUNT(b.id) as count')
+            ->where('b.user = :user')
+            ->setParameter('user', $users)
+            ->groupBy('b.status');
 
-    //    public function findOneBySomeField($value): ?Books
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $result = $qb->getQuery()->getResult();
+
+        $counts = [
+            'Lu' => 0,
+            'En cours de lecture' => 0,
+            'Non lu' => 0,
+        ];
+
+        foreach ($result as $row) {
+            $counts[$row['status']] = $row['count'];
+        }
+
+        return $counts;
+    }
+
+    public function getTotalPagesReadForUser(Users $users): int
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('SUM(b.pagesRead) as totalPagesRead')
+            ->where('b.user = :user')
+            ->setParameter('user', $users);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getTotalBooksForUser(Users $users): int
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('COUNT(b.id) as totalBooks')
+            ->where('b.user = :user')
+            ->setParameter('user', $users);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
 }

@@ -59,6 +59,7 @@ final class BooksSearchController extends AbstractController
             'description' => $request->query->get('description', 'Pas de description'),
             'pageCount' => $request->query->get('pageCount', 0),
             'publishedDate' => $request->query->get('publishedDate', null),
+            'thumbnail' => $request->query->get('thumbnail', 'Pas d\'image'),
         ];
         
         $book = $bookFacade->getData($data);

@@ -20,6 +20,7 @@ class BookTransformer implements TransformerInterface
         $description = $data['description'] ? $data['description'] : 'description inconnu';
         $pageCount = $data['pageCount'] ? $data['pageCount'] : 0;
         $publishedDate = new \DateTime($data['publishedDate']) ? new \DateTime($data['publishedDate']) : new \DateTime('now');
+        $thumbnail = $data['thumbnail'] ? $data['thumbnail'] : 'image inconnu';
 
         $dataBook = new BookDto(
             $title, 
@@ -27,7 +28,8 @@ class BookTransformer implements TransformerInterface
             $publisher,
             $description,
             $pageCount,
-            $publishedDate
+            $publishedDate,
+            $thumbnail,
             );
 
         return $dataBook;
