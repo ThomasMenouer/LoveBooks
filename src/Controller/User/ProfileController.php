@@ -27,6 +27,7 @@ final class ProfileController extends AbstractController
             'bookStats' => $bookRepository->countByStatusForUser($user),
             'totalBooks' => $bookRepository->getTotalBooksForUser($user),
             'totalPagesRead' => $bookRepository->getTotalPagesReadForUser($user),
+            'readingList' => $bookRepository->getReadingListForUser($user),
         ]);
     }
 

@@ -1,6 +1,4 @@
 <turbo-frame id="profile_content">
-    <h1>home</h1>
-
     <div class="row">
         <div class="col-6">
             <h3 class="text-center mb-4">Aperçu rapide</h3>
@@ -69,5 +67,33 @@
             </div>
 
         </div>
+    </div>
+    <div class="row">
+        <h3>Vos lectures du moment</h3>
+        {% for book in readingList %}
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="{{ book.title }}">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-text">{{ book.title }}</h5>
+                                <p class="card-text">{{ book.authors }}</p>
+                                <p class="card-text text-center"><small class="text-color-gray">{{ ((book.pagesRead * 100) / book.pageCount) | round(0) }} % {{ book.pagesRead }} / {{ book.pageCount }}</small></p>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width:  {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }}%;" aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0" aria-valuemax="{{ book.pageCount }}"></div>
+                                </div>
+
+                                <div class="text-center mt-2">
+                                    <a href="{{ path('profile_book_edit', {'id': book.id}) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a> 
+                                </div>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %} 
     </div>
 </turbo-frame>

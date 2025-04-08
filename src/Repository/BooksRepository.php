@@ -17,6 +17,17 @@ class BooksRepository extends ServiceEntityRepository
         parent::__construct($registry, Books::class);
     }
 
+    public function getReadingListForUser(Users $users): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->where('b.user = :user')
+            ->andWhere('b.status = :status')
+            ->setParameter('user', $users)
+            ->setParameter('status', 'En cours de lecture');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function countByStatusForUser(Users $users): array
     {
         $qb = $this->createQueryBuilder('b')
