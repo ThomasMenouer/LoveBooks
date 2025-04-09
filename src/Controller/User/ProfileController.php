@@ -2,9 +2,11 @@
 
 namespace App\Controller\User;
 
+use App\Entity\Books;
 use App\Form\BooksType;
 use Symfony\UX\Turbo\TurboBundle;
 use App\Repository\BooksRepository;
+use App\Form\BooksReadingUpdateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +20,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class ProfileController extends AbstractController
 {
 
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function profileHome(BooksRepository $bookRepository, Security $security): Response
     {
         $user = $security->getUser();
+
+        $books = $bookRepository->getReadingListForUser($user);
+
+        foreach ($books as $book) {
+            $form = $this->createForm(BooksReadingUpdateType::class, $book);
+            $bookForms[$book->getId()] = $form->createView();
+        }
+
+
     
         return $this->render('profile/profile.html.twig', [
             'bookStats' => $bookRepository->countByStatusForUser($user),
             'totalBooks' => $bookRepository->getTotalBooksForUser($user),
             'totalPagesRead' => $bookRepository->getTotalPagesReadForUser($user),
-            'readingList' => $bookRepository->getReadingListForUser($user),
+            'readingList' => $books,
+            'bookForms' => $bookForms,
         ]);
     }
 
@@ -128,5 +140,53 @@ final class ProfileController extends AbstractController
         // Redirection classique
         return $this->redirectToRoute('profile_books');
     }
-    
+
+    #[Route('/book/{id}/update', name: 'book_update', methods: ['POST'])]
+    public function updateBook(Request $request, EntityManagerInterface $em, BooksRepository $booksRepository, int $id): Response
+    {
+        $book = $booksRepository->find($id);
+
+        if (!$book) {
+            throw $this->createNotFoundException('Livre introuvable.');
+        }
+
+        $form = $this->createForm(BooksReadingUpdateType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($book->getStatus() === 'Lu') {
+                $book->setPagesRead($book->getPageCount());
+            } elseif ($book->getStatus() === 'En cours de lecture') {
+                $book->setPagesRead($book->getPagesRead());
+            } else {
+                $book->setPagesRead(0);
+            }
+
+            if ($book->getPagesRead() >= $book->getPageCount()) {
+                $book->setStatus('Lu');
+                $book->setPagesRead($book->getPageCount());
+            } else {
+                $book->setStatus('En cours de lecture');
+            }
+
+            $em->flush();
+
+            // Si Turbo est utilisé, on retourne un fragment
+            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
+                return $this->render('profile/books/update_book.stream.html.twig', [
+                    'book' => $book,
+                    'form' => $this->createForm(BooksReadingUpdateType::class, $book)->createView(),
+                ]);
+            }
+
+            return $this->redirectToRoute('profile_index');
+        }
+
+        return $this->render('profile/books/book_update.html.twig', [
+            'form' => $form->createView(),
+            'book' => $book,
+        ]);
+    }
+
+
 }
