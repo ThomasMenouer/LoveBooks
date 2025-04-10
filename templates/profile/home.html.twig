@@ -71,14 +71,16 @@
     </div>
     <div class="row">
         <h3>Vos lectures du moment</h3>
-        {% for book in readingList %}
-            <div class="col-12">
 
-                {% include 'profile/books/_book_card.html.twig' with {
-                    book: book,
-                    form: bookForms[book.id]
-                } %}
-            </div>
-        {% endfor %} 
+            {% for book in readingList %}
+                <div class="col-12">
+
+                    {% include 'profile/books/_book_card.html.twig' with {
+                        book: book,
+                        form: bookForms[book.id]
+                    } %}
+                </div>
+        {% endfor %}
+    
     </div>
 </turbo-frame>

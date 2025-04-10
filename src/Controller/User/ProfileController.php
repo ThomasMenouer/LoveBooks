@@ -27,12 +27,12 @@ final class ProfileController extends AbstractController
 
         $books = $bookRepository->getReadingListForUser($user);
 
+        $bookForms = [];
+
         foreach ($books as $book) {
             $form = $this->createForm(BooksReadingUpdateType::class, $book);
             $bookForms[$book->getId()] = $form->createView();
         }
-
-
     
         return $this->render('profile/profile.html.twig', [
             'bookStats' => $bookRepository->countByStatusForUser($user),
@@ -171,9 +171,8 @@ final class ProfileController extends AbstractController
 
             $em->flush();
 
-            // Si Turbo est utilisé, on retourne un fragment
-            if ($request->getPreferredFormat() === TurboBundle::STREAM_FORMAT) {
-                return $this->render('profile/books/update_book.stream.html.twig', [
+            if ($request->headers->get('Turbo-Frame')) {
+                return $this->render('profile/books/_book_card.html.twig', [
                     'book' => $book,
                     'form' => $this->createForm(BooksReadingUpdateType::class, $book)->createView(),
                 ]);
@@ -183,10 +182,9 @@ final class ProfileController extends AbstractController
         }
 
         return $this->render('profile/books/book_update.html.twig', [
-            'form' => $form->createView(),
             'book' => $book,
+            'form' => $form->createView(),
         ]);
     }
-
 
 }

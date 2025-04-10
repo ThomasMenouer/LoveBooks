@@ -10,7 +10,7 @@
                     <p class="card-text">{{ book.authors }}</p>
                     <p class="card-text text-center">
                         <small class="text-color-gray">
-                            {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }} % {{ book.pagesRead }} / {{ book.pageCount }}
+                            {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }}% - {{ book.pagesRead }} / {{ book.pageCount }}
                         </small>
                     </p>
                     <div class="progress" style="height: 3px;">

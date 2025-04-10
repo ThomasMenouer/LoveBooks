@@ -1,6 +1,8 @@
-{# templates/profile/books/update_book.stream.html.twig #}
 <turbo-stream action="replace" target="book_{{ book.id }}">
     <template>
-        {% include 'profile/books/_book_card.html.twig' %}
+        {% include 'profile/books/_book_card.html.twig' with {
+            book: book,
+            form: form
+        } %}
     </template>
 </turbo-stream>
