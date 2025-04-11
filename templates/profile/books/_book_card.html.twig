@@ -1,8 +1,8 @@
 <turbo-frame id="book_{{ book.id }}">
-    <div class="card mb-3">
-        <div class="row">
+    <div class="card mb-3 w-75 mx-auto">
+        <div class="row g-0">
             <div class="col-md-2">
-                <img src="{{ book.thumbnail }}" class="img-fluid rounded-start" alt="{{ book.title }}">
+                <img src="{{ book.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ book.title }}">
             </div>
             <div class="col-md-10">
                 <div class="card-body">
@@ -20,15 +20,24 @@
                             aria-valuemax="{{ book.pageCount }}"></div>
                     </div>
 
-                    <div class="text-center mt-2">
-                        {{ form_start(form, {
-                            action: path('profile_book_update', { id: book.id }),
-                            attr: { 'data-turbo-frame': 'book_' ~ book.id }
-                        }) }}
-                            {{ form_row(form.status) }}
-                            {{ form_row(form.pagesRead) }}
-                            {{ form_row(form.submit) }}
-                        {{ form_end(form) }}
+                    <div class="text-center my-3">
+                        <button class="btn btn-outline-primary btn-sm" type="button" 
+                            data-action="click->card-book#toggleForm" 
+                            data-controller="card-book"
+                            data-book-id="{{ book.id }}">
+                            Mettre à jour la progression
+                        </button>
+
+                        <div id="form-container-{{ book.id }}" class="d-none col-3 mx-auto">
+                            {{ form_start(form, {
+                                action: path('profile_book_update', { id: book.id }),
+                                attr: { 'data-turbo-frame': 'book_' ~ book.id }
+                            }) }}
+                                {{ form_row(form.status) }}
+                                {{ form_row(form.pagesRead) }}
+                                {{ form_row(form.submit) }}
+                            {{ form_end(form) }}
+                        </div>
                     </div>
                 </div>
             </div>
