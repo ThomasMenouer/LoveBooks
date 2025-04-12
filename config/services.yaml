@@ -15,14 +15,16 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            - '../src/Domain/**/Entity'
+            - '../src/Domain/**/ValueObject'
+            - '../src/Infrastructure/Framework/Symfony/Kernel.php'
     
-    App\Service\GoogleBooksService:
+    App\Application\Books\Service\GoogleBooksService:
         arguments:
             $googleApiKey: '%google_api_key%'
             $apiBaseUrl: '%api_base_url%'
