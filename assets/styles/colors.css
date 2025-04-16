@@ -2,9 +2,12 @@
 	--white-color: #F2ECFF;
 	--green-color: #00E5B0;
 	--black-color: #212121;
-	--blue-color: #005DC2;
+	--blue-color: #448AFF;
 	--yellow-color: #FFE100;
 	--red-color: #FF4C4C;
+
+	--gray-light: #BDBDBD;
+	--gray-dark: #616161;
 
 	--bg-color: #373544;
 }

@@ -1,0 +1,47 @@
+<turbo-frame id="book_{{ book.id }}">
+    <div class="card mb-3 w-75 mx-auto">
+        <div class="row g-0">
+            <div class="col-md-2">
+                <img src="{{ book.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ book.title }}">
+            </div>
+            <div class="col-md-10">
+                <div class="card-body">
+                    <h5 class="card-text">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.authors }}</p>
+                    <p class="card-text text-center">
+                        <small class="text-color-gray">
+                            {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }}% - {{ book.pagesRead }} / {{ book.pageCount }}
+                        </small>
+                    </p>
+                    <div class="progress" style="height: 3px;">
+                        <div class="progress-bar" role="progressbar"
+                            style="width:  {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }}%;"
+                            aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0"
+                            aria-valuemax="{{ book.pageCount }}">
+                        </div>
+                    </div>
+
+                    <div class="text-center my-3">
+                        <button class="btn btn-outline-primary btn-sm" type="button" 
+                            data-action="click->card-book#toggleForm" 
+                            data-controller="card-book"
+                            data-book-id="{{ book.id }}">
+                            Mettre à jour la progression
+                        </button>
+
+                        <div id="form-container-{{ book.id }}" class="d-none col-3 mx-auto">
+                            {{ form_start(form, {
+                                action: path('book_update', { id: book.id }),
+                                attr: { 'data-turbo-frame': 'book_' ~ book.id }
+                            }) }}
+                                {{ form_row(form.status) }}
+                                {{ form_row(form.pagesRead) }}
+                                {{ form_row(form.submit) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</turbo-frame>
