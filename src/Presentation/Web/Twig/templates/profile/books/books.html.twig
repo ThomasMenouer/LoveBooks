@@ -45,7 +45,7 @@
                         <td>
                             <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
                             {# <a href="{{ path("profile_book_edit", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Modifier</a> #}
-                            <form method="post" action="{{ path('profile_book_delete', { 'id': book.id }) }}" 
+                            <form method="post" action="{{ path('book_delete', { 'id': book.id }) }}" 
                             data-turbo-frame="profile_content"
                             onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"
                             class="d-inline">

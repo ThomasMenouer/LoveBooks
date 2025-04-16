@@ -17,7 +17,8 @@
                         <div class="progress-bar" role="progressbar"
                             style="width:  {{ ((book.pagesRead * 100) / book.pageCount) | round(0) }}%;"
                             aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0"
-                            aria-valuemax="{{ book.pageCount }}"></div>
+                            aria-valuemax="{{ book.pageCount }}">
+                        </div>
                     </div>
 
                     <div class="text-center my-3">
@@ -30,7 +31,7 @@
 
                         <div id="form-container-{{ book.id }}" class="d-none col-3 mx-auto">
                             {{ form_start(form, {
-                                action: path('profile_book_update', { id: book.id }),
+                                action: path('book_update', { id: book.id }),
                                 attr: { 'data-turbo-frame': 'book_' ~ book.id }
                             }) }}
                                 {{ form_row(form.status) }}

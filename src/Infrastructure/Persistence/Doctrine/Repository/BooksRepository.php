@@ -6,6 +6,7 @@ use App\Domain\Books\Entity\Books;
 use App\Domain\Books\Repository\BooksRepositoryInterface;
 use  App\Domain\Users\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,9 +14,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BooksRepository extends ServiceEntityRepository implements BooksRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private EntityManagerInterface $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Books::class);
+        $this->em = $em;
+    }
+
+
+    public function save(Books $book): void
+    {
+        $this->em->persist($book);
+        $this->em->flush();
+    }
+
+    public function delete(Books $book): void
+    {
+        $this->em->remove($book);
+        $this->em->flush();
     }
 
     public function getReadingListForUser(Users $users): array
@@ -71,5 +89,4 @@ class BooksRepository extends ServiceEntityRepository implements BooksRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Books\Repository;
 
-
+use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
 
 interface BooksRepositoryInterface
@@ -15,4 +15,7 @@ interface BooksRepositoryInterface
     public function getTotalPagesReadForUser(Users $users): int;
 
     public function getTotalBooksForUser(Users $users): int;
+
+    public function delete(Books $book): void;
+    
 }

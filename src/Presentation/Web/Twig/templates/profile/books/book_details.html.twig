@@ -4,32 +4,31 @@
 
 {% block body %}
 
+    <turbo-frame id="profile_content">
 
-
-<turbo-frame id="profile_content">
-
-    <div class="row">
-        <div class="col-8 mx-auto">
-            <div class="card">
-                <div class="row g-0 align-items-stretch">
-                    <div class="col-md-5">
-                        <div class="h-100">
-                            <img src="{{ book.thumbnail }}" class="img-fluid h-100 w-100 rounded-start object-fit-cover" alt="...">
+        <div class="row">
+            <div class="col-8 mx-auto">
+                <div class="card">
+                    <div class="row g-0 align-items-stretch">
+                        <div class="col-md-5">
+                            <div class="h-100">
+                                <img src="{{ book.thumbnail }}" class="img-fluid h-100 w-100 rounded-start object-fit-cover" alt="...">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="card-body">
-                            <h3 class="card-title text-center">{{ book.title }}</h3>
-                            <p class="card-text">{{ book.description }}</p>
-                            <p class="card-text"><small>{{ book.publishedDate | date('d/m/Y') }}</small></p>
-                            <div class="text-center">
-                                <a href="{{ path('profile_book_edit', {'id': book.id}) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a> 
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h3 class="card-title text-center">{{ book.title }}</h3>
+                                <p class="card-text">{{ book.description }}</p>
+                                <p class="card-text"><small>{{ book.publishedDate | date('d/m/Y') }}</small></p>
+                                <div class="text-center">
+                                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a> 
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</turbo-frame>
+    </turbo-frame>
+
 {% endblock %}
