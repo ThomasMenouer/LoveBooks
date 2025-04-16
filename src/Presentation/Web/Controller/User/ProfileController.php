@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Web\Controller\User;
 
+use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
 use App\Domain\Books\Entity\Books;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +18,11 @@ final class ProfileController extends AbstractController
 {
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    public function profileHome(BooksRepository $bookRepository, Security $security): Response
+    public function profileHome(GetUserProfileStatsUseCase $getUserProfileStatsUseCase, BooksRepository $bookRepository, Security $security): Response
     {
         $user = $security->getUser();
+
+        $userStats = $getUserProfileStatsUseCase->getStats($user);
 
         $books = $bookRepository->getReadingListForUser($user);
 
@@ -31,9 +34,7 @@ final class ProfileController extends AbstractController
         }
     
         return $this->render('profile/profile.html.twig', [
-            'bookStats' => $bookRepository->countByStatusForUser($user),
-            'totalBooks' => $bookRepository->getTotalBooksForUser($user),
-            'totalPagesRead' => $bookRepository->getTotalPagesReadForUser($user),
+            ...$userStats, // -> spread operator, on déplie les clefs/valeurs du tableau
             'readingList' => $books,
             'bookForms' => $bookForms,
         ]);
