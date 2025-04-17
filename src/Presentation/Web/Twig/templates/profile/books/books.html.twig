@@ -8,9 +8,17 @@
     <div class="row text-center my-4">
         <h1>Mes Livres</h1>
     </div>
-    <div class="row">
 
-        {#  TO DO : MAKE A SEARCHBAR | Twig componnent ? #}
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            {{ form_start(form, {'action': path('profile_books'), 'attr': {'data-turbo-frame': 'profile_content', 'data-turbo-action': 'replace', 'class': 'row row-cols-lg-auto g-3 align-items-center'}}) }}
+                {{ form_row(form.query) }}
+                {{ form_row(form.submit) }}
+            {{ form_end(form) }}        
+        </div>
+
+    </div>
+    <div class="row">
 
         <table class="table table-hover">
             <thead>

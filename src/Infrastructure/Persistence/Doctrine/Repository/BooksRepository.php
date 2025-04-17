@@ -89,4 +89,19 @@ class BooksRepository extends ServiceEntityRepository implements BooksRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function searchABook(Users $user, array $filters = []): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->where('b.user = :user')
+            ->setParameter('user', $user);
+
+        if (!empty($filters['query'])) {
+            $qb->andWhere('b.title LIKE :q OR b.authors LIKE :q')
+                ->setParameter('q', '%' . $filters['query'] . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -2,15 +2,18 @@
 
 namespace App\Presentation\Web\Controller\User;
 
-use App\Application\Users\UseCase\GetReadingListUserUseCase;
-use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
+use App\Application\Users\UseCase\SearchAbookUseCase;
 use App\Domain\Books\Entity\Books;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Presentation\Web\Form\SearchMyBookType;
 use App\Presentation\Web\Form\BooksReadingUpdateType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Application\Users\UseCase\GetReadingListUserUseCase;
+use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/profile', name: 'profile_')]
@@ -40,15 +43,27 @@ final class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/books', name: 'books')]
-    public function profileBooks(): Response
+    #[Route('/books', name: 'books', methods: ['GET', 'POST'])]
+    public function profileBooks(Request $request, SearchAbookUseCase $searchAbookUseCase, Security $security): Response
     {
         /** @var \App\Domain\Users\Entity\Users $user */
-        $user = $this->getUser();
+        $user = $security->getUser();
         $books = $user->getBooks();
+
+        $form = $this->createForm(SearchMyBookType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filters = $form->getData();
+            $books = $searchAbookUseCase->getSearchBook($user, $filters ? ['query' => $filters['query']] : []);
+        } else {
+
+            $books = $user->getBooks();
+        }
 
         return $this->render('profile/books/books.html.twig', [
             'books' => $books,
+            'form' => $form->createView()
         ]);
     }
 
