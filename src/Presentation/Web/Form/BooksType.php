@@ -69,6 +69,20 @@ class BooksType extends AbstractType
                     'class' => 'mb-3'
                 ],
             ])
+            ->add('userRating', ChoiceType::class, [
+                'label' => 'Votre note',
+                'choices' => [
+                    '⭐' => 1,
+                    '⭐⭐' => 2,
+                    '⭐⭐⭐' => 3,
+                    '⭐⭐⭐⭐' => 4,
+                    '⭐⭐⭐⭐⭐' => 5,
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'required' => false,
+                'attr' => ['class' => 'star-rating'],
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
                 'row_attr' => [

@@ -19,52 +19,68 @@
 
     </div>
     <div class="row">
-
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Auteur</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Modifier</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for book in books %}
-                    <tr id="book_{{ book.id }}">
-                        <td>
-                             {% if book.thumbnail is defined %}
-                                <img src="{{ book.thumbnail }}" alt="">
-                            {% else %}
-                                <img src="{{ book.thumbnail }}" alt="Image non disponible">
-                            {% endif %}
-                            
-                        </td>
-                        <td>
-                            <p>{{ book.title }}</p>
-                        </td>
-                        <td>
-                            <p>{{ book.authors }}</p>
-                        </td>
-                        <td>
-                            <p>{{ book.status }}</p>
-                        </td>
-                        <td>
-                            <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
-                            {# <a href="{{ path("profile_book_edit", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Modifier</a> #}
-                            <form method="post" action="{{ path('book_delete', { 'id': book.id }) }}" 
-                            data-turbo-frame="profile_content"
-                            onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"
-                            class="d-inline">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete-book-' ~ book.id) }}">
-                                <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
-                            </form>
-                        </td>
+        <div class="scrollable-table" style="max-height: 60vh; overflow-y: auto;">
+            <table class="table table-hover">
+                <thead class="sticky-top">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Auteur</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Modifier</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr id="book_{{ book.id }}">
+                            <td>
+                                {% if book.thumbnail is defined %}
+                                    <img src="{{ book.thumbnail }}" alt="">
+                                {% else %}
+                                    <img src="{{ book.thumbnail }}" alt="Image non disponible">
+                                {% endif %}
+                                
+                            </td>
+                            <td>
+                                <p>{{ book.title }}</p>
+                            </td>
+                            <td>
+                                <p>{{ book.authors }}</p>
+                            </td>
+                            <td>
+                                {% if book.userRating %}
+                                    <div class="text-warning">
+                                        {% for i in 1..5 %}
+                                            {% if i <= book.userRating %}
+                                                ★
+                                            {% else %}
+                                                ☆
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                            </td>
+                            <td>
+                                <p>{{ book.status }}</p>
+                            </td>
+                            <td>
+                                <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
+                                {# <a href="{{ path("profile_book_edit", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Modifier</a> #}
+                                <form method="post" action="{{ path('book_delete', { 'id': book.id }) }}" 
+                                data-turbo-frame="profile_content"
+                                onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"
+                                class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete-book-' ~ book.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </turbo-frame>
 

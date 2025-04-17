@@ -34,7 +34,7 @@ class Books
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $pagesRead = 0;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255,  options: ['default' => 'Non lu'])]
     private string $status = 'Non lu';
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -45,6 +45,12 @@ class Books
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private \DateTimeInterface $publishedDate;
+
+    #[ORM\Column(type: types::INTEGER, nullable: true)]
+    private ?int $userRating = null;
+
+    #[ORM\Column(type: types::FLOAT, nullable: true)]
+    private ?float $globalRating = null;
 
     public function __construct(
         string $title, 
@@ -127,7 +133,6 @@ class Books
     public function setPageCount(int $pageCount): static
     {
         $this->pageCount = $pageCount;
-
         return $this;
     }
 
@@ -136,10 +141,9 @@ class Books
         return $this->status;
     }
 
-    public function setStatus(?string $status): static
+    public function setStatus(string $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -151,7 +155,6 @@ class Books
     public function setUser(Users $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -163,7 +166,6 @@ class Books
     public function setPublishedDate(\DateTimeInterface $publishedDate): static
     {
         $this->publishedDate = $publishedDate;
-
         return $this;
     }
 
@@ -174,19 +176,41 @@ class Books
     public function setThumbnail(string $thumbnail): static
     {
         $this->thumbnail = $thumbnail;
-
         return $this;
     }
 
 
     public function getPagesRead(): int
-{
-    return $this->pagesRead;
-}
+    {
+        return $this->pagesRead;
+    }
 
-public function setPagesRead(int $pagesRead): static
-{
-    $this->pagesRead = $pagesRead;
-    return $this;
-}
+    public function setPagesRead(int $pagesRead): static
+    {
+        $this->pagesRead = $pagesRead;
+        return $this;
+    }
+
+    public function getUserRating(): ?int
+    {
+        return $this->userRating;
+    }
+
+    public function setUserRating(int $userRating): static
+    {
+        $this->userRating = $userRating;
+        return $this;
+    }
+
+    public function getGlobalRating(): float
+    {
+        return $this->globalRating;
+    }
+
+    public function setGlobalRating(float $globalRating): static
+    {
+        $this->globalRating = $globalRating;
+        return $this;
+    }
+
 }
