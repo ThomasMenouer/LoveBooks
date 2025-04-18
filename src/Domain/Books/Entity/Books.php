@@ -5,7 +5,6 @@ namespace App\Domain\Books\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Domain\Users\Entity\Users;
 use App\Infrastructure\Persistence\Doctrine\Repository\BooksRepository;
 
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
@@ -31,23 +30,11 @@ class Books
     #[ORM\Column(type: Types::INTEGER)]
     private int $pageCount;
 
-    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
-    private int $pagesRead = 0;
-
-    #[ORM\Column(length: 255,  options: ['default' => 'Non lu'])]
-    private string $status = 'Non lu';
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $thumbnail = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    private Users $user;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private \DateTimeInterface $publishedDate;
-
-    #[ORM\Column(type: types::INTEGER, nullable: true)]
-    private ?int $userRating = null;
 
     #[ORM\Column(type: types::FLOAT, nullable: true)]
     private ?float $globalRating = null;
@@ -59,8 +46,7 @@ class Books
         string $description, 
         int $pageCount, 
         \DateTimeInterface $publishedDate,  
-        string $thumbnail,
-        Users $user)
+        string $thumbnail)
     {
         $this->title = $title;
         $this->authors = $authors;
@@ -69,7 +55,6 @@ class Books
         $this->pageCount = $pageCount;
         $this->publishedDate = $publishedDate;
         $this->thumbnail = $thumbnail;
-        $this->user = $user;
     }
 
     public function getId(): int
@@ -136,28 +121,6 @@ class Books
         return $this;
     }
 
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getUser(): Users
-    {
-        return $this->user;
-    }
-
-    public function setUser(Users $user): static
-    {
-        $this->user = $user;
-        return $this;
-    }
-
     public function getPublishedDate(): \DateTimeInterface
     {
         return $this->publishedDate;
@@ -176,29 +139,6 @@ class Books
     public function setThumbnail(string $thumbnail): static
     {
         $this->thumbnail = $thumbnail;
-        return $this;
-    }
-
-
-    public function getPagesRead(): int
-    {
-        return $this->pagesRead;
-    }
-
-    public function setPagesRead(int $pagesRead): static
-    {
-        $this->pagesRead = $pagesRead;
-        return $this;
-    }
-
-    public function getUserRating(): ?int
-    {
-        return $this->userRating;
-    }
-
-    public function setUserRating(int $userRating): static
-    {
-        $this->userRating = $userRating;
         return $this;
     }
 

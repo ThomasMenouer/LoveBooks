@@ -3,7 +3,7 @@
 namespace App\Presentation\Web\Form;
 
 
-use App\Domain\Books\Entity\Books;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -98,7 +98,7 @@ class BooksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Books::class,
+            'data_class' => UserBooks::class,
         ]);
     }
 }

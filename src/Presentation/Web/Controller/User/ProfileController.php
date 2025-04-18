@@ -2,18 +2,18 @@
 
 namespace App\Presentation\Web\Controller\User;
 
-use App\Application\Users\UseCase\SearchAbookUseCase;
-use App\Domain\Books\Entity\Books;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Presentation\Web\Form\SearchMyBookType;
+use App\Application\Users\UseCase\SearchAbookUseCase;
 use App\Presentation\Web\Form\BooksReadingUpdateType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
 use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/profile', name: 'profile_')]
@@ -48,7 +48,7 @@ final class ProfileController extends AbstractController
     {
         /** @var \App\Domain\Users\Entity\Users $user */
         $user = $security->getUser();
-        $books = $user->getBooks();
+        $books = $user->getUserBooks();
 
         $form = $this->createForm(SearchMyBookType::class);
         $form->handleRequest($request);
@@ -58,7 +58,7 @@ final class ProfileController extends AbstractController
             $books = $searchAbookUseCase->getSearchBook($user, $filters ? ['query' => $filters['query']] : []);
         } else {
 
-            $books = $user->getBooks();
+            $books = $user->getUserBooks();
         }
 
         return $this->render('profile/books/books.html.twig', [
@@ -68,7 +68,7 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/book/{id}', name: 'book_details')]
-    public function showBookDetails(Books $book): Response
+    public function showBookDetails(UserBooks $book): Response
     {
         if (!$book) {
             throw $this->createNotFoundException('Le livre n\'existe pas');

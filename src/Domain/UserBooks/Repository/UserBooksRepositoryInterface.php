@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Books\Repository;
+namespace App\Domain\UserBooks\Repository;
 
-use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
+use App\Domain\UserBooks\Entity\UserBooks;
 
-interface BooksRepositoryInterface
+interface UserBooksRepositoryInterface
 {
 
     public function getReadingListForUser(Users $users): array;
@@ -16,8 +16,8 @@ interface BooksRepositoryInterface
 
     public function getTotalBooksForUser(Users $users): int;
 
-    public function delete(Books $book): void;
+    public function delete(UserBooks $book): void;
 
-    public function save(Books $books): void;
+    public function save(UserBooks $books): void;
     
 }

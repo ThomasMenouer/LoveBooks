@@ -3,11 +3,11 @@
 namespace App\Presentation\Web\Controller\User\CRUD;
 
 use Symfony\UX\Turbo\TurboBundle;
-use App\Domain\Books\Entity\Books;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Application\Books\UseCase\DeleteBookUseCase;
+use App\Application\UserBooks\UseCase\DeleteBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -15,7 +15,7 @@ final class UserDeleteBookController extends AbstractController
 {
 
     #[Route('/book/{id}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
-    public function deleteBook(Request $request, Books $book, DeleteBookUseCase $deleteBookUseCase): Response
+    public function deleteBook(Request $request, UserBooks $book, DeleteBookUseCase $deleteBookUseCase): Response
     {
     
         if (!$book) {

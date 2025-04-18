@@ -3,10 +3,9 @@
 namespace App\Presentation\Web\Form;
 
 
-use App\Domain\Books\Entity\Books;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -60,7 +59,7 @@ class BooksReadingUpdateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Books::class,
+            'data_class' => UserBooks::class,
         ]);
     }
 }

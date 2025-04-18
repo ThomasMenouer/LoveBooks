@@ -4,13 +4,11 @@ namespace App\Application\Books\DTO;
 
 class BookDto
 {
-
     private string $title;
     private string $authors;
     private string $publisher;
     private string $description;
     private int $pageCount;
-    private string $status;
     private \DateTimeInterface $publishedDate;
     private string $thumbnail;
 
@@ -34,7 +32,6 @@ class BookDto
         $this->thumbnail = $thumbnail;
 
     }
-
 
     public function getTitle()
     {
@@ -62,11 +59,6 @@ class BookDto
         return $this->pageCount;
     }
 
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
     public function getPublishedDate()
     {
         return $this->publishedDate;
@@ -76,10 +68,4 @@ class BookDto
     {
         return $this->thumbnail;
     }
-
-
-
-
-
-
 }

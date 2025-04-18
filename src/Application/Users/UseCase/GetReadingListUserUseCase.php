@@ -3,15 +3,16 @@
 namespace App\Application\Users\UseCase;
 
 use App\Domain\Users\Entity\Users;
-use App\Infrastructure\Persistence\Doctrine\Repository\BooksRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+
 
 final class GetReadingListUserUseCase
 {
 
-    public function __construct(private BooksRepository $booksRepository){}
+    public function __construct(private UserBooksRepository $userBooksRepository){}
 
     public function getReadingList(Users $user)
     {
-        return $this->booksRepository->getReadingListForUser($user);
+        return $this->userBooksRepository->getReadingListForUser($user);
     }
 }

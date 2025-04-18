@@ -4,6 +4,7 @@ namespace App\Domain\Users\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Books\Entity\Books;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,10 +20,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180)]
-    private ?string $email = null;
+    private string $email;
 
     /**
      * @var list<string> The user roles
@@ -48,17 +49,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserBooks::class, orphanRemoval: true)]
+    private Collection $userBooks;
+
     public function __construct()
     {
-        $this->books = new ArrayCollection();
+        $this->userBooks = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -141,26 +145,26 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Books>
+     * @return Collection<int, UserBooks>
      */
-    public function getBooks(): Collection
+    public function getUserBooks(): Collection
     {
-        return $this->books;
+        return $this->userBooks;
     }
 
-    public function addBook(Books $book): static
+    public function addUserBook(UserBooks $book): static
     {
-        if (!$this->books->contains($book)) {
-            $this->books->add($book);
+        if (!$this->userBooks->contains($book)) {
+            $this->userBooks->add($book);
             $book->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeBook(Books $book): static
+    public function removeBook(UserBooks $book): static
     {
-        if ($this->books->removeElement($book)) {
+        if ($this->userBooks->removeElement($book)) {
             // set the owning side to null (unless already changed)
             if ($book->getUser() === $this) {
                 $book->setUser(null);

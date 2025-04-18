@@ -2,8 +2,6 @@
 
 namespace App\Presentation\Web\Controller;
 
-
-
 use App\Application\Books\Service\BookFacade;
 use App\Presentation\Web\Form\SearchBookType;
 use Symfony\Component\HttpFoundation\Request;
