@@ -51,7 +51,7 @@
                             <td>
                                 {% if book.userRating %}
                                     <div class="text-warning">
-                                        {% for i in 1..5 %}
+                                        {% for i in range(1, 5) %}
                                             {% if i <= book.userRating %}
                                                 ★
                                             {% else %}
