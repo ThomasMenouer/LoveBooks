@@ -3,7 +3,6 @@
 namespace App\Domain\Users\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Domain\Books\Entity\Books;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,12 +38,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    /**
-     * @var Collection<int, Books>
-     */
-    #[ORM\OneToMany(targetEntity: Books::class, mappedBy: 'user')]
-    private Collection $books;
 
     #[ORM\Column]
     private bool $isVerified = false;

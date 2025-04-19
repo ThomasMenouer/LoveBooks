@@ -5,7 +5,7 @@ namespace App\Application\UserBooks\UseCase;
 use App\Domain\UserBooks\Entity\UserBooks;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
-final class EditBookUseCase
+final class EditUserBookUseCase
 {
     public function __construct(private UserBooksRepository $userBooksRepository){
     }

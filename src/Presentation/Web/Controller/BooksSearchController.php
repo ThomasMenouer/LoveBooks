@@ -61,9 +61,11 @@ final class BooksSearchController extends AbstractController
             'thumbnail' => $request->query->get('thumbnail', 'Pas d\'image'),
         ];
         
-        $book = $bookFacade->getData($data);
+        $bookDto = $bookFacade->getData($data);
 
-        $bookFacade->saveBook($book);
+        $book = $bookFacade->saveBook($bookDto);
+
+        $bookFacade->saveUserBook($book);
 
         $this->addFlash('success', 'Le livre a bien été ajouté à votre bibliothèque');
 

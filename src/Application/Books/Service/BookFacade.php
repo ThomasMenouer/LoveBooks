@@ -32,10 +32,8 @@ class BookFacade{
         return $bookDto;
     }
 
-    public function saveBook(BookDto $bookDto): void
-    {
-        $user = $this->security->getUser();  // L'utilisateur connecté
-        
+    public function saveBook(BookDto $bookDto): Books
+    {   
         // Vérification si le livre existe déjà dans la base de données
         $existingBook = $this->em->getRepository(Books::class)->findOneBy([
             'title' => $bookDto->getTitle(),
@@ -61,16 +59,27 @@ class BookFacade{
             $this->em->flush();
         }
 
-        // Ajouter l'association entre l'utilisateur et le livre
+        return $existingBook;
+    }
+
+    public function saveUserBook(Books $book): void
+    {
+
+        $user = $this->security->getUser(); 
+        
         $userBook = new UserBooks();
         $userBook->setUser($user);
-        $userBook->setBook($existingBook);
+        $userBook->setBook($book);
         $userBook->setStatus("Non lu");
         $userBook->setPagesRead(0);
         $userBook->setUserRating(null);
 
+        //$book->addUserBook($userBook);
+
+        // todo : On pourrait vérifié si l'utilisateur à déjà le livre
         $this->em->persist($userBook);
         $this->em->flush();
+
     }
 
 }

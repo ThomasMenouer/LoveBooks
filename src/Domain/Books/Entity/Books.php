@@ -5,6 +5,10 @@ namespace App\Domain\Books\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
+use App\Domain\UserBooks\Entity\UserBooks;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Infrastructure\Persistence\Doctrine\Repository\BooksRepository;
 
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
@@ -39,6 +43,9 @@ class Books
     #[ORM\Column(type: types::FLOAT, nullable: true)]
     private ?float $globalRating = null;
 
+    #[OneToMany(mappedBy: 'book', targetEntity: UserBooks::class)]
+    private Collection $userBooks;
+
     public function __construct(
         string $title, 
         string $authors, 
@@ -55,6 +62,7 @@ class Books
         $this->pageCount = $pageCount;
         $this->publishedDate = $publishedDate;
         $this->thumbnail = $thumbnail;
+        $this->userBooks = new ArrayCollection();
     }
 
     public function getId(): int
@@ -153,4 +161,25 @@ class Books
         return $this;
     }
 
+        public function getUserBooks(): Collection
+    {
+        return $this->userBooks;
+    }
+
+    public function addUserBook(UserBooks $userBook): void
+    {
+        if (!$this->userBooks->contains($userBook)) {
+            $this->userBooks[] = $userBook;
+            $userBook->setBook($this);
+        }
+    }
+
+    public function removeUserBook(UserBooks $userBook): void
+    {
+        if ($this->userBooks->removeElement($userBook)) {
+            if ($userBook->getBook() === $this) {
+                $userBook->setBook(null);
+            }
+        }
+    }
 }

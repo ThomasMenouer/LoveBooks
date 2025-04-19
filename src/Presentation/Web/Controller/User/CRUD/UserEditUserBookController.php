@@ -2,32 +2,32 @@
 
 namespace App\Presentation\Web\Controller\User\CRUD;
 
-use App\Domain\Books\Entity\Books;
-use App\Presentation\Web\Form\BooksType;
+use App\Domain\UserBooks\Entity\UserBooks;
+use App\Presentation\Web\Form\UserBooksType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Application\Books\UseCase\EditBookUseCase;
+use App\Application\UserBooks\UseCase\EditUserBookUseCase;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[IsGranted('ROLE_USER')]
-final class UserEditBookController extends AbstractController
+final class UserEditUserBookController extends AbstractController
 {
     #[Route('/book/{id}/edit', name: 'book_edit')]
-    public function editBook(Request $request, Books $book, EditBookUseCase $editBookUseCase): Response
+    public function editBook(Request $request, UserBooks $book, EditUserBookUseCase $editUserBookUseCase): Response
     {
         if (!$book) {
             throw $this->createNotFoundException('Le livre n\'existe pas.');
         }
     
-        $form = $this->createForm(BooksType::class, $book);
+        $form = $this->createForm(UserBooksType::class, $book);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $editBookUseCase->editBook($book);
+            $editUserBookUseCase->editBook($book);
 
             $this->addFlash('success', 'Livre modifié');
             

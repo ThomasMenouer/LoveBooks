@@ -12,35 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class BooksType extends AbstractType
+class UserBooksType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'label' => 'Titre',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3'
-                ],
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('authors', TextType::class, [
-                'label' => 'Auteurs',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3'
-                ],
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('status', ChoiceType::class, [
                 'label' => 'Statut',
                 'label_attr' => [
@@ -69,20 +45,20 @@ class BooksType extends AbstractType
                     'class' => 'mb-3'
                 ],
             ])
-            ->add('userRating', ChoiceType::class, [
-                'label' => 'Votre note',
-                'choices' => [
-                    '⭐' => 1,
-                    '⭐⭐' => 2,
-                    '⭐⭐⭐' => 3,
-                    '⭐⭐⭐⭐' => 4,
-                    '⭐⭐⭐⭐⭐' => 5,
-                ],
-                'expanded' => true,
-                'multiple' => false,
-                'required' => false,
-                'attr' => ['class' => 'star-rating'],
-            ])
+            // ->add('userRating', ChoiceType::class, [
+            //     'label' => 'Votre note',
+            //     'choices' => [
+            //         '⭐' => 1,
+            //         '⭐⭐' => 2,
+            //         '⭐⭐⭐' => 3,
+            //         '⭐⭐⭐⭐' => 4,
+            //         '⭐⭐⭐⭐⭐' => 5,
+            //     ],
+            //     'expanded' => true,
+            //     'multiple' => false,
+            //     'required' => false,
+            //     'attr' => ['class' => 'star-rating'],
+            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
                 'row_attr' => [
