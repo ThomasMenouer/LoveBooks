@@ -3,7 +3,7 @@
 
 namespace App\Twig\Components;
 
-use App\Service\GoogleBooksService;
+use App\Application\Books\Service\GoogleBooksService;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;

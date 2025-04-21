@@ -28,7 +28,7 @@ class Books
     #[ORM\Column(length: 255)]
     private string $publisher;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'text')]
     private string $description;
 
     #[ORM\Column(type: Types::INTEGER)]

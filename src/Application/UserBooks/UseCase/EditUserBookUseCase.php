@@ -12,6 +12,9 @@ final class EditUserBookUseCase
 
     public function editBook(UserBooks $book): void
     {
+
+        // TODO : VOIR pour un formulaire dynamique
+        // Si statut = non Lu, alors input pagesRead est caché
         $pageCount = $book->getBook()->getPageCount();
 
         if ($book->getStatus() === 'Lu') {
@@ -28,9 +31,6 @@ final class EditUserBookUseCase
 
             $book->setStatus('Lu');
             $book->setPagesRead($pageCount);
-        } 
-        else {
-            $book->setStatus('En cours de lecture');
         }
     
         $this->userBooksRepository->save($book);

@@ -1383,26 +1383,29 @@
         },
         {
             "name": "doctrine/deprecations",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "31610dbb31faa98e6b5447b62340826f54fbc4e9"
+                "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/31610dbb31faa98e6b5447b62340826f54fbc4e9",
-                "reference": "31610dbb31faa98e6b5447b62340826f54fbc4e9",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
+                "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
+            "conflict": {
+                "phpunit/phpunit": "<=7.5 || >=13"
+            },
             "require-dev": {
-                "doctrine/coding-standard": "^9 || ^12",
-                "phpstan/phpstan": "1.4.10 || 2.0.3",
+                "doctrine/coding-standard": "^9 || ^12 || ^13",
+                "phpstan/phpstan": "1.4.10 || 2.1.11",
                 "phpstan/phpstan-phpunit": "^1.0 || ^2",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6 || ^10.5 || ^11.5 || ^12",
                 "psr/log": "^1 || ^2 || ^3"
             },
             "suggest": {
@@ -1422,9 +1425,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/1.1.4"
+                "source": "https://github.com/doctrine/deprecations/tree/1.1.5"
             },
-            "time": "2024-12-07T21:18:45+00:00"
+            "time": "2025-04-07T20:06:18+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -2845,16 +2848,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.6.1",
+            "version": "5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8"
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8",
-                "reference": "e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/92dde6a5919e34835c506ac8c523ef095a95ed62",
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62",
                 "shasum": ""
             },
             "require": {
@@ -2903,9 +2906,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.1"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.2"
             },
-            "time": "2024-12-07T09:39:29+00:00"
+            "time": "2025-04-13T19:20:35+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -7756,16 +7759,16 @@
         },
         {
             "name": "symfony/stimulus-bundle",
-            "version": "v2.23.0",
+            "version": "v2.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "254f4e05cbaa349d4ae68b9b2e6a22995e0887f9"
+                "reference": "e09840304467cda3324cc116c7f4ee23c8ff227c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/254f4e05cbaa349d4ae68b9b2e6a22995e0887f9",
-                "reference": "254f4e05cbaa349d4ae68b9b2e6a22995e0887f9",
+                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/e09840304467cda3324cc116c7f4ee23c8ff227c",
+                "reference": "e09840304467cda3324cc116c7f4ee23c8ff227c",
                 "shasum": ""
             },
             "require": {
@@ -7805,7 +7808,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.23.0"
+                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.24.0"
             },
             "funding": [
                 {
@@ -7821,7 +7824,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-16T21:55:09+00:00"
+            "time": "2025-03-09T21:10:04+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -8505,22 +8508,23 @@
         },
         {
             "name": "symfony/ux-live-component",
-            "version": "v2.23.0",
+            "version": "v2.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-live-component.git",
-                "reference": "840542868a8473b49036ec1ed0c5238d14b075a8"
+                "reference": "ee1a8e5d01f5b3f2f8e6856941fa8c944677e41c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-live-component/zipball/840542868a8473b49036ec1ed0c5238d14b075a8",
-                "reference": "840542868a8473b49036ec1ed0c5238d14b075a8",
+                "url": "https://api.github.com/repos/symfony/ux-live-component/zipball/ee1a8e5d01f5b3f2f8e6856941fa8c944677e41c",
+                "reference": "ee1a8e5d01f5b3f2f8e6856941fa8c944677e41c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "symfony/deprecation-contracts": "^2.5|^3.0",
                 "symfony/property-access": "^5.4.5|^6.0|^7.0",
+                "symfony/property-info": "^5.4|^6.0|^7.0",
                 "symfony/stimulus-bundle": "^2.9",
                 "symfony/ux-twig-component": "^2.8",
                 "twig/twig": "^3.8.0"
@@ -8541,7 +8545,6 @@
                 "symfony/framework-bundle": "^5.4|^6.0|^7.0",
                 "symfony/options-resolver": "^5.4|^6.0|^7.0",
                 "symfony/phpunit-bridge": "^6.1|^7.0",
-                "symfony/property-info": "^5.4|^6.0|^7.0",
                 "symfony/security-bundle": "^5.4|^6.0|^7.0",
                 "symfony/serializer": "^5.4|^6.0|^7.0",
                 "symfony/twig-bundle": "^5.4|^6.0|^7.0",
@@ -8579,7 +8582,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-live-component/tree/v2.23.0"
+                "source": "https://github.com/symfony/ux-live-component/tree/v2.24.0"
             },
             "funding": [
                 {
@@ -8595,20 +8598,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-07T23:57:34+00:00"
+            "time": "2025-03-12T08:41:47+00:00"
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.23.0",
+            "version": "v2.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f"
+                "reference": "22954300bd0b01ca46f17c7890ea15138d9cf67f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/db96cf04d70a8c820671ce55530e8bf641ada33f",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/22954300bd0b01ca46f17c7890ea15138d9cf67f",
+                "reference": "22954300bd0b01ca46f17c7890ea15138d9cf67f",
                 "shasum": ""
             },
             "require": {
@@ -8677,7 +8680,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.23.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.24.0"
             },
             "funding": [
                 {
@@ -8693,20 +8696,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-06T08:47:30+00:00"
+            "time": "2025-04-04T17:29:20+00:00"
         },
         {
             "name": "symfony/ux-twig-component",
-            "version": "v2.23.0",
+            "version": "v2.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-twig-component.git",
-                "reference": "f29033b95e93aea2d498dc40eac185ed14b07800"
+                "reference": "48a46e4c6215d41cc97ba8dff0cff21ea9b255a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/f29033b95e93aea2d498dc40eac185ed14b07800",
-                "reference": "f29033b95e93aea2d498dc40eac185ed14b07800",
+                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/48a46e4c6215d41cc97ba8dff0cff21ea9b255a8",
+                "reference": "48a46e4c6215d41cc97ba8dff0cff21ea9b255a8",
                 "shasum": ""
             },
             "require": {
@@ -8760,7 +8763,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/v2.23.0"
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.24.0"
             },
             "funding": [
                 {
@@ -8776,7 +8779,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-25T02:19:26+00:00"
+            "time": "2025-03-21T20:14:36+00:00"
         },
         {
             "name": "symfony/validator",
@@ -11728,5 +11731,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
