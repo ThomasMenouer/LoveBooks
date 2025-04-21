@@ -116,29 +116,3 @@ border-radius: 10px;
 .scrollable-table::-webkit-scrollbar-thumb:hover {
 background: var(--gray-dark);
 }
-
-.star-rating input[type="radio"] {
-    display: none;
-}
-
-.star-rating label {
-    font-size: 2rem;
-    color: lightgray;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.star-rating input[type="radio"]:checked ~ label {
-    color: gold;
-}
-
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-    color: orange;
-}
-
-.star-rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-}
