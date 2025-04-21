@@ -15,6 +15,7 @@
                     {{ form_start(form) }}
                         {{ form_row(form.status) }}
                         {{ form_row(form.pagesRead) }}
+                        {# {{ form_row(form.userRating )}} #}
                         <div 
                             class="star-rating mb-3 text-center" 
                             data-controller="star-rating"
@@ -31,6 +32,7 @@
                                 </label>
                             {% endfor %}
                         </div>
+
                         {{ form_row(form.submit) }}
 
                     {{ form_end(form) }}
