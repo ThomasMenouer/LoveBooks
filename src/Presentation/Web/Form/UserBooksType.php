@@ -44,20 +44,23 @@ class UserBooksType extends AbstractType
                     'class' => 'mb-3'
                 ],
             ])
-            // ->add('userRating', ChoiceType::class, [
-            //     'label' => 'Votre note',
-            //     'choices' => [
-            //         '⭐' => 1,
-            //         '⭐⭐' => 2,
-            //         '⭐⭐⭐' => 3,
-            //         '⭐⭐⭐⭐' => 4,
-            //         '⭐⭐⭐⭐⭐' => 5,
-            //     ],
-            //     'expanded' => true,
-            //     'multiple' => false,
-            //     'required' => false,
-            //     'attr' => ['class' => 'star-rating'],
-            // ])
+            ->add('userRating', ChoiceType::class, [
+                'label' => 'Votre note',
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ],
+                'expanded' => true,
+                'multiple' => false,
+                'required' => false,
+                'placeholder' => false,
+                'label_attr' => ['class' => 'd-none'], // on cache les labels générés
+                'attr' => ['class' => 'star-rating'],
+            ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
                 'row_attr' => [

@@ -1,41 +1,42 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["input"]
+    static targets = ["star"]
     static values = {
-        initial: Number
+        selected: Number
     }
 
     connect() {
-        this.stars = this.element.querySelectorAll('.star')
-        this.setStars(this.initialValue)
+        this.highlight(this.selectedValue || 0)
     }
 
-    setRating(event) {
+    select(event) {
         const value = parseInt(event.currentTarget.dataset.value)
-        this.inputTarget.value = value
-        this.setStars(value)
+        const input = event.currentTarget.querySelector('input')
+        input.checked = true
+        this.selectedValue = value
+        this.highlight(value)
     }
 
-    previewRating(event) {
+    preview(event) {
         const value = parseInt(event.currentTarget.dataset.value)
-        this.setStars(value)
+        this.highlight(value)
     }
 
-    resetPreview() {
-        this.setStars(parseInt(this.inputTarget.value))
+    reset() {
+        this.highlight(this.selectedValue || 0)
     }
 
-    setStars(value) {
-        this.stars.forEach(star => {
+    highlight(value) {
+        this.starTargets.forEach(star => {
             const starValue = parseInt(star.dataset.value)
-            if (starValue <= value) {
-                star.innerHTML = '★' // étoile pleine
-                star.classList.add('text-warning')
-            } else {
-                star.innerHTML = '☆' // étoile vide
-                star.classList.remove('text-warning')
-            }
+            const isActive = starValue <= value
+
+            const icon = isActive
+                ? `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#facc15" fill="#facc15" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75L5.75 21l1.2-7L1 9.25l7.1-1L12 2l3.9 6.25 7.1 1-5.95 4.75 1.2 7z" /></svg>`
+                : `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#facc15" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75L5.75 21l1.2-7L1 9.25l7.1-1L12 2l3.9 6.25 7.1 1-5.95 4.75 1.2 7z" /></svg>`
+
+            star.querySelector('svg').outerHTML = icon
         })
     }
 }

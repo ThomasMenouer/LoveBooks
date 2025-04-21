@@ -15,7 +15,22 @@
                     {{ form_start(form) }}
                         {{ form_row(form.status) }}
                         {{ form_row(form.pagesRead) }}
-                        {# {{ form_row(form.userRating) }} #}
+                        <div 
+                            class="star-rating mb-3 text-center" 
+                            data-controller="star-rating"
+                            data-star-rating-selected-value="{{ form.userRating.vars.value ?? 0 }}">
+
+                            {% for choice in form.userRating %}
+                                <label 
+                                    class="me-1 star" 
+                                    data-star-rating-target="star"
+                                    data-action="click->star-rating#select mouseenter->star-rating#preview mouseleave->star-rating#reset"
+                                    data-value="{{ loop.index }}">
+                                    {{ form_widget(choice) }}
+                                    {{ ux_icon('tabler:star', { style: 'width: 1.5rem; height: 1.5rem;' }) }}
+                                </label>
+                            {% endfor %}
+                        </div>
                         {{ form_row(form.submit) }}
 
                     {{ form_end(form) }}

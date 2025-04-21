@@ -11,5 +11,6 @@ import './styles/login/login.css';
 import './styles/partials/nav.css';
 import './styles/home/home.css';
 import './styles/colors.css';
+import './styles/star_rating.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

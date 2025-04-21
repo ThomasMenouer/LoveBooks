@@ -50,12 +50,12 @@
                             </td>
                             <td>
                                 {% if book.userRating %}
-                                    <div class="text-warning">
+                                    <div class="text-color-yellow">
                                         {% for i in range(1, 5) %}
                                             {% if i <= book.userRating %}
-                                                ★
+                                                {{ ux_icon('tabler:star-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
                                             {% else %}
-                                                ☆
+                                                {{ ux_icon('tabler:star', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
                                             {% endif %}
                                         {% endfor %}
                                     </div>

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Presentation\Web\Form\SearchMyBookType;
 use App\Application\Users\UseCase\SearchAbookUseCase;
-use App\Presentation\Web\Form\BooksReadingUpdateType;
+use App\Presentation\Web\Form\UserBooksReadingUpdateType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
 use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
@@ -32,7 +32,7 @@ final class ProfileController extends AbstractController
         $bookForms = [];
 
         foreach ($books as $book) {
-            $form = $this->createForm(BooksReadingUpdateType::class, $book);
+            $form = $this->createForm(UserBooksReadingUpdateType::class, $book);
             $bookForms[$book->getId()] = $form->createView();
         }
     
@@ -78,4 +78,5 @@ final class ProfileController extends AbstractController
             'book' => $book,
         ]);
     }
+    
 }
