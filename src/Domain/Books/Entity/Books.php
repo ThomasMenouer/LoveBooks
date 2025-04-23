@@ -40,11 +40,10 @@ class Books
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private \DateTimeInterface $publishedDate;
 
-    #[ORM\Column(type: types::FLOAT, nullable: true)]
-    private ?float $globalRating = null;
-
     #[OneToMany(mappedBy: 'book', targetEntity: UserBooks::class)]
     private Collection $userBooks;
+
+    private ?float $globalRating = null;
 
     public function __construct(
         string $title, 
@@ -150,9 +149,37 @@ class Books
         return $this;
     }
 
-    public function getGlobalRating(): float
+    public function getGlobalRating()
     {
-        return $this->globalRating;
+
+        $userBooks = $this->getUserBooks();
+
+        if($userBooks->isEmpty()) {
+            return $this->globalRating = null;
+        }
+
+        $totalRating = 0;
+        $count = 0;
+
+        foreach ($userBooks as $userBook) {
+            $userBookRating = $userBook->getUserRating();
+            if ($userBookRating !== null) {
+                $totalRating += $userBookRating;
+                $count++;
+            }
+        }
+
+        if ($count === 0) {
+            return $this->globalRating = null;
+        }
+        
+        $this->globalRating = $totalRating / $count;
+
+
+        return [
+            'rating' => round($this->globalRating, 2),
+            'count' => $count
+        ];
     }
 
     public function setGlobalRating(float $globalRating): static

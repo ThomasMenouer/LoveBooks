@@ -22,6 +22,7 @@
                         <th scope="col">Titre</th>
                         <th scope="col">Auteur</th>
                         <th scope="col">Note</th>
+                        <th scope="col">Note Globale</th>
                         <th scope="col">Status</th>
                         <th scope="col">Modifier</th>
                     </tr>
@@ -54,8 +55,28 @@
                                             {% endif %}
                                         {% endfor %}
                                     </div>
+                                {% else %}
+                                    <p class="text-muted">Aucune note</p>
                                 {% endif %}
 
+                            </td>
+                            <td>
+                                {% if book.book.globalRating %}
+                                    <div class="text-color-yellow">
+                                        {% for i in range(1, 5) %}
+                                            {% if i <= book.book.globalRating.rating %}
+                                                {{ ux_icon('tabler:star-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                            {% elseif i - 0.5 <= book.book.globalRating.rating %}
+                                                {{ ux_icon('tabler:star-half-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                            {% else %}
+                                                {{ ux_icon('tabler:star', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <p class="text-color-white text-center">{{ book.book.globalRating.rating }} /5 ({{ book.book.globalRating.count }} avis)</p>
+                                {% else %}
+                                    <p class="text-muted">Aucune note</p>
+                                {% endif %}
                             </td>
                             <td>
                                 <p>{{ book.status }}</p>
