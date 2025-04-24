@@ -7,6 +7,7 @@ use App\Domain\Books\Entity\Books;
 use App\Application\Books\DTO\BookDto;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
+use App\Domain\UserBooks\Enum\Status;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Presentation\Web\Transformer\BookTransformer;
 
@@ -70,7 +71,7 @@ class BookFacade{
         $userBook = new UserBooks();
         $userBook->setUser($user);
         $userBook->setBook($book);
-        $userBook->setStatus("Non lu");
+        $userBook->setStatus(Status::NOT_READ);
         $userBook->setPagesRead(0);
         $userBook->setUserRating(null);
 
