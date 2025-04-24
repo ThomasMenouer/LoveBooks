@@ -2,6 +2,7 @@
 
 namespace App\Application\UserBooks\UseCase;
 
+use App\Domain\UserBooks\Enum\Status;
 use App\Domain\UserBooks\Entity\UserBooks;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
@@ -17,20 +18,16 @@ final class EditUserBookUseCase
         // Si statut = non Lu, alors input pagesRead est caché
         $pageCount = $book->getBook()->getPageCount();
 
-        if ($book->getStatus() === 'Lu') {
-            $book->setPagesRead($pageCount);
-        }
-        elseif ($book->getStatus() === 'En cours de lecture') {
-            $book->setPagesRead($book->getPagesRead());
-        } 
-        else {
-            $book->setPagesRead(0);
-        }
+        match ($book->getStatus()) {
+            Status::READ => $book->markAsRead(),
+            Status::READING => $book->markAsReading(),
+            Status::ABANDONED => $book->markAsAbandoned(),
+            Status::NOT_READ => $book->markAsNotRead(),
+        };
 
+        // On s'assure que pagesRead ne dépasse pas le max
         if ($book->getPagesRead() >= $pageCount) {
-
-            $book->setStatus('Lu');
-            $book->setPagesRead($pageCount);
+            $book->markAsRead();
         }
     
         $this->userBooksRepository->save($book);

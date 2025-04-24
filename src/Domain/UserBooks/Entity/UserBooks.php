@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
+use App\Domain\UserBooks\Enum\Status;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
 #[ORM\Entity(repositoryClass: UserBooksRepository::class)]
@@ -28,8 +29,8 @@ class UserBooks
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $pagesRead = 0;
 
-    #[ORM\Column(length: 20, options: ['default' => 'Non lu'])]
-    private string $status = 'Non lu';
+    #[ORM\Column(type: "string", enumType: Status::class)]
+    private Status $status = Status::NOT_READ;
 
     #[ORM\Column(nullable: true)]
     private ?int $userRating = null;
@@ -72,12 +73,12 @@ class UserBooks
         return $this;
     }
 
-    public function getStatus(): string
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(Status $status): self
     {
         $this->status = $status;
         return $this;
@@ -93,4 +94,28 @@ class UserBooks
         $this->userRating = $userRating;
         return $this;
     }
+
+    public function markAsRead(): void
+    {
+        $this->status = Status::READ;
+        $this->pagesRead = $this->book->getPageCount();
+    }
+
+    public function markAsAbandoned(): void
+    {
+        $this->status = Status::ABANDONED;
+    }
+
+    public function markAsReading(): void
+    {
+        $this->status = Status::READING;
+
+    }
+
+    public function markAsNotRead(): void
+    {
+        $this->status = Status::NOT_READ;
+        $this->pagesRead = 0;
+    }
+
 }

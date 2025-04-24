@@ -79,7 +79,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <p>{{ book.status }}</p>
+                                <p>{{ book.status.label() }}</p>
                             </td>
                             <td>
                                 <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
