@@ -45,7 +45,7 @@ class UserBooks
         return $this->user;
     }
 
-    public function setUser(Users $user): self
+    public function setUser(?Users $user): self
     {
         $this->user = $user;
         return $this;
@@ -56,7 +56,7 @@ class UserBooks
         return $this->book;
     }
 
-    public function setBook(Books $book): self
+    public function setBook(?Books $book): self
     {
         $this->book = $book;
         return $this;
