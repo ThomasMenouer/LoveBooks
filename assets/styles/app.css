@@ -60,6 +60,9 @@ body{
 .text-color-blue {
     color: var(--blue-color) !important;
 }
+.text-color-white {
+    color: var(--white-color) !important;
+}
 
 .text-color-gray {
     color: var(--gray-light) !important;
@@ -93,6 +96,9 @@ body{
 }
 .bg-color-blue {
     background-color: var(--blue-color) !important;
+}
+.bg-color-black {
+    background-color: var(--black-color) !important;
 }
 
 .progress-bar-gradient {

@@ -19,14 +19,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/profile', name: 'profile_')]
 final class ProfileController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    public function profileHome(GetUserProfileStatsUseCase $getUserProfileStatsUseCase, GetReadingListUserUseCase $getReadingListUserUseCase, Security $security): Response
-    {
+    public function profileHome(
+        GetUserProfileStatsUseCase $getUserProfileStatsUseCase, 
+        GetReadingListUserUseCase $getReadingListUserUseCase, 
+        Security $security
+    ): Response {
         $user = $security->getUser();
 
         $userStats = $getUserProfileStatsUseCase->getStats($user);
-
         $books = $getReadingListUserUseCase->getReadingList($user);
 
         $bookForms = [];
@@ -35,9 +36,9 @@ final class ProfileController extends AbstractController
             $form = $this->createForm(UserBooksReadingUpdateType::class, $book);
             $bookForms[$book->getId()] = $form->createView();
         }
-    
+
         return $this->render('profile/profile.html.twig', [
-            ...$userStats, // -> spread operator, on insère les clefs/valeurs du tableau
+            ...$userStats, // spread operator, on insère les clefs/valeurs du tableau
             'readingList' => $books,
             'bookForms' => $bookForms,
         ]);
@@ -57,7 +58,6 @@ final class ProfileController extends AbstractController
             $filters = $form->getData();
             $books = $searchAbookUseCase->getSearchBook($user, $filters ? ['query' => $filters['query']] : []);
         } else {
-
             $books = $user->getUserBooks();
         }
 
@@ -66,17 +66,4 @@ final class ProfileController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
-    #[Route('/book/{id}', name: 'book_details')]
-    public function showBookDetails(UserBooks $book): Response
-    {
-        if (!$book) {
-            throw $this->createNotFoundException('Le livre n\'existe pas');
-        }
-
-        return $this->render('profile/books/book_details.html.twig', [
-            'book' => $book,
-        ]);
-    }
-    
 }

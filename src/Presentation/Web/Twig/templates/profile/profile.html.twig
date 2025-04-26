@@ -4,7 +4,6 @@
 
 {% block body %}
 
-
 <main>
     <section class="d-flex align-items-stretch">
         {% include "partials/navbar.html.twig" %}
@@ -16,8 +15,8 @@
                         href="{{ path("profile_index") }}"
                         data-action="click->active-link-menu#setActive"
                         data-turbo-frame="profile_content">Home</a>
-
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" 
                         href="{{ path("profile_books") }}" 
@@ -26,18 +25,13 @@
                     </li>
                 </ul>
             </div>
-
             <div class="row">
-
                 <turbo-frame id="profile_content">
                     {% include 'profile/home.html.twig' %}
                 </turbo-frame>
-            
             </div>
         </div>
-    
     </section>
-
 </main>
 
 {% endblock %}
