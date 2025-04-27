@@ -4,35 +4,34 @@
 
 {% block body %}
 
-
 <main>
     <section class="d-flex align-items-stretch">
         {% include "partials/navbar.html.twig" %}
         <div class="container">
-            <div class="row">
-                <ul class="nav nav-pills">
+            <div class="row my-4">
+                <ul class="nav nav-underline justify-content-center" data-controller="active-link-menu">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path("profile_index") }}" data-turbo-frame="profile_content">Home</a>
-
+                        <a class="nav-link active" 
+                        href="{{ path("profile_index") }}"
+                        data-action="click->active-link-menu#setActive"
+                        data-turbo-frame="profile_content">Home</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link btn-outline-custom" href="{{ path("profile_books") }}" data-turbo-frame="profile_content">Mes livres</a>
+                        <a class="nav-link" 
+                        href="{{ path("profile_books") }}" 
+                        data-action="click->active-link-menu#setActive"
+                        data-turbo-frame="profile_content">Mes livres</a>
                     </li>
                 </ul>
-
             </div>
-
             <div class="row">
-
                 <turbo-frame id="profile_content">
                     {% include 'profile/home.html.twig' %}
                 </turbo-frame>
-            
             </div>
         </div>
-    
     </section>
-
 </main>
 
 {% endblock %}

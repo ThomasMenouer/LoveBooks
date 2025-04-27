@@ -16,27 +16,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class UserEditUserBookController extends AbstractController
 {
     #[Route('/book/{id}/edit', name: 'book_edit')]
-    public function editBook(Request $request, UserBooks $book, EditUserBookUseCase $editUserBookUseCase): Response
+    public function editBook(Request $request, UserBooks $userBook, EditUserBookUseCase $editUserBookUseCase): Response
     {
-        if (!$book) {
+        if (!$userBook) {
             throw $this->createNotFoundException('Le livre n\'existe pas.');
         }
     
-        $form = $this->createForm(UserBooksType::class, $book);
+        $form = $this->createForm(UserBooksType::class, $userBook);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $editUserBookUseCase->editBook($book);
+            $editUserBookUseCase->editBook($userBook);
 
             $this->addFlash('success', 'Livre modifié');
             
-            return $this->redirectToRoute('profile_index');
+            return $this->redirectToRoute('book_index', [
+                'id' => $userBook->getBook()->getId(),
+            ]);
         }
     
-        return $this->render('profile/books/book_edit.html.twig', [
+        return $this->render('books/book_edit.html.twig', [
             'form' => $form->createView(),
-            'book' => $book,
+            'book' => $userBook,
         ]);
     }
 }

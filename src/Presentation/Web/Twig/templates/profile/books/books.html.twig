@@ -1,8 +1,5 @@
 
 <turbo-frame id="profile_content">
-    <div class="row text-center my-4">
-        <h1>Mes Livres</h1>
-    </div>
 
     <div class="row justify-content-center mb-3">
         <div class="col-auto">
@@ -32,7 +29,7 @@
                         <tr id="book_{{ book.id }}">
                             <td>
                                 {% if book.book.thumbnail is defined %}
-                                    <img src="{{ book.book.thumbnail }}" alt="">
+                                    <img src="{{ book.book.thumbnail }}" alt="{{ book.book.title }}">
                                 {% else %}
                                     <img src="{{ book.book.thumbnail }}" alt="Image non disponible">
                                 {% endif %}
@@ -56,7 +53,7 @@
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    <p class="text-muted">Aucune note</p>
+                                    <p>Aucune note</p>
                                 {% endif %}
 
                             </td>
@@ -79,11 +76,15 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <p>{{ book.status }}</p>
+                                <p>{{ book.status.label() }}</p>
                             </td>
                             <td>
-                                <a href="{{ path("profile_book_details", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Voir</a>
-                                {# <a href="{{ path("profile_book_edit", { "id": book.id }) }}" class="btn btn-outline-custom" data-turbo-frame="profile_content">Modifier</a> #}
+                                <a href="{{ path("book_index", { "id": book.book.id }) }}" 
+                                class="btn btn-outline-custom" 
+                                data-turbo="false">Voir</a>
+
+                                {# <a href="{{ path("book_edit", { "id": book.id }) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a> #}
+                                
                                 <form method="post" action="{{ path('book_delete', { 'id': book.id }) }}" 
                                 data-turbo-frame="profile_content"
                                 onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"

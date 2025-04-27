@@ -3,8 +3,9 @@
 namespace App\Presentation\Web\Form;
 
 
-use App\Domain\UserBooks\Entity\UserBooks;
+use App\Domain\UserBooks\Enum\Status;
 use Symfony\Component\Form\AbstractType;
+use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,11 +22,10 @@ class UserBooksType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label'
                 ],
-                'choices' => [
-                    'Lu' => 'Lu',
-                    'En cours de lecture' => 'En cours de lecture',
-                    'Non lu' => 'Non lu',
-                ],
+                'choices' => Status::cases(),
+                'choice_label' => fn (Status $status) => $status->label(),
+                'choice_value' => fn (Status $status) => $status->value,
+
                 'row_attr' => [
                     'class' => 'mb-3'
                 ],

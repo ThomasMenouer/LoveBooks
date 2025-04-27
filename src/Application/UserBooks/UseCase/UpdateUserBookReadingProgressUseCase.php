@@ -3,7 +3,10 @@
 namespace App\Application\UserBooks\UseCase;
 
 use App\Domain\UserBooks\Entity\UserBooks;
+use App\Domain\UserBooks\Enum\Status;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+
+use function Symfony\Component\String\b;
 
 final class UpdateUserBookReadingProgressUseCase
 {
@@ -16,15 +19,16 @@ final class UpdateUserBookReadingProgressUseCase
     {
         $pageCount = $book->getBook()->getPageCount();
 
-        // Si l'utilisateur a marqué "Lu", on force pagesRead à 100 %
-        if ($book->getStatus() === 'Lu') {
-            $book->setPagesRead($pageCount);
-        }
+        match ($book->getStatus()) {
+            Status::READ => $book->markAsRead(),
+            Status::READING => $book->markAsReading(),
+            Status::ABANDONED => $book->markAsAbandoned(),
+            Status::NOT_READ => $book->markAsNotRead(),
+        };
 
-        // Sinon, on s'assure juste que pagesRead ne dépasse pas le max
-        if ($book->getPagesRead() > $pageCount) {
-            $book->setPagesRead($pageCount);
-            $book->setStatus('Lu');
+        // On s'assure que pagesRead ne dépasse pas le max
+        if ($book->getPagesRead() >= $pageCount) {
+            $book->markAsRead();
         }
 
         $this->userBooksRepository->save($book);

@@ -3,11 +3,12 @@
 
 namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
-use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use App\Domain\Users\Entity\Users;
+use App\Domain\UserBooks\Enum\Status;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Domain\UserBooks\Entity\UserBooks;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -40,7 +41,7 @@ class UserBooksRepository extends ServiceEntityRepository implements UserBooksRe
             ->where('b.user = :user')
             ->andWhere('b.status = :status')
             ->setParameter('user', $users)
-            ->setParameter('status', 'En cours de lecture');
+            ->setParameter('status', Status::READING);
 
         return $qb->getQuery()->getResult();
     }
@@ -55,14 +56,15 @@ class UserBooksRepository extends ServiceEntityRepository implements UserBooksRe
 
         $result = $qb->getQuery()->getResult();
 
-        $counts = [
-            'Lu' => 0,
-            'En cours de lecture' => 0,
-            'Non lu' => 0,
-        ];
+        // Initialise le tableau avec toutes les valeurs possibles de l'enum
+        $counts = array_fill_keys(array_map(
+            fn(Status $status) => $status->value,
+            Status::cases()
+        ), 0);
 
         foreach ($result as $row) {
-            $counts[$row['status']] = $row['count'];
+            $status = $row['status'];
+            $counts[$status->value] = (int)$row['count'];
         }
 
         return $counts;

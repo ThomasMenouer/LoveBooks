@@ -60,6 +60,9 @@ body{
 .text-color-blue {
     color: var(--blue-color) !important;
 }
+.text-color-white {
+    color: var(--white-color) !important;
+}
 
 .text-color-gray {
     color: var(--gray-light) !important;
@@ -94,6 +97,9 @@ body{
 .bg-color-blue {
     background-color: var(--blue-color) !important;
 }
+.bg-color-black {
+    background-color: var(--black-color) !important;
+}
 
 .progress-bar-gradient {
     background-image: linear-gradient(to right, var(--red-color), var(--yellow-color), var(--green-color));
@@ -104,15 +110,24 @@ body{
   }
   
 .scrollable-table::-webkit-scrollbar-track {
-background: var(--black-color);
-border-radius: 10px;
+    background: var(--black-color);
+    border-radius: 10px;
 }
 
 .scrollable-table::-webkit-scrollbar-thumb {
-background: var(--gray-light);
-border-radius: 10px;
+    background: var(--gray-light);
+    border-radius: 10px;
 }
 
 .scrollable-table::-webkit-scrollbar-thumb:hover {
-background: var(--gray-dark);
+    background: var(--gray-dark);
+}
+
+.nav-underline .nav-link.active {
+    color: var(--green-color) !important;
+    border-bottom: 2px solid var(--green-color) !important;
+}
+
+.nav-underline .nav-link {
+    color: var(--white-color) !important;
 }

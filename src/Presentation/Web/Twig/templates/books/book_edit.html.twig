@@ -5,8 +5,8 @@
 {% block body %}
 
 <main>
-
-    <section>
+    <section class="d-flex align-items-stretch">
+        {% include "partials/navbar.html.twig" %}
         <div class="container">
             <div class="row">
                 <div class="col-3 mx-auto">
@@ -43,8 +43,6 @@
                 </div>
             </div>
         </div>
-    
     </section>
-
 </main>
 {% endblock %}
