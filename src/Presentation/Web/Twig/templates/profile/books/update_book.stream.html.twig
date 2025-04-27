@@ -1,8 +1,14 @@
-<turbo-stream action="replace" target="book_{{ book.id }}">
-    <template>
-        {% include 'profile/books/_book_card.html.twig' with {
-            book: book,
-            form: form
-        } only %}
-    </template>
-</turbo-stream>
+{% if book.status == 'reading' %}
+    <turbo-stream action="replace" target="book_{{ book.id }}">
+        <template>
+            {% include 'profile/books/_book_card.html.twig' with {
+                book: book,
+                form: form
+            } %}
+        </template>
+    </turbo-stream>
+{% else %}
+    <turbo-stream action="remove" target="book_{{ book.id }}">
+        <template></template>
+    </turbo-stream>
+{% endif %}
