@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
+use App\Domain\Reviews\Entity\Reviews;
 use App\Domain\UserBooks\Enum\Status;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
@@ -34,6 +35,10 @@ class UserBooks
 
     #[ORM\Column(nullable: true)]
     private ?int $userRating = null;
+
+    #[ORM\OneToOne(mappedBy: 'userBook', targetEntity: Reviews::class, cascade: ['persist', 'remove'])]
+    private ?Reviews $review = null;
+
 
     public function getId(): int
     {
@@ -92,6 +97,17 @@ class UserBooks
     public function setUserRating(?int $userRating): self
     {
         $this->userRating = $userRating;
+        return $this;
+    }
+
+    public function getReview(): ?Reviews
+    {
+        return $this->review;
+    }
+
+    public function setReview(?Reviews $review): static
+    {
+        $this->review = $review;
         return $this;
     }
 
