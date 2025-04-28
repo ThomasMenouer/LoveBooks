@@ -1,0 +1,40 @@
+  <div class="my-4">
+    <h4 class="mb-4">Critiques des utilisateurs :</h4>
+    {% if reviews is not empty %}
+        {% for review in reviews %}
+            <div class="card mb-3 text-white">
+                <div class="card-header">
+                    <h5 class="card-title "><strong>{{ review.userBook.user.name }}</strong></h5>
+                    <p class="card-text"> Statut : {{review.userBook.status.label() }}</p>
+                    {% if review.userBook.userRating %}
+                        <div class="text-color-yellow fs-4">
+                            {% for i in range(1, 5) %}
+                                {% if i <= review.userBook.userRating %}
+                                    {{ ux_icon('tabler:star-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% else %}
+                                    {{ ux_icon('tabler:star', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Vous n'avez pas encore noté ce livre.</p>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    
+                    <p class="card-text">{{ review.content }}</p>
+                    
+                </div>
+                <div class="card-footer">
+                    <p class="card-text"><small>Posté le {{ review.createdAt|date('d F Y') }}</small></p>
+                    {% if review.updatedAt is not null %}
+                        <p class="card-text"><small>Mis à jour le {{ review.updatedAt|date('d F Y') }}</small></p>
+                    {% endif %}
+                </div>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune critique pour ce livre pour le moment.</p>
+    {% endif %}
+</div>
