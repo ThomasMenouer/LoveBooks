@@ -39,7 +39,8 @@ final class BooksController extends AbstractController
             'book' => $book,
             'userBook' => $userBook,
             'reviews' => $reviews,
-            'reviewForm' => $this->createForm(ReviewType::class)->createView(), // Passe le Formulaire vide à Twig
+            'createReviewForm' => $this->createForm(ReviewType::class)->createView(), // formulaire vide
+            'editReviewForm' => $this->createForm(ReviewType::class)->createView(), // formulaire vide 
         ]);
     }
 }

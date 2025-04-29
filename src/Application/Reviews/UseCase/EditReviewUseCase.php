@@ -9,7 +9,9 @@ class EditReviewUseCase
 {
     public function __construct(private ReviewsRepositoryInterface $reviewsRepository){}
 
-        public function editReview(Reviews $review): void {
+        public function editReview(Reviews $review): void 
+        {
+            
             $this->reviewsRepository->editReview($review);
         }
 }

@@ -2,7 +2,7 @@
     <hr class="my-4 border-custom-white">
 
     <div class="col-12">
-        <h2 class="text-center">Ma review</h2>
+        <h2>Ma review</h2>
 
         {% if userBook.review %}
             <div class="card mb-3 text-white">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="card-body">
                     
-                    <p class="card-text">{{ userBook.review.content }}</p>
+                    <p class="card-text">{{ userBook.review.content|e('html')|nl2br }}</p>
                     
                 </div>
                 <div class="card-footer">
@@ -36,43 +36,49 @@
                 </div>
             </div>
 
-            <form method="post" action="{{ path('delete_review', { 'id': userBook.review.id }) }}" 
-                onsubmit="return confirm('Voulez-vous vraiment supprimer votre review sur ce livre ?');"
-                class="d-inline">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete-review-' ~ userBook.review.id) }}">
-                <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
-            </form>
+            <div class="text-center">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-custom-yellow" data-bs-toggle="modal" data-bs-target="#editReviewModal">
+                    Editer
+                </button>
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-outline-custom-yellow" data-bs-toggle="modal" data-bs-target="#editReviewModal">
-                Editer
-            </button>
+                <form action="{{ path('delete_review', { id: userBook.review.id }) }}" method="post" class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-review-' ~ userBook.review.id) }}">
+                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                </form>
+            </div>
+
+
 
             <!-- Modal -->
-            <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <form method="post" action="{{ path('review_edit', {id: userBook.review.id}) }}">
-                             <input type="hidden" name="_token" value="{{ csrf_token('edit_review_' ~ userBook.review.id) }}">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editReviewModalLabel{{ userBook.review.id }}">Modifier votre avis</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                            </div>
-                            <div class="modal-body">
-                                <textarea name="content" class="form-control" rows="5">{{ userBook.review.content }}</textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            {% include 'components/reviews/_review_modal.html.twig' with {
+                modalId: 'editReviewModal',
+                modalLabelId: 'editReviewModalLabel',
+                modalTitle: 'Modifier votre review',
+                form: editReviewForm,
+                actionPath: path('review_edit', { id: userBook.review.id })
+            } %}
 
         {% else %}
             <p class="text-center">Vous n'avez pas encore laissé de review pour ce livre.</p>
-            {# TODO : Faire un modal pour la review #}
+
+            <!-- Button trigger modal -->
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-custom-blue" data-bs-toggle="modal" data-bs-target="#createReviewModal">
+                    Créer ma review
+                </button>
+            </div>
+
+
+            <!-- Modal -->
+            {% include 'components/reviews/_review_modal.html.twig' with {
+                modalId: 'createReviewModal',
+                modalLabelId: 'createReviewModalLabel',
+                modalTitle: 'Créer votre review',
+                form: createReviewForm,
+                actionPath: path('create_review', { id: userBook.id })
+            } %}
+
         {% endif %}
         
     </div>
@@ -84,14 +90,6 @@
 
     <div class="col-12">
         {{ component('review_list', { reviews: reviews }) }}
-    </div>
-    <div class="my-5">
-        <h3>Review</h3>
-        {# Revoir l'id mis dans le form + le controller #}
-        {{ form_start(reviewForm, { 'action': path('review_create', { id: userBook.id }) }) }}
-            {{ form_row(reviewForm.content) }}
-            {{ form_row(reviewForm.submit) }}
-        {{ form_end(reviewForm) }}
     </div>
 
 </div>

@@ -17,12 +17,12 @@ class ReviewType extends AbstractType
             ->add('content', TextareaType::class, [
                 'attr' => [
                     'rows' => 5,
-                    'class' => 'form-control',
+                    'class' => 'form-control bg-color-black text-color-white',
                     'placeholder' => 'Écrivez votre critique ici...',
 
                 ],
                 'row_attr' => [
-                    'class' => 'col-8 mx-auto',
+                    'class' => 'modal-body',
                 ],
                 'required' => true,
                 'label' => false
@@ -32,9 +32,6 @@ class ReviewType extends AbstractType
                 'label' => 'Envoyer',
                 'attr' => [
                     'class' => 'btn btn-outline-custom',
-                ],
-                'row_attr' => [
-                    'class' => 'text-center mt-3',
                 ],
             ]);
     }

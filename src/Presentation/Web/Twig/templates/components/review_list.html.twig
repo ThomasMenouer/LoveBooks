@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body">
                     
-                    <p class="card-text">{{ review.content }}</p>
+                    <p class="card-text">{{ review.content|e('html')|nl2br }}</p>
                     
                 </div>
                 <div class="card-footer">

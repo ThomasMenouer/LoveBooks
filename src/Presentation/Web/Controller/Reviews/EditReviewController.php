@@ -2,37 +2,46 @@
 
 namespace App\Presentation\Web\Controller\Reviews;
 
-use App\Application\Reviews\UseCase\EditReviewUseCase;
 use App\Domain\Reviews\Entity\Reviews;
+use App\Presentation\Web\Form\ReviewType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Application\Reviews\UseCase\EditReviewUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class EditReviewController extends AbstractController
 {
 
-    #[Route('/reviews/edit/{id}', name: 'review_edit')]
+    #[Route('/reviews/edit/{id}', name: 'review_edit', methods: ['POST'])]
     public function editReview(Request $request, Reviews $review, EditReviewUseCase $editReviewUseCase): Response
     {
-        $submittedToken = $request->request->get('_token');
-
-        if (!$this->isCsrfTokenValid('edit_review_'.$review->getId(), $submittedToken)) {
-            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        if ($review->getUserBook()->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette review.');
         }
 
-        $newContent = $request->request->get('content');
+        $form = $this->createForm(ReviewType::class, $review);
+        $form->handleRequest($request);
 
-        if ($newContent !== null && trim($newContent) !== '') {
-            $review->setContent($newContent);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $review->setUpdatedAt(new \DateTimeImmutable());
+            
             $editReviewUseCase->editReview($review);
-    
-            $this->addFlash('success', 'Votre avis a bien été modifié.');
+
+            $this->addFlash('success', 'Votre review a été mise à jour.');
+
+            return $this->redirectToRoute('book_index', [
+                'id' => $review->getUserBook()->getBook()->getId(),
+            ]);
+
         } else {
-            $this->addFlash('warning', 'Le contenu de l\'avis ne peut pas être vide.');
+
+            $this->addFlash('error', 'Erreur lors de la mise à jour de votre review.');
+
+            return $this->redirectToRoute('book_index', [
+                'id' => $review->getUserBook()->getBook()->getId(),
+            ]);
         }
-    
-        return $this->redirectToRoute('book_index', ['id' => $review->getUserBook()->getBook()->getId()]);
     }
 
 }
