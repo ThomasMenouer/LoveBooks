@@ -1,0 +1,92 @@
+<div class="row">
+    <hr class="my-4 border-custom-white">
+
+    <div class="col-12">
+        <h2>Ma review</h2>
+
+        {% if userBook.review %}
+            <div class="card mb-3 text-white">
+                <div class="card-header">
+                    <h5 class="card-title "><strong>{{ userBook.user.name }}</strong></h5>
+                    <p class="card-text"> Statut : {{ userBook.status.label() }}</p>
+                    {% if userBook.userRating %}
+                        <div class="text-color-yellow fs-4">
+                            {% for i in range(1, 5) %}
+                                {% if i <= userBook.userRating %}
+                                    {{ ux_icon('tabler:star-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% else %}
+                                    {{ ux_icon('tabler:star', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Vous n'avez pas encore noté ce livre.</p>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    
+                    <p class="card-text">{{ userBook.review.content|e('html')|nl2br }}</p>
+                    
+                </div>
+                <div class="card-footer">
+                    <p class="card-text"><small>Posté le {{ userBook.review.createdAt|date('d F Y') }}</small></p>
+                    {% if userBook.review.updatedAt is not null %}
+                        <p class="card-text"><small>Mis à jour le {{ userBook.review.updatedAt|date('d F Y') }}</small></p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="text-center">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-custom-yellow" data-bs-toggle="modal" data-bs-target="#editReviewModal">
+                    Editer
+                </button>
+
+                <form action="{{ path('delete_review', { id: userBook.review.id }) }}" method="post" class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-review-' ~ userBook.review.id) }}">
+                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                </form>
+            </div>
+
+
+
+            <!-- Modal -->
+            {% include 'components/reviews/_review_modal.html.twig' with {
+                modalId: 'editReviewModal',
+                modalLabelId: 'editReviewModalLabel',
+                modalTitle: 'Modifier votre review',
+                form: editReviewForm,
+                actionPath: path('review_edit', { id: userBook.review.id })
+            } %}
+
+        {% else %}
+            <p class="text-center">Vous n'avez pas encore laissé de review pour ce livre.</p>
+
+            <!-- Button trigger modal -->
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-custom-blue" data-bs-toggle="modal" data-bs-target="#createReviewModal">
+                    Créer ma review
+                </button>
+            </div>
+
+            <!-- Modal -->
+            {% include 'components/reviews/_review_modal.html.twig' with {
+                modalId: 'createReviewModal',
+                modalLabelId: 'createReviewModalLabel',
+                modalTitle: 'Créer votre review',
+                form: createReviewForm,
+                actionPath: path('create_review', { id: userBook.id })
+            } %}
+
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <hr class="my-4 border-custom-white">
+
+    <div class="col-12">
+        {{ component('review_list', { reviews: reviews, commentForms: commentForms }) }}
+    </div>
+
+</div>

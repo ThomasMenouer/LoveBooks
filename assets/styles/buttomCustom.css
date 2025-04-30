@@ -33,3 +33,15 @@
     border-color: var(--yellow-color) !important;
     background-color: var(--yellow-color) !important;
 }
+
+.btn-outline-custom-blue {
+    color: var(--blue-color) !important;
+    border-color: var(--blue-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-custom-blue:hover {
+    color: var(--black-color) !important;
+    border-color: var(--blue-color) !important;
+    background-color: var(--blue-color) !important;
+}

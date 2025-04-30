@@ -1,0 +1,72 @@
+  <div class="my-4">
+    <h4 class="mb-4">Critiques des utilisateurs :</h4>
+    {% if reviews is not empty %}
+        {% for review in reviews %}
+            <div class="card mb-3 text-white">
+                <div class="card-header">
+                    <h5 class="card-title "><strong>{{ review.userBook.user.name }}</strong></h5>
+                    <p class="card-text"> Statut : {{review.userBook.status.label() }}</p>
+                    {% if review.userBook.userRating %}
+                        <div class="text-color-yellow fs-4">
+                            {% for i in range(1, 5) %}
+                                {% if i <= review.userBook.userRating %}
+                                    {{ ux_icon('tabler:star-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% else %}
+                                    {{ ux_icon('tabler:star', { style: 'width: 1.2rem; height: 1.2rem;' }) }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>Vous n'avez pas encore noté ce livre.</p>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    
+                    <p class="card-text">{{ review.content|e('html')|nl2br }}</p>
+
+                    {# TODO : faire un lien/bouton qui fait apparaitre les commentaires #}
+                    
+                    <p class="card-text"><small>Posté le {{ review.createdAt|date('d F Y') }}</small></p>
+                    {# {% if review.updatedAt is not null %}
+                        <p class="card-text"><small>Mis à jour le {{ review.updatedAt|date('d F Y') }}</small></p>
+                    {% endif %} #}
+                    
+                </div>
+                <div class="card-footer">
+
+                    {{ form_start(commentForms[review.id], {
+                        action: path('review_comment', { id: review.id }),
+                        method: 'POST'
+                    }) }}
+                        {{ form_row(commentForms[review.id].content) }}
+                        {{ form_row(commentForms[review.id].submit) }}
+                    {{ form_end(commentForms[review.id]) }}
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+                <h5>Commentaires</h5>
+
+                {% for comment in review.comments %}
+                    <div class="mb-2">
+                        <strong>{{ comment.user.name }}</strong>
+                        <p class="mb-0">{{ comment.content }}</p>
+                        <small>{{ comment.createdAt|date('d M Y H:i') }}</small>
+                    </div>
+                    {% if comment.user == app.user %}
+                        <form action="{{ path('delete_comment', { id: comment.id }) }}" method="post" class="d-inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <p>Aucun commentaire.</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune critique pour ce livre pour le moment.</p>
+    {% endif %}
+</div>

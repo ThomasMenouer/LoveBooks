@@ -1,0 +1,19 @@
+<div class="modal fade" id="{{ modalId }}" tabindex="-1" aria-labelledby="{{ modalLabelId }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-color-black">
+            {{ form_start(form, { action: actionPath }) }}
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="{{ modalLabelId }}">{{ modalTitle }}</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+
+                {{ form_row(form.content) }}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-custom-red" data-bs-dismiss="modal">Annuler</button>
+                    {{ form_row(form.submit) }}
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

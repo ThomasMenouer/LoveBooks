@@ -8,10 +8,7 @@ use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 final class DeleteBookUseCase
 {
 
-    public function __construct(private UserBooksRepositoryInterface $userBooksRepository)
-    {
-
-    }
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository){}
 
     /**
      * Supprime un livre
