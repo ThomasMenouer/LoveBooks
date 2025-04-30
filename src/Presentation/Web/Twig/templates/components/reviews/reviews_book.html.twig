@@ -69,7 +69,6 @@
                 </button>
             </div>
 
-
             <!-- Modal -->
             {% include 'components/reviews/_review_modal.html.twig' with {
                 modalId: 'createReviewModal',
@@ -80,16 +79,14 @@
             } %}
 
         {% endif %}
-        
     </div>
-
 </div>
 
 <div class="row">
     <hr class="my-4 border-custom-white">
 
     <div class="col-12">
-        {{ component('review_list', { reviews: reviews }) }}
+        {{ component('review_list', { reviews: reviews, commentForms: commentForms }) }}
     </div>
 
 </div>

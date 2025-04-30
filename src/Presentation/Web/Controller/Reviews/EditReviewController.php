@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class EditReviewController extends AbstractController
 {
 
-    #[Route('/reviews/edit/{id}', name: 'review_edit', methods: ['POST'])]
+    #[Route('/reviews/edit/{id}', name: 'review_edit', methods: ['GET', 'POST'])]
     public function editReview(Request $request, Reviews $review, EditReviewUseCase $editReviewUseCase): Response
     {
         if ($review->getUserBook()->getUser() !== $this->getUser()) {

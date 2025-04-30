@@ -23,15 +23,47 @@
                 <div class="card-body">
                     
                     <p class="card-text">{{ review.content|e('html')|nl2br }}</p>
+
+                    {# TODO : faire un lien/bouton qui fait apparaitre les commentaires #}
+                    
+                    <p class="card-text"><small>Posté le {{ review.createdAt|date('d F Y') }}</small></p>
+                    {# {% if review.updatedAt is not null %}
+                        <p class="card-text"><small>Mis à jour le {{ review.updatedAt|date('d F Y') }}</small></p>
+                    {% endif %} #}
                     
                 </div>
                 <div class="card-footer">
-                    <p class="card-text"><small>Posté le {{ review.createdAt|date('d F Y') }}</small></p>
-                    {% if review.updatedAt is not null %}
-                        <p class="card-text"><small>Mis à jour le {{ review.updatedAt|date('d F Y') }}</small></p>
-                    {% endif %}
+
+                    {{ form_start(commentForms[review.id], {
+                        action: path('review_comment', { id: review.id }),
+                        method: 'POST'
+                    }) }}
+                        {{ form_row(commentForms[review.id].content) }}
+                        {{ form_row(commentForms[review.id].submit) }}
+                    {{ form_end(commentForms[review.id]) }}
+
                 </div>
 
+            </div>
+
+            <div class="mt-4">
+                <h5>Commentaires</h5>
+
+                {% for comment in review.comments %}
+                    <div class="mb-2">
+                        <strong>{{ comment.user.name }}</strong>
+                        <p class="mb-0">{{ comment.content }}</p>
+                        <small>{{ comment.createdAt|date('d M Y H:i') }}</small>
+                    </div>
+                    {% if comment.user == app.user %}
+                        <form action="{{ path('delete_comment', { id: comment.id }) }}" method="post" class="d-inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <p>Aucun commentaire.</p>
+                {% endfor %}
             </div>
         {% endfor %}
     {% else %}

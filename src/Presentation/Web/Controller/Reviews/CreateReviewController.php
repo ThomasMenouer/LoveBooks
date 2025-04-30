@@ -27,7 +27,6 @@ final class CreateReviewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $createReviewUseCase->createReview($userBook, $form->get('content')->getData());
 
             $this->addFlash('success', 'Votre review a bien été ajoutée.');
