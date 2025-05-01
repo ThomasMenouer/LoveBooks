@@ -36,8 +36,9 @@
 
                     {{ form_start(commentForms[review.id], {
                         action: path('review_comment', { id: review.id }),
-                        method: 'POST'
-                    }) }}
+                        method: 'POST',
+                        attr: { class: 'row my-3' }
+                        }) }}
                         {{ form_row(commentForms[review.id].content) }}
                         {{ form_row(commentForms[review.id].submit) }}
                     {{ form_end(commentForms[review.id]) }}
@@ -49,21 +50,17 @@
             <div class="mt-4">
                 <h5>Commentaires</h5>
 
-                {% for comment in review.comments %}
-                    <div class="mb-2">
-                        <strong>{{ comment.user.name }}</strong>
-                        <p class="mb-0">{{ comment.content }}</p>
-                        <small>{{ comment.createdAt|date('d M Y H:i') }}</small>
-                    </div>
-                    {% if comment.user == app.user %}
-                        <form action="{{ path('delete_comment', { id: comment.id }) }}" method="post" class="d-inline">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    {% endif %}
+                {% if review.comments|length > 0 %}
+
+                    <turbo-frame id="comments_{{ review.id }}">
+                        <a href="{{ path('review_comments_frame', { id: review.id }) }}">
+                           {{review.comments|length }} commentaire{{ review.comments|length > 1 ? 's' : '' }} 
+                        </a>
+                    </turbo-frame>
+
                 {% else %}
                     <p>Aucun commentaire.</p>
-                {% endfor %}
+                {% endif %}
             </div>
         {% endfor %}
     {% else %}

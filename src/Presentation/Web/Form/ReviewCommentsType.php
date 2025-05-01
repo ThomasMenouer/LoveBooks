@@ -15,17 +15,14 @@ class ReviewCommentsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('content', TextareaType::class, [
-            'label' => 'Votre commentaire',
-            'label_attr' => [
-                'class' => 'form-label'
-            ],
+            'label' => false,
             'attr' => [
                 'class' => 'form-control',
                 'placeholder' => 'Écrivez votre commentaire ici...',
                 'rows' => 1,
             ],
             'row_attr' => [
-                'class' => 'col-12 mb-3'
+                'class' => 'col-8'
             ],
             'required' => true,
             'constraints' => [
@@ -38,6 +35,9 @@ class ReviewCommentsType extends AbstractType
             'label' => 'Ajouter un commentaire',
             'attr' => [
                 'class' => 'btn btn-outline-custom-blue'
+            ],
+            'row_attr' => [
+                'class' => 'col-4'
             ],
         ]);
     }
