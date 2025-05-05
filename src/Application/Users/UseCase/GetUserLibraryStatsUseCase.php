@@ -6,7 +6,7 @@ use App\Domain\Users\Entity\Users;
 use App\Domain\UserBooks\Enum\Status;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
-final class GetUserProfileStatsUseCase
+final class GetUserLibraryStatsUseCase
 {
     public function __construct(private UserBooksRepository $userBooksRepository){}
 

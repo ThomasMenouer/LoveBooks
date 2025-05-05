@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Web\Controller\User;
 
-use App\Domain\UserBooks\Entity\UserBooks;
+
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,22 +12,23 @@ use App\Application\Users\UseCase\SearchAbookUseCase;
 use App\Presentation\Web\Form\UserBooksReadingUpdateType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
-use App\Application\Users\UseCase\GetUserProfileStatsUseCase;
+use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/profile', name: 'profile_')]
-final class ProfileController extends AbstractController
+#[Route('/library', name: 'library_')]
+final class LibraryController extends AbstractController
 {
+    public function __construct(private readonly Security $security){}
+
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function profileHome(
-        GetUserProfileStatsUseCase $getUserProfileStatsUseCase, 
-        GetReadingListUserUseCase $getReadingListUserUseCase, 
-        Security $security
-    ): Response {
-        $user = $security->getUser();
+        GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase, 
+        GetReadingListUserUseCase $getReadingListUserUseCase): Response 
+    {
+        $user = $this->security->getUser();
 
-        $userStats = $getUserProfileStatsUseCase->getStats($user);
+        $userStats = $getUserLibraryStatsUseCase->getStats($user);
         $books = $getReadingListUserUseCase->getReadingList($user);
 
         $bookForms = [];
@@ -37,7 +38,7 @@ final class ProfileController extends AbstractController
             $bookForms[$book->getId()] = $form->createView();
         }
 
-        return $this->render('profile/profile.html.twig', [
+        return $this->render('library/library.html.twig', [
             ...$userStats, // spread operator, on insère les clefs/valeurs du tableau
             'readingList' => $books,
             'bookForms' => $bookForms,
@@ -45,10 +46,10 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/books', name: 'books', methods: ['GET', 'POST'])]
-    public function profileBooks(Request $request, SearchAbookUseCase $searchAbookUseCase, Security $security): Response
+    public function libraryBooks(Request $request, SearchAbookUseCase $searchAbookUseCase): Response
     {
-        /** @var \App\Domain\Users\Entity\Users $user */
-        $user = $security->getUser();
+        
+        $user = $this->security->getUser();
         $books = $user->getUserBooks();
 
         $form = $this->createForm(SearchMyBookType::class);
@@ -61,7 +62,7 @@ final class ProfileController extends AbstractController
             $books = $user->getUserBooks();
         }
 
-        return $this->render('profile/books/books.html.twig', [
+        return $this->render('library/books/books.html.twig', [
             'books' => $books,
             'form' => $form->createView()
         ]);

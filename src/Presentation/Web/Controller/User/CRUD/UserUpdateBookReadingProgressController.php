@@ -32,16 +32,16 @@ final class UserUpdateBookReadingProgressController extends AbstractController
 
             if ($request->headers->get('Turbo-Frame')) {
                 
-                return $this->render('profile/books/update_book.stream.html.twig', [
+                return $this->render('library/books/update_book.stream.html.twig', [
                     'book' => $book,
                     'form' => $this->createForm(UserBooksReadingUpdateType::class, $book)->createView(),
                 ], new Response('', Response::HTTP_OK, ['Content-Type' => 'text/vnd.turbo-stream.html']));
             }
 
-            return $this->redirectToRoute('profile_index');
+            return $this->redirectToRoute('library_index');
         }
 
-        return $this->render('profile/profile.html.twig', [
+        return $this->render('library/library.html.twig', [
             'book' => $book,
             'form' => $form->createView(),
         ]);

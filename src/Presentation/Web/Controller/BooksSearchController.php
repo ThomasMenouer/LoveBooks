@@ -8,9 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Books\Service\GoogleBooksService;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
+#[IsGranted('ROLE_USER')]
 #[Route('/search', name:'search_')]
 final class BooksSearchController extends AbstractController
 {

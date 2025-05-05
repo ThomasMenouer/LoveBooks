@@ -5,7 +5,6 @@ namespace App\Domain\UserBooks\Enum;
 enum Status: string
 {
     case READ = 'Lu';
-
     case READING = 'En cours de lecture';
     case ABANDONED = 'Abandonné';
     case NOT_READ = 'Non lu';

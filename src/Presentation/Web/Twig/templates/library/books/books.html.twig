@@ -1,9 +1,9 @@
 
-<turbo-frame id="profile_content">
+<turbo-frame id="library_content">
 
     <div class="row justify-content-center mb-3">
         <div class="col-auto">
-            {{ form_start(form, {'action': path('profile_books'), 'attr': {'data-turbo-frame': 'profile_content', 'data-turbo-action': 'replace', 'class': 'row row-cols-lg-auto g-3 align-items-center'}}) }}
+            {{ form_start(form, {'action': path('library_books'), 'attr': {'data-turbo-frame': 'library_content', 'data-turbo-action': 'replace', 'class': 'row row-cols-lg-auto g-3 align-items-center'}}) }}
                 {{ form_row(form.query) }}
                 {{ form_row(form.submit) }}
             {{ form_end(form) }}        
@@ -82,11 +82,9 @@
                                 <a href="{{ path("book_index", { "id": book.book.id }) }}" 
                                 class="btn btn-outline-custom" 
                                 data-turbo="false">Voir</a>
-
-                                {# <a href="{{ path("book_edit", { "id": book.id }) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a> #}
                                 
                                 <form method="post" action="{{ path('book_delete', { 'id': book.id }) }}" 
-                                data-turbo-frame="profile_content"
+                                data-turbo-frame="library_content"
                                 onsubmit="return confirm('Voulez-vous vraiment supprimer ce livre ?');"
                                 class="d-inline">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete-book-' ~ book.id) }}">

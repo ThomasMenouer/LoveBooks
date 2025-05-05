@@ -134,4 +134,9 @@ class UserBooks
         $this->pagesRead = 0;
     }
 
+    public function isReading(): bool
+    {
+        return $this->status === Status::READING;
+    }
+
 }

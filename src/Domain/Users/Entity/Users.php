@@ -39,6 +39,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
     #[ORM\Column]
     private bool $isVerified = false;
 
@@ -134,6 +137,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
         return $this;
     }
 

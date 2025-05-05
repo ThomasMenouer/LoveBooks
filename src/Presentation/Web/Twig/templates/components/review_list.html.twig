@@ -4,6 +4,11 @@
         {% for review in reviews %}
             <div class="card mb-3 text-white">
                 <div class="card-header">
+                    {% if  review.userBook.user.avatar %}
+                        <img src="{{ asset('uploads/avatars/' ~ review.userBook.user.avatar) }}" alt="Avatar" 
+                            class="img-fluid rounded-circle" 
+                            style="height: 50px; width: 50px; object-fit: cover;">
+                    {% endif %}
                     <h5 class="card-title "><strong>{{ review.userBook.user.name }}</strong></h5>
                     <p class="card-text"> Statut : {{review.userBook.status.label() }}</p>
                     {% if review.userBook.userRating %}
@@ -23,8 +28,6 @@
                 <div class="card-body">
                     
                     <p class="card-text">{{ review.content|e('html')|nl2br }}</p>
-
-                    {# TODO : faire un lien/bouton qui fait apparaitre les commentaires #}
                     
                     <p class="card-text"><small>Posté le {{ review.createdAt|date('d F Y') }}</small></p>
                     {# {% if review.updatedAt is not null %}

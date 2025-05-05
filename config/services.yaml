@@ -6,6 +6,7 @@
 parameters:
     google_api_key: '%env(GOOGLE_API_KEY)%'
     api_base_url: '%env(API_BASE_URL)%'
+    avatars_directory: '%kernel.project_dir%/public/uploads/avatars'
 
 services:
     # default configuration for services in *this* file
@@ -28,6 +29,10 @@ services:
         arguments:
             $googleApiKey: '%google_api_key%'
             $apiBaseUrl: '%api_base_url%'
+    
+    App\Application\Users\Service\UploadService:
+        arguments:
+            $avatarDirectory: '%avatars_directory%'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

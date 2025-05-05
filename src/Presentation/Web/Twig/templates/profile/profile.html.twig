@@ -4,34 +4,79 @@
 
 {% block body %}
 
-<main>
-    <section class="d-flex align-items-stretch">
-        {% include "partials/navbar.html.twig" %}
-        <div class="container">
-            <div class="row my-4">
-                <ul class="nav nav-underline justify-content-center" data-controller="active-link-menu">
-                    <li class="nav-item">
-                        <a class="nav-link active" 
-                        href="{{ path("profile_index") }}"
-                        data-action="click->active-link-menu#setActive"
-                        data-turbo-frame="profile_content">Home</a>
-                    </li>
+<main class="d-flex align-items-stretch">
+    {% include "partials/navbar.html.twig" %}
+    <section >
+        
+        <div class="container mt-5">
+            <div class="row g-0">
+                <div class="col-md-1">
 
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                        href="{{ path("profile_books") }}" 
-                        data-action="click->active-link-menu#setActive"
-                        data-turbo-frame="profile_content">Mes livres</a>
-                    </li>
-                </ul>
+                    {% if user.avatar %}
+                        <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="Avatar" 
+                            class="img-fluid rounded-circle" 
+                            style="height: 100px; width: 100px; object-fit: cover;">
+                    {% else %}
+                        <p>Pas d’avatar pour le moment.</p>
+                    {% endif %}
+                
+                </div>
+                <div class="col-md-11">
+
+                    <div class="card">  
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user.name }}</h5>
+                            <a href="{{ path('profile_edit_avatar') }}" class="btn btn-primary">Edit Profile</a>
+                        </div>
+                    </div>
+
+                </div>
+                <p><strong>Nombre de livres :</strong> {{ books|length }}</p>
+
             </div>
+
             <div class="row">
-                <turbo-frame id="profile_content">
-                    {% include 'profile/home.html.twig' %}
-                </turbo-frame>
+                
+                <h3>Mes livres préférés</h3>
+            </div>
+
+            <div class="row">
+                <h3>En cours de lecture</h3>
+    
+
+                {% for book in currentlyReading %}
+                    <div class="col-12">
+                        <div class="card mb-3 w-75">
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    <img src="{{ book.book.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ book.book.title }}">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <a href="{{ path("book_index", { "id": book.book.id }) }}" class="card-title h5">{{ book.book.title }}</a>
+                                        <p class="card-text">{{ book.book.authors }}</p>
+                                        <p class="card-text text-center">
+                                            <small class="text-color-gray">
+                                                {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}% - {{ book.pagesRead }} / {{ book.book.pageCount }}
+                                            </small>
+                                        </p>
+                                        <div class="progress" style="height: 3px;">
+                                            <div class="progress-bar" role="progressbar"
+                                                style="width:  {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}%;"
+                                                aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0"
+                                                aria-valuemax="{{ book.book.pageCount }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                       
+                {% endfor %}
             </div>
         </div>
     </section>
 </main>
 
 {% endblock %}
+

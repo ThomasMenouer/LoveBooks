@@ -15,7 +15,6 @@
                     {{ form_start(form) }}
                         {{ form_row(form.status) }}
                         {{ form_row(form.pagesRead) }}
-                        {# {{ form_row(form.userRating )}} #}
                         <div 
                             class="star-rating mb-3 text-center" 
                             data-controller="star-rating"
@@ -38,7 +37,7 @@
                     {{ form_end(form) }}
                     
                     <div class="text-center mt-3">
-                        <a href="{{ path('profile_index') }}" class="btn btn-outline-custom">Retour profil</a>
+                        <a href="{{ path('library_index') }}" class="btn btn-outline-custom">Retour profil</a>
                     </div>
                 </div>
             </div>

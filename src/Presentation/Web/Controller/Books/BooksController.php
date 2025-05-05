@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Presentation\Web\Form\ReviewCommentsType;
-use App\Domain\ReviewComments\Entity\ReviewComments;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
