@@ -18,7 +18,7 @@ final class BooksSearchController extends AbstractController
 {
 
     /**
-     * Undocumented function
+     * Search for books using Google Books API
      *
      * @param Request $request
      * @param GoogleBooksService $googleBooksService

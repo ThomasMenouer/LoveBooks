@@ -6,14 +6,19 @@
 
 <main>
     <section class="d-flex align-items-stretch">
-        {% include "partials/navbar.html.twig" %}
+    {% include "partials/navbar.html.twig" %}
         <div class="container my-5">
             <div class="row">
                 <!-- Couverture -->
-                <div class="col-md-4 d-flex flex-column align-items-center">
+                <div class="col-md-3 d-flex flex-column align-items-center">
 
-                    <div class="shadow rounded overflow-hidden">
-                        <img src="{{ book.thumbnail }}" class="img-fluid" alt="Couverture de {{ book.title }}" >
+                    <div class="card">
+                        <img src="{{ book.thumbnail }}" class="card-img" alt="Couverture de {{ book.title }}" >
+                        <div class="card-img-overlay">
+                                {% if userBook and userBook.isPreferred %}
+                                    <p class="text-card text-color-red">{{ ux_icon('line-md:heart-filled', { style: 'width: 1.2rem; height: 1.2rem;' }) }}</p>
+                                {% endif %}
+                        </div>
                     </div>
 
                     <div class="card mt-3 text-center">
@@ -48,7 +53,7 @@
                 </div>
 
                 <!-- Informations Livre -->
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="d-flex flex-column justify-content-between">
                         <div>
                             <h1 class="mb-3">{{ book.title }}</h1>

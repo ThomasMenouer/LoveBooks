@@ -4,14 +4,13 @@
 
 {% block body %}
 
-<main class="d-flex align-items-stretch">
+<main>
+    <section class="d-flex align-items-stretch">
     {% include "partials/navbar.html.twig" %}
-    <section >
         
         <div class="container mt-5">
             <div class="row g-0">
                 <div class="col-md-1">
-
                     {% if user.avatar %}
                         <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="Avatar" 
                             class="img-fluid rounded-circle" 
@@ -22,7 +21,6 @@
                 
                 </div>
                 <div class="col-md-11">
-
                     <div class="card">  
                         <div class="card-body">
                             <h5 class="card-title">{{ user.name }}</h5>
@@ -32,18 +30,24 @@
 
                 </div>
                 <p><strong>Nombre de livres :</strong> {{ books|length }}</p>
-
             </div>
 
             <div class="row">
-                
                 <h3>Mes livres préférés</h3>
+                <div class="row">
+                    {% for book in preferredBooks %}
+
+                        <div class="col-2">
+                            <img src="{{ book.book.thumbnail }}" class="card-img-top img-fluid rounded" alt="{{ book.book.title }}">
+                        </div>
+                                          
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="row">
                 <h3>En cours de lecture</h3>
     
-
                 {% for book in currentlyReading %}
                     <div class="col-12">
                         <div class="card mb-3 w-75">

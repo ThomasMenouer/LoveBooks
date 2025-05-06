@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 
 class UserBooksType extends AbstractType
 {
@@ -43,6 +44,27 @@ class UserBooksType extends AbstractType
                 'row_attr' => [
                     'class' => 'mb-3'
                 ],
+            ])
+            ->add('isPreferred', ChoiceType::class, [
+                'label' => 'Livre préféré',
+                'label_attr' => [
+                    'class' => 'form-label'
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'choice_attr' => [
+                    'class' => 'form-check-input'
+                ],
+
+                'row_attr' => [
+                    'class' => 'form-check-inline'
+                ],
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'data' => false,
             ])
             ->add('userRating', ChoiceType::class, [
                 'label' => 'Votre note',

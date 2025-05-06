@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Web\Controller\Profile;
 
+use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
 use App\Domain\Users\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -21,17 +22,19 @@ final class ProfileController extends AbstractController
     public function __construct(private readonly Security $security){}
 
     #[Route("/", name: "index")]
-    public function index(GetReadingListUserUseCase $getReadingListUserUseCase): Response
+    public function index(GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase): Response
     {
         $user = $this->security->getUser();
 
         $books = $user->getUserBooks();
+        $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
 
         $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
 
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
             'books' => $books,
+            'preferredBooks' => $preferredBooks,
             'currentlyReading' => $currentlyReading,
         ]);
     }

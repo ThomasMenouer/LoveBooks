@@ -105,4 +105,17 @@ class UserBooksRepository extends ServiceEntityRepository implements UserBooksRe
         return $qb->getQuery()->getResult();
     }
 
+    public function getPreferredBookForUser(Users $user): array
+    {
+        $qb = $this->createQueryBuilder('ub')
+            ->join('ub.book', 'b')
+            ->addSelect('b')
+            ->where('ub.user = :user')
+            ->andWhere('ub.isPreferred = true')
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getResult();
+
+    }
+
 }

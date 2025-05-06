@@ -6,7 +6,9 @@
             </div>
             <div class="col-md-10">
                 <div class="card-body">
-                    <a href="{{ path("book_index", { "id": book.book.id }) }}" class="card-title h5">{{ book.book.title }}</a>
+                    <a href="{{ path("book_index", { "id": book.book.id }) }}" 
+                        class="card-title h5" data-turbo="false">{{ book.book.title }}</a>
+                        
                     <p class="card-text">{{ book.book.authors }}</p>
                     <p class="card-text text-center">
                         <small class="text-color-gray">

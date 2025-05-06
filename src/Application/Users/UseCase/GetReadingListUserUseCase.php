@@ -11,7 +11,7 @@ final class GetReadingListUserUseCase
 
     public function __construct(private UserBooksRepository $userBooksRepository){}
 
-    public function getReadingList(Users $user)
+    public function getReadingList(Users $user): array
     {
         return $this->userBooksRepository->getReadingListForUser($user);
     }
