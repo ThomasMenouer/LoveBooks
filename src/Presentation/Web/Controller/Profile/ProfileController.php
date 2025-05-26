@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Users\Service\UploadService;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
+use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
 use App\Presentation\Web\Form\Profile\AvatarType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,20 +23,21 @@ final class ProfileController extends AbstractController
     public function __construct(private readonly Security $security){}
 
     #[Route("/", name: "index")]
-    public function index(GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase): Response
+    public function index(GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
     {
         $user = $this->security->getUser();
 
-        $books = $user->getUserBooks();
         $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
 
         $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
 
+        $userStats = $getUserLibraryStatsUseCase->getStats($user);
+
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
-            'books' => $books,
             'preferredBooks' => $preferredBooks,
             'currentlyReading' => $currentlyReading,
+            ...$userStats
         ]);
     }
 
