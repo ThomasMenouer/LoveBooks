@@ -22,10 +22,10 @@ final class ProfileController extends AbstractController
 {
     public function __construct(private readonly Security $security){}
 
-    #[Route("/", name: "index")]
-    public function index(GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
+    #[Route("/{name}-{id}", name: "index")]
+    public function index(Users $user, GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
     {
-        $user = $this->security->getUser();
+        // $user = $this->security->getUser();
 
         $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
 

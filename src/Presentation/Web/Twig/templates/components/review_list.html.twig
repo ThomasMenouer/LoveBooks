@@ -9,7 +9,9 @@
                             class="img-fluid rounded-circle" 
                             style="height: 50px; width: 50px; object-fit: cover;">
                     {% endif %}
-                    <h5 class="card-title "><strong>{{ review.userBook.user.name }}</strong></h5>
+                    <a href="{{ path("profile_index", { name: review.userBook.user.name, id: review.userBook.user.id })}}" 
+                        class="card-title h5 profile-link">{{ review.userBook.user.name }}
+                    </a>
                     <p class="card-text"> Statut : {{review.userBook.status.label() }}</p>
                     {% if review.userBook.userRating %}
                         <div class="text-color-yellow fs-4">

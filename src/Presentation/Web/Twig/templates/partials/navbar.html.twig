@@ -2,7 +2,7 @@
     <nav class="nav flex-column sidebar">
     {% if app.user %}
 
-        <a class="nav-link text-white" href="{{ path("profile_index")}}">Mon profil</a>
+        <a class="nav-link text-white" href="{{ path("profile_index", { name: app.user.name, id: app.user.id })}}">Mon profil</a>
     
         <a class="nav-link text-white" href="{{ path("library_index")}}">Bibliothèque</a>
 
