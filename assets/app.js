@@ -1,4 +1,5 @@
 import './bootstrap.js';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -8,7 +9,7 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/buttomCustom.css';
 import './styles/login/login.css';
-import './styles/partials/nav.css';
+import './styles/partials/navbar.css';
 import './styles/home/home.css';
 import './styles/colors.css';
 import './styles/star_rating.css';

@@ -1,16 +1,14 @@
 <?php
 
-
-namespace App\Twig\Components;
+namespace App\Presentation\Web\Twig\Components;
 
 use App\Application\Books\Service\GoogleBooksService;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
-
-#[AsLiveComponent]
-class BookSearch
+#[AsLiveComponent(name: 'book_search', template: 'components/book_search.html.twig')]
+class BookSearchComponent
 {
     use DefaultActionTrait;
 
@@ -23,8 +21,11 @@ class BookSearch
         $this->googleBooksService = $googleBooksService;
     }
 
-    public function getBooks(): array
+    public function getResults(): array
     {
+        if (empty($this->query)) {
+            return [];
+        }
 
         return $this->googleBooksService->searchBooks($this->query);
     }

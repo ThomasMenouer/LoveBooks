@@ -33,6 +33,10 @@ services:
     App\Application\Users\Service\UploadService:
         arguments:
             $avatarDirectory: '%avatars_directory%'
+    
+    # App\Presentation\Web\Twig\Components\:
+    #     resource: '../src/Presentation/Web/Twig/Components'
+    #     tags: ['twig.component', 'live_component']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

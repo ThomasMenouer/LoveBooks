@@ -1,0 +1,42 @@
+<nav class="navbar fixed-top navbar-expand-lg bg-color-black" data-controller="active-link-navbar">
+
+  <div class="container-fluid">
+    <span class="navbar-text">
+        <a class="navbar-brand" href="{{ path("library_index") }}">LoveBooks!</a>
+    </span>
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if app.user %}
+          <li class="nav-item">
+              <a class="nav-link active" href="{{ path("library_index")}}">Bibliothèque</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{ path("search_book")}}">Recherche un livre</a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link" href="{{ path("profile_index", { name: app.user.name, id: app.user.id })}}">Mon profil</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>
+          </li>
+      {% else %}
+          <li class="nav-item">
+              <a class="nav-link" href="{{ path("app_login")}}">Me connecter</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{ path("app_register")}}">M'inscrire</a>
+          </li>
+      {% endif %}
+    </ul>
+    <form class="d-flex position-relative w-25">
+        {{ component('book_search') }}
+    </form>
+  </div>
+</nav>

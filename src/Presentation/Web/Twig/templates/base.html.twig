@@ -17,6 +17,15 @@
         {% endblock %}
     </head>
     <body>
+        <!-- ======= Header ======= -->
+        <header>
+            {% if app.request.attributes.get('_route') != 'home_index' %}
+                {% include "partials/_navbar.html.twig" %}
+                <div class="pb-5"></div>
+            {% endif %}
+        </header>
+        <!-- End Header -->
+        
         {% block flash_messages %}
             {% for label, messages in app.flashes %}
                 <div class="alert alert-{{ label }}">

@@ -5,38 +5,28 @@
 {% block body %}
 
 <main id="home-main">
-    <section id="home-section">
-        <div class="container">
-            {# <div class="row text-center">
-                <h1 class="my-4">LoveBooks</h1>
-            </div> #}
+    <div class="container">
+        <div class="row d-flex flex-column min-vh-100 justify-content-center align-items-center">
+            <div class="col-8">
 
-            <div class="row d-flex flex-column min-vh-100 justify-content-center align-items-center">
-                <div class="col-8">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h1 class="card-title text-center">LoveBooks !</h1>
-                            
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-text">📚 Enregistrez vos livres : Ajoutez facilement vos ouvrages et organisez votre bibliothèque.</li>
-                                <li class="list-group-item card-text">✅ Suivez vos lectures : Identifiez d’un coup d’œil vos livres lus, en cours ou à lire.</li>
-                                <li class="list-group-item card-text">📖 Tracker votre progression : Notez le nombre de pages lues et suivez vos avancées en temps réel.</li>
-                                <li class="list-group-item card-text">📊 Fixez-vous des objectifs : Challengez-vous et découvrez combien de pages vous dévorez chaque mois !</li>
-                            </ul>
-                        </div>
-                        <div class="card-body d-flex justify-content-center gap-3">
-                            <a href="{{ path('app_login') }}" class="btn btn-outline-custom text-decoration-none">Se connecter</a>
-                            <a href="{{ path('app_register') }}" class="btn btn-outline-custom text-decoration-none">S'inscrire</a>
-
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">LoveBooks !</h1>
+                        
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item card-text">📚 Enregistrez vos livres : Ajoutez facilement vos ouvrages et organisez votre bibliothèque.</li>
+                            <li class="list-group-item card-text">✅ Suivez vos lectures : Identifiez d’un coup d’œil vos livres lus, en cours ou à lire.</li>
+                            <li class="list-group-item card-text">📖 Tracker votre progression : Notez le nombre de pages lues et suivez vos avancées en temps réel.</li>
+                        </ul>
                     </div>
-                
-                
+                    <div class="card-body d-flex justify-content-center gap-3">
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-custom text-decoration-none">Se connecter</a>
+                        <a href="{{ path('app_register') }}" class="btn btn-outline-custom text-decoration-none">S'inscrire</a>
+
+                    </div>
                 </div>
             </div>
         </div>
-
-    </section>
+    </div>
 </main>
 {% endblock %}

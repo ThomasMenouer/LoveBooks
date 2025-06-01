@@ -5,33 +5,30 @@
 {% block body %}
 
 <main>
-    <section class="d-flex align-items-stretch">
-        {% include "partials/navbar.html.twig" %}
-        <div class="container">
-            <div class="row my-4">
-                <ul class="nav nav-underline justify-content-center" data-controller="active-link-menu">
-                    <li class="nav-item">
-                        <a class="nav-link active" 
-                        href="{{ path("library_index") }}"
-                        data-action="click->active-link-menu#setActive"
-                        data-turbo-frame="library_content">Home</a>
-                    </li>
+    <div class="container">
+        <div class="row my-4">
+            <ul class="nav nav-underline justify-content-center" data-controller="active-link-menu">
+                <li class="nav-item">
+                    <a class="nav-link active" 
+                    href="{{ path("library_index") }}"
+                    data-action="click->active-link-menu#setActive"
+                    data-turbo-frame="library_content">Home</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                        href="{{ path("library_books") }}" 
-                        data-action="click->active-link-menu#setActive"
-                        data-turbo-frame="library_content">Mes livres</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <turbo-frame id="library_content">
-                    {% include 'library/home.html.twig' %}
-                </turbo-frame>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" 
+                    href="{{ path("library_books") }}" 
+                    data-action="click->active-link-menu#setActive"
+                    data-turbo-frame="library_content">Mes livres</a>
+                </li>
+            </ul>
         </div>
-    </section>
+        <div class="row">
+            <turbo-frame id="library_content">
+                {% include 'library/home.html.twig' %}
+            </turbo-frame>
+        </div>
+    </div>
 </main>
 
 {% endblock %}

@@ -1,0 +1,20 @@
+<div {{ attributes }}>
+
+    <input
+        type="search"
+        class="form-control me-2"
+        placeholder="Search"
+        aria-label="Search"
+        data-model="query"
+    >
+
+    <ul class="list-group mt-2">
+        {% for book in computed.results %}
+            <li class="list-group-item">
+                {{ book.volumeInfo.title ?? 'Titre inconnu' }}
+            </li>
+        {% else %}
+            <li class="list-group-item">Aucun résultat</li>
+        {% endfor %}
+    </ul>
+</div>

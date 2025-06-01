@@ -25,7 +25,6 @@ final class ProfileController extends AbstractController
     #[Route("/{name}-{id}", name: "index")]
     public function index(Users $user, GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
     {
-        // $user = $this->security->getUser();
 
         $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
 
