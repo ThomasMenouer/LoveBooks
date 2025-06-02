@@ -24,28 +24,38 @@ final class BooksSearchController extends AbstractController
      * @param GoogleBooksService $googleBooksService
      * @return Response
      */
-    #[Route('/', name: 'book')]
+    #[Route('/', name: 'book', methods: ['GET', 'POST'])]
     public function searchBooks(Request $request, GoogleBooksService $googleBooksService): Response
     {
         $form = $this->createForm(SearchBookType::class);
         $form->handleRequest($request);
 
-        $data = [];
+        $books = [];
 
+        // Cas POST
         if ($form->isSubmitted() && $form->isValid()) {
 
             $title = $form->get('title')->getData();
             $data = $googleBooksService->searchBooks($title);
+            $books = $data['items'];
 
             return $this->render('search/results.html.twig', [
-                'books' => $data['items'],
+                'books' => $books
             ], new Response('', Response::HTTP_OK, ['Turbo-Frame' => 'books_results']));
 
         }
 
+        // Cas GET : titre passé dans l'URL (depuis la navbar)
+        $title = trim($request->query->get('title', ''));
+        if ($title !== '') {
+            $form->get('title')->setData($title);
+            $result = $googleBooksService->searchBooks($title);
+            $books = $result['items'];
+        }
+
         return $this->render('search/search.html.twig', [
             'form' => $form,
-            'books' => $data
+            'books' => $books
             
         ]);
     }
@@ -71,6 +81,8 @@ final class BooksSearchController extends AbstractController
 
         $this->addFlash('success', 'Le livre a bien été ajouté à votre bibliothèque');
 
-        return $this->redirectToRoute('search_book');
+        return $this->redirectToRoute('book_index', [
+            'id' => $book->getId(),
+        ]);
     }
 }

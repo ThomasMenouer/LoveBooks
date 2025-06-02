@@ -23,10 +23,19 @@ class BookSearchComponent
 
     public function getResults(): array
     {
-        if (empty($this->query)) {
+        $query = trim($this->query);
+
+        if (empty($this->query) || $query === '') {
             return [];
         }
 
-        return $this->googleBooksService->searchBooks($this->query);
+        $results = $this->googleBooksService->searchBooks($query);
+
+        // $booksWithImages = array_filter($results['items'] ?? [], function ($item) {
+        //     return isset($item['volumeInfo']['imageLinks']['thumbnail']);
+        // });
+    
+        // Limiter à 5 résultats
+        return array_slice($results['items'], 0, 5);
     }
 }

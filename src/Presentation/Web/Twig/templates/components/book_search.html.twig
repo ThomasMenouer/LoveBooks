@@ -1,20 +1,56 @@
-<div {{ attributes }}>
+<div {{ attributes }} data-controller="search-dropdown" data-search-dropdown-target="wrapper">
+    <form method="get" action="{{ path('search_book') }}" class="d-flex">
 
-    <input
-        type="search"
-        class="form-control me-2"
-        placeholder="Search"
-        aria-label="Search"
-        data-model="query"
-    >
+        <div class="input-group">
+            <input
+                type="search"
+                name="title"
+                value="{{ query ?? '' }}"
+                class="form-control"
+                placeholder="Rechercher un livre"
+                aria-label="Search"
+                data-model="query"
+                required
+                autocomplete="off"
+            >
 
-    <ul class="list-group mt-2">
-        {% for book in computed.results %}
-            <li class="list-group-item">
-                {{ book.volumeInfo.title ?? 'Titre inconnu' }}
-            </li>
-        {% else %}
-            <li class="list-group-item">Aucun résultat</li>
-        {% endfor %}
-    </ul>
+            <button class="btn btn-outline-custom px-4" type="submit">{{ ux_icon('tabler:search', { style: 'width: 1rem; height: 1rem;' } ) }}</button>
+        </div>
+
+    
+        {% if this.results %}
+            <ul class="list-group list-group-flush position-absolute mt-1 shadow z-3 mt-5">
+                {% for book in this.results %}
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-start gap-3">
+                            {% if book.volumeInfo.imageLinks.thumbnail is defined %}
+                                <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}" style="width: 60px; height: auto;">
+                            {% endif %}
+
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">{{ book.volumeInfo.title ?? 'Titre inconnu' }}</h6>
+                                {% if book.volumeInfo.authors is defined %}
+                                    <p class="mb-1">par {{ book.volumeInfo.authors[0] }}</p>
+                                {% endif %}
+                                <a href="{{ path('search_add_book', {
+                                    'title': book.volumeInfo.title is defined ? book.volumeInfo.title : 'Titre inconnu',
+                                    'authors': book.volumeInfo.authors[0] is defined ? book.volumeInfo.authors[0] : 'Auteur inconnu',
+                                    'publisher': book.volumeInfo.publisher is defined ? book.volumeInfo.publisher : 'Éditeur inconnu',
+                                    'description': book.volumeInfo.description|default('Pas de description'),
+                                    'publishedDate': book.volumeInfo.publishedDate is defined ? book.volumeInfo.publishedDate : 'Date de publication inconnue',
+                                    'pageCount': book.volumeInfo.pageCount is defined ? book.volumeInfo.pageCount : 'Nombre de pages inconnu',
+                                    'thumbnail': book.volumeInfo.imageLinks.thumbnail is defined ? book.volumeInfo.imageLinks.thumbnail : 'Pas d\'image',
+                                }) }}" class="btn btn-outline-custom btn-sm mt-1">
+                                    Ajouter le livre
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                
+                <button class="list-group-item list-group-item-action text-center text-color-white" type="submit">Voir plus</button>
+
+            </ul>
+        {% endif %}
+    </form>
 </div>
