@@ -6,9 +6,9 @@
         <div class="row text-center my-4">
             <h1>Rechercher un livre</h1>
         </div>
-        <div class="row">
-            <div class="col-3 mx-auto">
-                {{ form_start(form, {attr: {'data-turbo-frame': 'books_results'}}) }}
+        <div class="row justify-content-center">
+            <div class="col-auto col-sm-auto">
+                {{ form_start(form, {attr: {'data-turbo-frame': 'books_results', 'class': 'row row-cols-auto g-3 align-items-center'}}) }}
                     {{ form_row(form.title) }}
                     {{ form_row(form.submit) }}
                 {{ form_end(form) }}

@@ -31,7 +31,7 @@
                             Mettre à jour la progression
                         </button>
 
-                        <div id="form-container-{{ book.id }}" class="d-none col-3 mx-auto">
+                        <div id="form-container-{{ book.id }}" class="d-none col-9 col-sm-5 mx-auto">
                             {{ form_start(form, {
                                 action: path('book_update', { id: book.id }),
                                 attr: { 'data-turbo-frame': 'book_' ~ book.id }
