@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="text-center">Interface d'administration</h1>
+            <div class="col-md-6">
+                <a href="{{ path('admin_users_management') }}" class="btn btn-outline-custom-blue">Gestion des utilisateurs</a>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('admin_books_management_index') }}" class="btn btn-outline-custom-blue">Gestion des livres</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

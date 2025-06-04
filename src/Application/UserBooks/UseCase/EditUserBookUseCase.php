@@ -4,11 +4,11 @@ namespace App\Application\UserBooks\UseCase;
 
 use App\Domain\UserBooks\Enum\Status;
 use App\Domain\UserBooks\Entity\UserBooks;
-use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 
 final class EditUserBookUseCase
 {
-    public function __construct(private UserBooksRepository $userBooksRepository){
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository){
     }
 
     public function editBook(UserBooks $book): void

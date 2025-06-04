@@ -13,6 +13,11 @@ final class HomePageController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('library_index');
+        }
+
+
         return $this->render('home/home.html.twig', [
         ]);
     }

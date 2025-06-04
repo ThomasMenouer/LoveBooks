@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="my-4 text-center">Utilisateurs</h1>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Rôles</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.roles|join(', ') }}</td>
+                            <td>
+                                {% if user.isVerified %}
+                                    <span class="badge bg-success">Actif</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action="{{ path('admin_user_delete', {id: user.id}) }}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>       
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{{ path('admin_index') }}" class="btn btn-outline-custom-blue">Retour</a>
+            </div>
+    </div>
+</main>
+
+{% endblock %}

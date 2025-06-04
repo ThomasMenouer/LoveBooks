@@ -2,12 +2,12 @@
 
 namespace App\Application\UserBooks\UseCase;
 
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use App\Domain\Users\Entity\Users;
-use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
 final class GetPreferredBookUseCase
 {
-    public function __construct(private UserBooksRepository $userBooksRepository)
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository)
     {
     }
     

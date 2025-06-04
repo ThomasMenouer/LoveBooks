@@ -5,7 +5,7 @@ namespace App\Application\UserBooks\UseCase;
 use App\Domain\UserBooks\Entity\UserBooks;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 
-final class DeleteBookUseCase
+final class DeleteUserBookUseCase
 {
 
     public function __construct(private UserBooksRepositoryInterface $userBooksRepository){}

@@ -4,15 +4,14 @@ namespace App\Application\Users\UseCase;
 
 use App\Domain\Users\Entity\Users;
 use App\Domain\UserBooks\Enum\Status;
-use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 
 final class GetUserLibraryStatsUseCase
 {
-    public function __construct(private UserBooksRepository $userBooksRepository){}
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository){}
 
     public function getStats(Users $user): array
     {
-
         // Récupère les stats depuis le repository
         $bookStats = $this->userBooksRepository->countByStatusForUser($user);
 

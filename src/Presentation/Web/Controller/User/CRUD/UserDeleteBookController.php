@@ -7,7 +7,7 @@ use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Application\UserBooks\UseCase\DeleteBookUseCase;
+use App\Application\UserBooks\UseCase\DeleteUserBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -15,7 +15,7 @@ final class UserDeleteBookController extends AbstractController
 {
 
     #[Route('/book/{id}/delete', name: 'book_delete', methods: ['GET', 'POST'])]
-    public function deleteBook(Request $request, UserBooks $book, DeleteBookUseCase $deleteBookUseCase): Response
+    public function deleteBook(Request $request, UserBooks $book, DeleteUserBookUseCase $deleteBookUseCase): Response
     {
     
         if (!$book) {

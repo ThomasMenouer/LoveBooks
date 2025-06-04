@@ -3,13 +3,12 @@
 namespace App\Application\Users\UseCase;
 
 use App\Domain\Users\Entity\Users;
-use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 
 
 final class GetReadingListUserUseCase
 {
-
-    public function __construct(private UserBooksRepository $userBooksRepository){}
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository){}
 
     public function getReadingList(Users $user): array
     {

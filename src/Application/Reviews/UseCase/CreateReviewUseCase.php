@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Reviews;
+namespace App\Application\Reviews\UseCase;
 
 use App\Domain\Reviews\Entity\Reviews;
 use App\Domain\Reviews\Repository\ReviewsRepositoryInterface;
