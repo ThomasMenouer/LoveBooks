@@ -13,7 +13,7 @@
                         class="img-fluid rounded-circle" 
                         style="height: 100px; width: 100px; object-fit: cover;">
                 {% else %}
-                    <p>Pas d’avatar pour le moment.</p>
+                    <p>Pas d’avatar.</p>
                 {% endif %}
             </div>
 
@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ user.name }}</h5>
                         {% if app.user and app.user.id == user.id %}
-                            <a href="{{ path('profile_edit_avatar') }}" class="btn btn-primary">Edit Profile</a>
+                            <a href="{{ path('profile_edit_avatar') }}" class="text-color-white">Edit Profile</a>
                         {% endif %}
                         
                         
@@ -65,21 +65,32 @@
             </div>
         </div>
 
-        <div class="row mb-4">
+        <div class="row mb-2">
             <h3 class="mb-4 text-center">Mes livres préférés</h3>
             <div class="row row-cols-auto justify-content-center">
-                {% for book in preferredBooks %}
 
-                    <div class="col">
-                        <a href="{{ path("book_index", { "id": book.book.id }) }}" class="text-decoration-none">
-                            <img src="{{ book.book.thumbnail }}" 
-                                class="img-fluid rounded"
-                                style="height: 225px; object-fit: cover;"
-                                alt="{{ book.book.title }}">
-                        </a>
+                {% if preferredBooks %}
+
+                    {% for book in preferredBooks |slice(0,3) %}
+
+                        <div class="col">
+                            <a href="{{ path("book_index", { "id": book.book.id }) }}" class="text-decoration-none">
+                                <img src="{{ book.book.thumbnail }}" 
+                                    class="img-fluid rounded mb-2 img-mobile"
+                                    style="height: 225px; object-fit: cover;"
+                                    alt="{{ book.book.title }}">
+                            </a>
+                        </div>
+                    
+                    {% endfor %}
+                {% if preferredBooks|length > 3 %}
+                    <div class="col-12 my-2 text-center">
+                        <a href="{{ path('book_preferred') }}" class="btn btn-outline-custom-blue">Voir plus</a>
                     </div>
-                
-                {% endfor %}
+                {% endif %}
+                {% else %}
+                     <p class="text-center">Aucun livre préféré.</p>
+                {% endif %}
             </div>
         </div>
 
@@ -87,36 +98,40 @@
             <h3 class="mb-4 text-center">En cours de lecture</h3>
 
             <div class="align-items-center">
+                {% if currentlyReading %}
 
-                {% for book in currentlyReading %}
-                    <div class="col-12">
-                        <div class="card mb-3 w-75 mx-auto">
-                            <div class="row g-0">
-                                <div class="col-md-2">
-                                    <img src="{{ book.book.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ book.book.title }}">
-                                </div>
-                                <div class="col-md-10">
-                                    <div class="card-body">
-                                        <a href="{{ path("book_index", { "id": book.book.id }) }}" class="card-title h5">{{ book.book.title }}</a>
-                                        <p class="card-text">{{ book.book.authors }}</p>
-                                        <p class="card-text text-center">
-                                            <small class="text-color-gray">
-                                                {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}% - {{ book.pagesRead }} / {{ book.book.pageCount }}
-                                            </small>
-                                        </p>
-                                        <div class="progress" style="height: 3px;">
-                                            <div class="progress-bar" role="progressbar"
-                                                style="width:  {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}%;"
-                                                aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0"
-                                                aria-valuemax="{{ book.book.pageCount }}">
+                    {% for book in currentlyReading %}
+                        <div class="col-12">
+                            <div class="card mb-3 w-50 mx-auto">
+                                <div class="row g-0">
+                                    <div class="col-md-3">
+                                        <img src="{{ book.book.thumbnail }}" class="img-fluid rounded-start h-100 w-100" alt="{{ book.book.title }}">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="card-body">
+                                            <a href="{{ path("book_index", { "id": book.book.id }) }}" class="card-title h5">{{ book.book.title }}</a>
+                                            <p class="card-text">{{ book.book.authors }}</p>
+                                            <p class="card-text text-center">
+                                                <small class="text-color-gray">
+                                                    {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}% - {{ book.pagesRead }} / {{ book.book.pageCount }}
+                                                </small>
+                                            </p>
+                                            <div class="progress" style="height: 3px;">
+                                                <div class="progress-bar" role="progressbar"
+                                                    style="width:  {{ ((book.pagesRead * 100) / book.book.pageCount) | round(0) }}%;"
+                                                    aria-valuenow="{{ book.pagesRead }}" aria-valuemin="0"
+                                                    aria-valuemax="{{ book.book.pageCount }}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>                       
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">Aucun livre en cours de lecture.</p>
+                {% endif %}
             </div>
         </div>
     </div>

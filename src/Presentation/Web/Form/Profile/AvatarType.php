@@ -26,7 +26,7 @@ class AvatarType extends AbstractType
         ])
         ->add('submit', SubmitType::class, [
             'label' => 'Mettre à jour l\'avatar',
-            'attr' => ['class' => 'btn btn-outline-color-blue'],
+            'attr' => ['class' => 'btn btn-outline-custom-blue my-3'],
         ]);
     }
 }

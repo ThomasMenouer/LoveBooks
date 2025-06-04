@@ -5,12 +5,17 @@
 {% block body %}
 
 <main>
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             {{ form_start(form) }}
                 {{ form_row(form.avatar) }}
                 {{ form_row(form.submit) }}
             {{ form_end(form) }}
+
+            <div class="text-center">
+                <a href="{{ path("profile_index", { name: app.user.name, id: app.user.id }) }}"
+                class="btn btn-outline-custom-yellow">Retour</a>
+            </div>
         </div>
 
     </div>

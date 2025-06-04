@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}library{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="text-center mb-4">Livre préférés</h1>
+
+            {% if preferredBooks %}
+                {% for book in preferredBooks %}
+                    <div class="col-12">
+                        <div class="card mb-3 w-50 mx-auto">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="{{ book.book.thumbnail }}" class="img-fluid rounded-start" alt="{{ book.book.title }}">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <a href="{{ path("book_index", { "id": book.book.id }) }}" class="card-title h5">{{ book.book.title }}</a>
+                                        <p class="card-text">{{ book.book.authors }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+
+
+</main>
+
+{% endblock %}

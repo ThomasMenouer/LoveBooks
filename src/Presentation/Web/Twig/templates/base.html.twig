@@ -20,7 +20,7 @@
     <body>
         <!-- ======= Header ======= -->
         <header>
-            {% if app.request.attributes.get('_route') != 'home_index' %}
+            {% if app.request.attributes.get('_route') not in ['home_index', 'app_login', 'app_register'] %}
                 {% include "partials/_navbar.html.twig" %}
                 <div class="pb-5"></div>
             {% endif %}
