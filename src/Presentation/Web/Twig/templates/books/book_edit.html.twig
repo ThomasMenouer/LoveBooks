@@ -5,44 +5,39 @@
 {% block body %}
 
 <main>
-    <section class="d-flex align-items-stretch">
-        {% include "partials/navbar.html.twig" %}
-        <div class="container">
-            <div class="row">
-                <div class="col-3 mx-auto">
-                    <h2 class="text-center">Modifier le livre</h2>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-6 col-sm-3 mx-auto">
+                <h2 class="text-center">Modifier le livre</h2>
 
-                    {{ form_start(form) }}
-                        {{ form_row(form.status) }}
-                        {{ form_row(form.pagesRead) }}
-                        {# {{ form_row(form.userRating )}} #}
-                        <div 
-                            class="star-rating mb-3 text-center" 
-                            data-controller="star-rating"
-                            data-star-rating-selected-value="{{ form.userRating.vars.value ?? 0 }}">
+                {{ form_start(form) }}
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.pagesRead) }}
+                    {{ form_row(form.isPreferred) }}
+                    <div 
+                        class="star-rating mb-3 text-center" 
+                        data-controller="star-rating"
+                        data-star-rating-selected-value="{{ form.userRating.vars.value ?? 0 }}">
 
-                            {% for choice in form.userRating %}
-                                <label 
-                                    class="me-1 star" 
-                                    data-star-rating-target="star"
-                                    data-action="click->star-rating#select mouseenter->star-rating#preview mouseleave->star-rating#reset"
-                                    data-value="{{ loop.index }}">
-                                    {{ form_widget(choice) }}
-                                    {{ ux_icon('tabler:star', { style: 'width: 1.5rem; height: 1.5rem;' }) }}
-                                </label>
-                            {% endfor %}
-                        </div>
-
-                        {{ form_row(form.submit) }}
-
-                    {{ form_end(form) }}
-                    
-                    <div class="text-center mt-3">
-                        <a href="{{ path('profile_index') }}" class="btn btn-outline-custom">Retour profil</a>
+                        {% for choice in form.userRating %}
+                            <label class="me-1 star" data-star-rating-target="star"
+                                data-action="click->star-rating#select mouseenter->star-rating#preview mouseleave->star-rating#reset"
+                                data-value="{{ loop.index }}">
+                                {{ form_widget(choice) }}
+                                {{ ux_icon('tabler:star', { style: 'width: 1.5rem; height: 1.5rem;' }) }}
+                            </label>
+                        {% endfor %}
                     </div>
+
+                    {{ form_row(form.submit) }}
+
+                {{ form_end(form) }}
+                
+                <div class="text-center mt-3">
+                    <a href="{{ path('library_index') }}" class="btn btn-outline-custom">Retour profil</a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </main>
 {% endblock %}

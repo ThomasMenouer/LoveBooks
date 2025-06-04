@@ -16,6 +16,8 @@ interface UserBooksRepositoryInterface
 
     public function getTotalBooksForUser(Users $users): int;
 
+    public function getPreferredBookForUser(Users $users): array;
+
     public function delete(UserBooks $book): void;
 
     public function save(UserBooks $books): void;

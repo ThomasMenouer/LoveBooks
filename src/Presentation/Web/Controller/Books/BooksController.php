@@ -9,21 +9,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormFactoryInterface;
 use App\Presentation\Web\Form\ReviewCommentsType;
-use App\Domain\ReviewComments\Entity\ReviewComments;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
+use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/book', name:'book_')]
 final class BooksController extends AbstractController
 {
+    public function __construct(private readonly Security $security) {}
 
     #[Route('/books/{id}', name: 'index')]
-    public function index(Books $book, Security $security, GetReviewsOfBookUseCase $getReviewsOfBookUseCase, FormFactoryInterface $formFactory): Response
+    public function index(Books $book, GetReviewsOfBookUseCase $getReviewsOfBookUseCase, FormFactoryInterface $formFactory): Response
     {
         /** @var \App\Domain\Users\Entity\Users $user */
-        $user = $security->getUser();
+        $user = $this->security->getUser();
 
         $userBook = $user->getUserBooks()->filter(function ($userBook) use ($book) {
             return $userBook->getBook()->getId() === $book->getId();
@@ -51,6 +52,18 @@ final class BooksController extends AbstractController
             'createReviewForm' => $this->createForm(ReviewType::class)->createView(), // formulaire vide
             'editReviewForm' => $this->createForm(ReviewType::class, $userBook->getReview())->createView(), // formulaire vide
             'commentForms' => $commentForms,
+        ]);
+    }
+
+    #[Route('/books_preferred', name: 'preferred')]
+    function bookPreferred(GetPreferredBookUseCase $getPreferredBook): Response
+    {
+        /** @var \App\Domain\Users\Entity\Users $user */
+        $user = $this->security->getUser();
+
+        return $this->render('books/preferred_books.html.twig', [
+            'preferredBooks' => $getPreferredBook->getPreferredBook($user),
+
         ]);
     }
 }

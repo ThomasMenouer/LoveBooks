@@ -20,18 +20,12 @@ class SearchMyBookType extends AbstractType
                     'placeholder' => 'Rechercher un livre...',
                     'class' => 'form-control'
                 ],
-                // 'row_attr' => [
-                //     'class' => 'mb-3'
-                // ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [
                     'class' => 'btn btn-outline-custom'
                 ],
-                // 'row_attr' => [
-                //     'class' => 'mb-3 text-center'
-                // ]
             ])
         ;
         ;

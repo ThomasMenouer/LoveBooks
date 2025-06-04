@@ -32,11 +32,11 @@ final class UserDeleteBookController extends AbstractController
         if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
     
-            return $this->render('profile/books/book_delete.stream.html.twig', [
+            return $this->render('library/books/book_delete.stream.html.twig', [
                 'bookId' => $bookId,
             ]);
         }
 
-        return $this->redirectToRoute('profile_books');
+        return $this->redirectToRoute('library_books');
     }
 }

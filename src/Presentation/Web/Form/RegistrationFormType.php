@@ -20,6 +20,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Prénom',
                 'label_attr' => ['class' => 'form-label'],
                 'attr' => [
                     'class' => 'form-control'
@@ -56,7 +57,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Register',
+                'label' => 'S\'inscrire',
                 'attr' => ['class' => 'btn btn-outline-custom'],
                 'row_attr' => ['class' => 'd-flex justify-content-center']
             ])

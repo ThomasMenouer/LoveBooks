@@ -1,5 +1,4 @@
 body{
-
     color: var(--white-color) !important;
     background-color: var(--bg-color) !important;
 }
@@ -10,6 +9,15 @@ body{
 
 .card-body {
     color: var(--white-color) !important;
+}
+
+.card-body a{
+    text-decoration: none;
+
+}
+
+.card-body a:hover{
+    text-decoration: underline;
 }
 
 .card-footer {
@@ -130,4 +138,13 @@ body{
 
 .nav-underline .nav-link {
     color: var(--white-color) !important;
+}
+
+.card-header > .profile-link {
+    text-decoration: none;
+
+}
+
+.card-header > .profile-link:hover {
+    text-decoration: underline;
 }

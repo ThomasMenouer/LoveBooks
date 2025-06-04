@@ -39,6 +39,9 @@ class UserBooks
     #[ORM\OneToOne(mappedBy: 'userBook', targetEntity: Reviews::class, cascade: ['persist', 'remove'])]
     private ?Reviews $review = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    private bool $isPreferred = false;
+
 
     public function getId(): int
     {
@@ -111,6 +114,16 @@ class UserBooks
         return $this;
     }
 
+    public function GetIsPreferred(): bool
+    {
+        return $this->isPreferred;
+    }
+    public function setIsPreferred(bool $isPreferred): static
+    {
+        $this->isPreferred = $isPreferred;
+        return $this;
+    }
+
     public function markAsRead(): void
     {
         $this->status = Status::READ;
@@ -132,6 +145,11 @@ class UserBooks
     {
         $this->status = Status::NOT_READ;
         $this->pagesRead = 0;
+    }
+
+    public function isReading(): bool
+    {
+        return $this->status === Status::READING;
     }
 
 }

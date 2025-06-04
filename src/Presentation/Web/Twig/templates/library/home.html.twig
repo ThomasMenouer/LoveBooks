@@ -1,5 +1,4 @@
-
-<turbo-frame id="profile_content">
+<turbo-frame id="library_content">
     <div class="row">
         <div class="col-6">
             <h3 class="text-center mb-4">Aperçu rapide</h3>
@@ -22,11 +21,10 @@
                             {{ ux_icon('tabler:book', { style: 'width: 2rem; height: 2rem;' } ) }}
                             <span class="ms-2">Nombre de page lu</span>
                         </div>
-                        <span class="badge border bg-transparent border-color-yellow  text-color-yellow">{{ totalPagesRead }}</span>
+                        <span class="badge border bg-transparent border-color-yellow text-color-yellow">{{ totalPagesRead }}</span>
                     </div>
                 </div>
             </div>
-        
         </div>
         
         <div class="col-6">
@@ -58,16 +56,29 @@
     </div>
     <div class="row">
         <h3 class="my-4 text-center">Vos lectures du moment</h3>
+        
+        {% if readingList %}
 
             {% for book in readingList %}
                 <div class="col-12">
 
-                    {% include 'profile/books/_book_card.html.twig' with {
+                    {% include 'library/books/_book_card.html.twig' with {
                         book: book,
                         form: bookForms[book.id]
                     } %}
                 </div>
             {% endfor %}
+
+        {% else %}
+            <div class="col-12">
+                <div class="text-center">
+                    <p>Vous n'avez pas de lecture en cours.</p>
+                </div>
+            </div>
+
+        {% endif %}
+
+
     
     </div>
 </turbo-frame>

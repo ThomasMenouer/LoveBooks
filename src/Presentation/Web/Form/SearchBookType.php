@@ -17,7 +17,8 @@ class SearchBookType extends AbstractType
             ->add('title', SearchType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'placeholder' => 'Rechercher un livre',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3'

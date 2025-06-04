@@ -6,8 +6,6 @@ use App\Domain\UserBooks\Entity\UserBooks;
 use App\Domain\UserBooks\Enum\Status;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
-use function Symfony\Component\String\b;
-
 final class UpdateUserBookReadingProgressUseCase
 {
 
