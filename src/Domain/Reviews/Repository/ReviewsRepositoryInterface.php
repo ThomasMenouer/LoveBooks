@@ -10,6 +10,8 @@ interface ReviewsRepositoryInterface
 
     public function getReviewsOfBook(Books $book): array;
 
+    public function getAllReviews(): array;
+
     public function deleteReview(Reviews $review): void;
 
     public function saveReview(Reviews $review): void;

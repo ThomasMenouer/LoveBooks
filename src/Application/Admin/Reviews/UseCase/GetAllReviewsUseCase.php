@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Application\Admin\Books\UseCase;
+namespace App\Application\Admin\Reviews\UseCase;
+
 
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use App\Domain\Books\Repository\BooksRepositoryInterface;
+use App\Domain\Reviews\Repository\ReviewsRepositoryInterface;
 
-final class GetAllBooksUseCase
+final class GetAllReviewsUseCase
 {
-    public function __construct(private BooksRepositoryInterface $booksRepository, private readonly PaginatorInterface $paginator){}
+    public function __construct(private ReviewsRepositoryInterface $reviewsRepository, private readonly PaginatorInterface $paginator){}
 
-    public function getPaginatedBooks(Request $request): PaginationInterface
+    public function getPaginatedReviews(Request $request): PaginationInterface
     {
-        $books = $this->booksRepository->getAllBooks();
+        $reviews = $this->reviewsRepository->getAllReviews();
         
         $paginate = $this->paginator->paginate(
-            $books,
+            $reviews,
             $request->query->getInt('page', 1), // Current page number
             $request->query->getInt('limit', 5) // Items per page
         );
@@ -31,4 +32,3 @@ final class GetAllBooksUseCase
         return $paginate;   
     }
 }
-

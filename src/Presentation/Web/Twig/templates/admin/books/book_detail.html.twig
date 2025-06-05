@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion du livre {{ book.title }}{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h3 class="my-4 text-center">Détails du livre : {{ book.title }}</h3>
+
+
+
+        </div>
+        <div class="row">
+            <h3 class="my-4 text-center">Liste des reviews</h3>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Commentaire</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.id }}</td>
+                            <td>{{ review.userBook.user.name }}</td>
+                            <td>{{ review.createdAt|date('Y-m-d H:i') }}</td>
+                            <td>{{ review.content }}</td>
+                            <td>
+                                <form action="{{ path('admin_review_delete', {id: review.id}) }}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">Aucune review trouvée.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{{ path('admin_books_management_index') }}" class="btn btn-outline-custom-blue">Retour</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

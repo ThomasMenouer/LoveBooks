@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des reviews{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container mt-5">
+        <h1 class="mb-4">Gestion des reviews</h1>
+
+
+        {% if pagination is not empty %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Auteur</th>
+                        <th>Date de création</th>
+                        <th>review</th>
+                        <th>Commentaire</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in pagination %}
+                        <tr>
+                            <td>{{ review.id }}</td>
+                            <td>{{ review.userBook.user.name }}</td>
+                            <td>{{ review.createdAt|date('Y-m-d H:i') }}</td>
+                            <td>{{ review.content }}</td>
+                            <td>{{ review.comments | length }}</td>
+                            <td>
+                                <form action="{{ path('admin_review_delete', { id: review.id }) }}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune review trouvée.</p>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{{ path('admin_index') }}" class="btn btn-outline-custom-blue">Retour</a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+{% endblock %}

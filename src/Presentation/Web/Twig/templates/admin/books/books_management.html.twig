@@ -15,11 +15,12 @@
                             <th scope="col">Couverture</th>
                             <th scope="col">Titre</th>
                             <th scope="col">Auteur</th>
+                            <th scope="col">Reviews</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for book in books %}
+                        {% for book in pagination %}
                         <tr>
                             <td>{{ book.id }}</td>
                             <td>
@@ -31,6 +32,9 @@
                                 {% endif %}
                             <td>{{ book.title }}</td>
                             <td>{{ book.authors }}</td>
+                            <td>
+                                <a href="{{ path('admin_book_detail', {id: book.id}) }}" class="btn btn-outline-custom-blue">Voir reviews</a>
+                            </td>
                             <td>
                                 <form action="{{ path('admin_book_delete', {id: book.id}) }}" method="post" style="display:inline;">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
@@ -45,12 +49,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="navigation d-flex justify-content-center my-3">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12 text-center">
                 <a href="{{ path('admin_index') }}" class="btn btn-outline-custom-blue">Retour</a>
             </div>
+        </div>
     </div>
 </main>
 
