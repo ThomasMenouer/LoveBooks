@@ -72,6 +72,11 @@ class ReviewsRepository extends ServiceEntityRepository implements ReviewsReposi
         return $qb->getQuery()->getResult();
     }
 
+    public function getAllReviews(): array
+    {
+        return $this->findAll();
+    }
+
 
 
 }

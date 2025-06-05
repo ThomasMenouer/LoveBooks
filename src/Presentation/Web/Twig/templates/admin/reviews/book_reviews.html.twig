@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reviews de {{ book.title }}{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="my-4 text-center">Reviews de {{ book.title }}</h1>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Date de création</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.id }}</td>
+                            <td>{{ review.author }}</td>
+                            <td>{{ review.createdAt|date('Y-m-d H:i') }}</td>
+                            <td>
+                                <form action="{{ path('admin_review_delete', {id: review.id}) }}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">Aucune review trouvée.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="navigation d-flex justify-content-center my-3">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

@@ -48,7 +48,9 @@ final class LibraryController extends AbstractController
     #[Route('/books', name: 'books', methods: ['GET', 'POST'])]
     public function libraryBooks(Request $request, SearchAbookUseCase $searchAbookUseCase): Response
     {
-        
+        /**
+         * @var \App\Domain\Users\Entity\Users $user
+         */
         $user = $this->security->getUser();
         $books = $user->getUserBooks();
 

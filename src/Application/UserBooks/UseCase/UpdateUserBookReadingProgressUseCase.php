@@ -2,14 +2,13 @@
 
 namespace App\Application\UserBooks\UseCase;
 
-use App\Domain\UserBooks\Entity\UserBooks;
 use App\Domain\UserBooks\Enum\Status;
-use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
+use App\Domain\UserBooks\Entity\UserBooks;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 
 final class UpdateUserBookReadingProgressUseCase
 {
-
-    public function __construct(private UserBooksRepository $userBooksRepository)
+    public function __construct(private UserBooksRepositoryInterface $userBooksRepository)
     {
     }
     

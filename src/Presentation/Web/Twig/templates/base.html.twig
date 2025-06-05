@@ -27,13 +27,19 @@
         </header>
         <!-- End Header -->
         
+    
         {% block flash_messages %}
             {% for label, messages in app.flashes %}
-                <div class="alert alert-{{ label }}">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
+                <div class="container">
+                    <div class="row">
+                        <div class="text-center alert alert-{{ label }}">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+
             {% endfor %}
         {% endblock %}
 

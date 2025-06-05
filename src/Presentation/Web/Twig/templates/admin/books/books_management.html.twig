@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Livres{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <h1 class="my-4 text-center">Livres</h1>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Couverture</th>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Reviews</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in pagination %}
+                        <tr>
+                            <td>{{ book.id }}</td>
+                            <td>
+                                {% if book.thumbnail %}
+                                    <img src="{{ book.thumbnail }}" alt="Couverture de {{ book.title }}" class="img-fluid rounded" style="width: 100px;">
+                                {% else %}
+                                    <span class="text-muted">Pas de couverture</span>
+
+                                {% endif %}
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.authors }}</td>
+                            <td>
+                                <a href="{{ path('admin_book_detail', {id: book.id}) }}" class="btn btn-outline-custom-blue">Voir reviews</a>
+                            </td>
+                            <td>
+                                <form action="{{ path('admin_book_delete', {id: book.id}) }}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
+                                    <button type="submit" class="btn btn-outline-custom-red">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">Aucun livre trouvé.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="navigation d-flex justify-content-center my-3">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{{ path('admin_index') }}" class="btn btn-outline-custom-blue">Retour</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
