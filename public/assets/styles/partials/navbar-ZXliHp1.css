@@ -1,0 +1,11 @@
+.navbar .navbar-brand, .nav-link, .dropdowmn-item {
+    color: var(--white-color) !important;
+}
+
+.navbar .nav-link:hover {
+    color: var(--green-color) !important;
+}
+
+.navbar .nav-link.active {
+    color: var(--green-color) !important;
+} 

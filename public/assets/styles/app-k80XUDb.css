@@ -1,0 +1,151 @@
+body{
+
+    color: var(--white-color) !important;
+    background-color: var(--bg-color) !important;
+}
+
+.card {
+    background-color: var(--black-color) !important;
+}
+
+.card-body {
+    color: var(--white-color) !important;
+}
+
+.card-body a{
+    text-decoration: none;
+
+}
+
+.card-body a:hover{
+    text-decoration: underline;
+}
+
+.card-footer {
+    background-color: var(--black-color) !important;
+    border-top: 1px solid var(--bg-color) !important;
+    color: var(--white-color) !important;
+}
+
+.list-group >.list-group-item {
+    background-color: var(--black-color) !important;
+    color: var(--white-color);
+    border: none;
+}
+
+.table > thead {
+
+    border-color: transparent;
+
+}
+
+.table > tbody {
+
+    border-color: var(--black-color);
+
+}
+
+.table > tbody > tr > td {
+
+    background-color: transparent !important;
+    color: var(--white-color);
+}
+
+.table > thead > tr > th {
+
+    background-color: var(--black-color) !important;
+    color: var(--white-color);
+}
+
+.text-color-green {
+    color: var(--green-color) !important;
+}
+.text-color-red {
+    color: var(--red-color) !important;
+}
+.text-color-yellow {
+    color: var(--yellow-color) !important;
+}
+.text-color-blue {
+    color: var(--blue-color) !important;
+}
+.text-color-white {
+    color: var(--white-color) !important;
+}
+
+.text-color-gray {
+    color: var(--gray-light) !important;
+}
+
+.border-color-green {
+    border-color: var(--green-color) !important;
+}
+.border-color-red {
+    border-color: var(--red-color) !important;
+}
+.border-color-yellow {
+    border-color: var(--yellow-color) !important;
+}
+.border-color-blue {
+    border-color: var(--blue-color) !important;
+}
+
+.border-color-black {
+    border-color: var(--black-color) !important;
+}
+
+.bg-color-green {
+    background-color: var(--green-color) !important;
+}
+.bg-color-red {
+    background-color: var(--red-color) !important;
+}
+.bg-color-yellow {
+    background-color: var(--yellow-color) !important;
+}
+.bg-color-blue {
+    background-color: var(--blue-color) !important;
+}
+.bg-color-black {
+    background-color: var(--black-color) !important;
+}
+
+.progress-bar-gradient {
+    background-image: linear-gradient(to right, var(--red-color), var(--yellow-color), var(--green-color));
+}
+
+.scrollable-table::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+.scrollable-table::-webkit-scrollbar-track {
+    background: var(--black-color);
+    border-radius: 10px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+    background: var(--gray-light);
+    border-radius: 10px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-dark);
+}
+
+.nav-underline .nav-link.active {
+    color: var(--green-color) !important;
+    border-bottom: 2px solid var(--green-color) !important;
+}
+
+.nav-underline .nav-link {
+    color: var(--white-color) !important;
+}
+
+.card-header > .profile-link {
+    text-decoration: none;
+
+}
+
+.card-header > .profile-link:hover {
+    text-decoration: underline;
+}

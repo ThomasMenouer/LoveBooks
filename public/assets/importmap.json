@@ -1,0 +1,106 @@
+{
+    "app": {
+        "path": "\/assets\/app-d94gkyH.js",
+        "type": "js"
+    },
+    "\/assets\/bootstrap.js": {
+        "path": "\/assets\/bootstrap-xCO4u8H.js",
+        "type": "js"
+    },
+    "\/assets\/@symfony\/stimulus-bundle\/controllers.js": {
+        "path": "\/assets\/@symfony\/stimulus-bundle\/controllers-EKVB2D4.js",
+        "type": "js"
+    },
+    "\/assets\/@symfony\/ux-live-component\/live_controller.js": {
+        "path": "\/assets\/@symfony\/ux-live-component\/live_controller-ZPUcqp6.js",
+        "type": "js"
+    },
+    "\/assets\/@symfony\/ux-live-component\/live.min.css": {
+        "path": "\/assets\/@symfony\/ux-live-component\/live.min-ZJB0GOL.css",
+        "type": "css"
+    },
+    "\/assets\/@symfony\/ux-turbo\/turbo_controller.js": {
+        "path": "\/assets\/@symfony\/ux-turbo\/turbo_controller-zl4y2v3.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/star_rating_controller.js": {
+        "path": "\/assets\/controllers\/star_rating_controller-soQAt4l.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/hello_controller.js": {
+        "path": "\/assets\/controllers\/hello_controller-VYgvytJ.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/search_dropdown_controller.js": {
+        "path": "\/assets\/controllers\/search_dropdown_controller-giblHD1.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/active_link_navbar_controller.js": {
+        "path": "\/assets\/controllers\/active_link_navbar_controller-tKGLo-O.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/active_link_menu_controller.js": {
+        "path": "\/assets\/controllers\/active_link_menu_controller-f99wgjz.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/card_book_controller.js": {
+        "path": "\/assets\/controllers\/card_book_controller-TVgmXo8.js",
+        "type": "js"
+    },
+    "\/assets\/controllers\/csrf_protection_controller.js": {
+        "path": "\/assets\/controllers\/csrf_protection_controller-E_gSC5e.js",
+        "type": "js"
+    },
+    "\/assets\/styles\/pages\/home\/home.css": {
+        "path": "\/assets\/styles\/pages\/home\/home-maoG0wF.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/pages\/login\/login.css": {
+        "path": "\/assets\/styles\/pages\/login\/login-maoG0wF.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/pages\/profile\/profile.css": {
+        "path": "\/assets\/styles\/pages\/profile\/profile-UspR3au.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/pages\/library\/library.css": {
+        "path": "\/assets\/styles\/pages\/library\/library-Xjq_cc0.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/app.css": {
+        "path": "\/assets\/styles\/app-c_MR1Gd.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/buttomCustom.css": {
+        "path": "\/assets\/styles\/buttomCustom-27SP1-i.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/partials\/navbar.css": {
+        "path": "\/assets\/styles\/partials\/navbar-Z0AdHl4.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/colors.css": {
+        "path": "\/assets\/styles\/colors-m2x1rmx.css",
+        "type": "css"
+    },
+    "\/assets\/styles\/star_rating.css": {
+        "path": "\/assets\/styles\/star_rating-Hj5D9xE.css",
+        "type": "css"
+    },
+    "@hotwired\/stimulus": {
+        "path": "\/assets\/vendor\/@hotwired\/stimulus\/stimulus.index-S4zNcea.js",
+        "type": "js"
+    },
+    "@symfony\/stimulus-bundle": {
+        "path": "\/assets\/@symfony\/stimulus-bundle\/loader-kxG46ja.js",
+        "type": "js"
+    },
+    "@hotwired\/turbo": {
+        "path": "\/assets\/vendor\/@hotwired\/turbo\/turbo.index-pT15T6h.js",
+        "type": "js"
+    },
+    "@symfony\/ux-live-component": {
+        "path": "\/assets\/@symfony\/ux-live-component\/live_controller-ZPUcqp6.js",
+        "type": "js"
+    }
+}

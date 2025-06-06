@@ -1,0 +1,12 @@
+import controller_0 from "../ux-live-component/live_controller.js";
+import "../ux-live-component/live.min.css";
+import controller_1 from "../ux-turbo/turbo_controller.js";
+import controller_2 from "../../controllers/star_rating_controller.js";
+import controller_3 from "../../controllers/hello_controller.js";
+import controller_4 from "../../controllers/dropdown_controller.js";
+import controller_5 from "../../controllers/active_link_navbar_controller.js";
+import controller_6 from "../../controllers/active_link_menu_controller.js";
+import controller_7 from "../../controllers/card_book_controller.js";
+export const eagerControllers = {"live": controller_0, "symfony--ux-turbo--turbo-core": controller_1, "star-rating": controller_2, "hello": controller_3, "dropdown": controller_4, "active-link-navbar": controller_5, "active-link-menu": controller_6, "card-book": controller_7};
+export const lazyControllers = {"csrf-protection": () => import("../../controllers/csrf_protection_controller.js")};
+export const isApplicationDebug = true;
