@@ -1,42 +1,65 @@
 import React from "react";
 
-export default function BookSearchResults({ book }) {
-  const info = book.volumeInfo || {};
-
-  const addUrl = `/search/add_book?${new URLSearchParams({
-    title: info.title || "Titre inconnu",
-    authors: info.authors?.[0] || "Auteur inconnu",
-    publisher: info.publisher || "Éditeur inconnu",
-    description: info.description || "Pas de description",
-    publishedDate: info.publishedDate || "Date de publication inconnue",
-    pageCount: info.pageCount?.toString() || "Nombre de pages inconnu",
-    thumbnail: info.imageLinks?.thumbnail || "Pas d'image",
-  }).toString()}`;
+export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query }) => {
+  const maxResults = 5;
+  const limitedResults = results.slice(0, maxResults);
 
   return (
-    <li className="list-group-item">
-      <div className="d-flex align-items-start gap-3">
-        {info.imageLinks?.thumbnail && (
-          <img
-            src={info.imageLinks.thumbnail}
-            alt={info.title}
-            style={{ width: "60px", height: "auto" }}
-          />
-        )}
+    <ul className="list-group position-absolute w-100 mt-1 z-3 shadow">
+      {limitedResults.map((book, index) => {
+        const info = book.volumeInfo || {};
 
-        <div className="flex-grow-1">
-          <h6 className="mb-1">{info.title || "Titre inconnu"}</h6>
-          {info.authors && (
-            <p className="mb-1">par {info.authors[0]}</p>
-          )}
-          <a
-            href={addUrl}
-            className="btn btn-outline-custom btn-sm mt-1"
+        return (
+          <li
+            key={index}
+            className="list-group-item d-flex align-items-start gap-3"
           >
-            Ajouter le livre
+            {info.imageLinks?.thumbnail && (
+              <img
+                src={info.imageLinks.thumbnail}
+                alt={info.title}
+                style={{ width: "60px" }}
+              />
+            )}
+            <div className="flex-grow-1">
+              <h6 className="mb-1">{info.title ?? "Titre inconnu"}</h6>
+              {info.authors && <p className="mb-1">par {info.authors[0]}</p>}
+              <button
+                className="btn btn-outline-custom btn-sm mt-1"
+                onClick={(e) => {
+                  e.preventDefault();
+
+                  const params = new URLSearchParams({
+                    title: info.title ?? "",
+                    authors: info.authors?.[0] ?? "",
+                    publisher: info.publisher ?? "",
+                    description: info.description ?? "",
+                    publishedDate: info.publishedDate ?? "",
+                    pageCount: info.pageCount ?? "",
+                    thumbnail: info.imageLinks?.thumbnail ?? "",
+                  });
+
+                  window.location.href = `${addBookUrl}?${params.toString()}`;
+                }}
+              >
+                Ajouter le livre
+              </button>
+            </div>
+          </li>
+        );
+      })}
+      {results.length >= maxResults && (
+        <li className="list-group-item ">
+          <a
+            href={`${searchBookUrl}?title=${encodeURIComponent(
+              query
+            )}`}
+            className="text-color-white"
+          >
+            Voir plus de résultats...
           </a>
-        </div>
-      </div>
-    </li>
+        </li>
+      )}
+    </ul>
   );
-}
+};

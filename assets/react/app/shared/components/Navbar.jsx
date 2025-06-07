@@ -49,7 +49,6 @@ export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, search
                         searchBookUrl={searchBookUrl}
                         addBookUrl={addBookUrl}
                     />
-
                    
                 </div>
             </div>
