@@ -7,6 +7,7 @@ use App\Presentation\Web\Form\SearchBookType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Books\Service\GoogleBooksService;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,5 +85,19 @@ final class BooksSearchController extends AbstractController
         return $this->redirectToRoute('book_index', [
             'id' => $book->getId(),
         ]);
+    }
+
+    #[Route('/api/books', name: 'api_books', methods: ['GET'])]
+    public function search(Request $request, GoogleBooksService $googleBooksService): JsonResponse
+    {
+        $query = $request->query->get('q', '');
+
+        if (trim($query) === '') {
+            return new JsonResponse([]);
+        }
+
+        $results = $googleBooksService->searchBooks($query);
+
+        return new JsonResponse($results, Response::HTTP_OK, [],  false);
     }
 }

@@ -1,6 +1,7 @@
 import React, { use, useState } from 'react';
+import BookSearch from './SearchBook/BookSearch';
 
-export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, searchBookUrl, currentPath }) {
+export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, searchBookUrl,  apiUrl, addBookUrl,currentPath }) {
 
     const isActive = (url) => url === currentPath ? 'nav-link active' : 'nav-link';
 
@@ -43,7 +44,13 @@ export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, search
                         ) : null}
                     </ul>
 
-                    {/* Ici tu peux intégrer un composant React de recherche, ou garder le composant Symfony UX s'il peut s'intégrer dans React */}
+                    <BookSearch 
+                        apiUrl={apiUrl}
+                        searchBookUrl={searchBookUrl}
+                        addBookUrl={addBookUrl}
+                    />
+
+                   
                 </div>
             </div>
         </nav>
