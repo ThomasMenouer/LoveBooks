@@ -1,25 +1,27 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
 import { BookSearchResults } from "./BookSearchResults";
 
-export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl }) {
+export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl, currentPath, onQueryChange }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    if (query.trim() === "") {
+    if (!query.trim()) {
       setResults([]);
       return;
     }
 
-    const cleanup = handleSearch(query);
-    return cleanup;
+    const timeout = setTimeout(() => {
+      fetchData(query);
+    }, 300);
+
+    return () => clearTimeout(timeout);
   }, [query]);
 
-  const fetchData = async (query) => {
+  const fetchData = async (q) => {
     try {
-      const response = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`${apiUrl}?q=${encodeURIComponent(q)}`);
       const data = await response.json();
       setResults(data.items || []);
     } catch (err) {
@@ -28,23 +30,26 @@ export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl }) {
     }
   };
 
-  const handleSearch = (query) => {
-    const delay = 300;
-    const timeout = setTimeout(() => {
-      fetchData(query);
-    }, delay);
+  const handleSubmit = (e) => {
+    e.preventDefault(); // empêcher le rechargement
+    if (!query.trim()) return;
 
-    return () => clearTimeout(timeout);
+    if (currentPath === searchBookUrl) {
+      // On est déjà sur /search/, donc recherche dynamique
+      onQueryChange(query);
+    } else {
+      // Sinon, redirection vers /search/?title=...
+      window.location.href = `${searchBookUrl}?title=${encodeURIComponent(query)}`;
+    }
   };
 
   return (
-
     <div>
-      <form className="d-flex" action={searchBookUrl} method="GET">
+      <form className="d-flex" onSubmit={handleSubmit}>
         <input
+          id="search-book"
           className="form-control me-2"
           type="search"
-          name="title"
           value={query}
           placeholder="Rechercher un livre"
           aria-label="Search"
@@ -56,8 +61,14 @@ export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl }) {
         </button>
       </form>
 
-      {results.length > 0 && (
-        <BookSearchResults results={results} addBookUrl={addBookUrl} searchBookUrl={searchBookUrl} query={query} />
+      {/* Résultats dynamiques uniquement si pas sur la page de résultats */}
+      {currentPath !== searchBookUrl && results.length > 0 && (
+        <BookSearchResults
+          results={results}
+          addBookUrl={addBookUrl}
+          searchBookUrl={searchBookUrl}
+          query={query}
+        />
       )}
     </div>
   );

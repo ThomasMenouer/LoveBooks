@@ -5,7 +5,7 @@ export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query })
   const limitedResults = results.slice(0, maxResults);
 
   return (
-    <ul className="list-group position-absolute w-100 mt-1 z-3 shadow">
+    <ul className="list-group position-absolute mt-1 z-3 shadow">
       {limitedResults.map((book, index) => {
         const info = book.volumeInfo || {};
 
@@ -49,13 +49,11 @@ export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query })
         );
       })}
       {results.length >= maxResults && (
-        <li className="list-group-item ">
-          <a
-            href={`${searchBookUrl}?title=${encodeURIComponent(
+        <li className="list-group-item text-center">
+          <a href={`${searchBookUrl}?title=${encodeURIComponent(
               query
             )}`}
-            className="text-color-white"
-          >
+            className="text-color-white text-decoration-none">
             Voir plus de résultats...
           </a>
         </li>
