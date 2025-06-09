@@ -21,7 +21,15 @@ export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl, currentP
 
   const fetchData = async (q) => {
     try {
-      const response = await fetch(`${apiUrl}?q=${encodeURIComponent(q)}`);
+      const response = await fetch(`${apiUrl}?q=${encodeURIComponent(q)}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       const data = await response.json();
       setResults(data.items || []);
     } catch (err) {

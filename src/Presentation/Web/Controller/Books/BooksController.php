@@ -5,6 +5,7 @@ namespace App\Presentation\Web\Controller\Books;
 use App\Domain\Books\Entity\Books;
 use App\Presentation\Web\Form\ReviewType;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -12,6 +13,7 @@ use App\Presentation\Web\Form\ReviewCommentsType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
 use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
+use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
@@ -66,4 +68,5 @@ final class BooksController extends AbstractController
 
         ]);
     }
+
 }

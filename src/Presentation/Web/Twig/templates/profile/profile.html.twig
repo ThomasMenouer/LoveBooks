@@ -98,7 +98,7 @@
             <h3 class="mb-4 text-center">En cours de lecture</h3>
 
             <div class="align-items-center">
-                {% if currentlyReading %}
+                {# {% if currentlyReading %}
 
                     {% for book in currentlyReading %}
                         <div class="col-12">
@@ -131,7 +131,9 @@
                     {% endfor %}
                 {% else %}
                     <p class="text-center">Aucun livre en cours de lecture.</p>
-                {% endif %}
+                {% endif %} #}
+
+                <div {{ react_component('CurrentlyReading') }}></div>
             </div>
         </div>
     </div>

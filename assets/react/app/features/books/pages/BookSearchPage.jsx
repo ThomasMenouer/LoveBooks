@@ -26,7 +26,15 @@ export default function BookSearchPage({ apiUrl, searchBookUrl, addBookUrl, curr
 
     const timeout = setTimeout(async () => {
       try {
-        const resp = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`);
+        const resp = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`, 
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         const json = await resp.json();
         setResults(json.items || []);
       } catch {
