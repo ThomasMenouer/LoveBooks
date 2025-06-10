@@ -1,3 +1,3 @@
-import BookSearchPage from '../app/features/books/pages/BookSearchPage';
+import BookSearchPage from '../app/pages/books/BookSearchPage';
 
 export default BookSearchPage;

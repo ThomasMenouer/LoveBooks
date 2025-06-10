@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import UserBooksReadingUpdateForm from "./UserBooksReadingUpdateForm";
 
-export default function CurrentlyReading() {
+export default function CurrentlyReading({userId, isOwnProfile}) {
   const [books, setBooks] = useState([]);
-  const [formVisible, setFormVisible] = useState({}); // stocke l'état de visibilité des formulaires
 
-  useEffect(() => {
-    fetch("/profile/api/reading-list", {
+  const fetchBooks = () => {
+    fetch(`/api/reading-list/${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -14,32 +14,11 @@ export default function CurrentlyReading() {
     })
       .then((res) => res.json())
       .then((data) => setBooks(data));
+  };
+
+  useEffect(() => {
+    fetchBooks();
   }, []);
-
-  const toggleForm = (bookId) => {
-    setFormVisible((prev) => ({
-      ...prev,
-      [bookId]: !prev[bookId],
-    }));
-  };
-
-  const handleSubmit = async (e, bookId) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    await fetch(`/book/${bookId}/update`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
-
-    // Optionnel : rafraîchir les données après maj
-    const updatedBooks = await fetch("/profile/api/reading-list").then((res) =>
-      res.json()
-    );
-    setBooks(updatedBooks);
-    setFormVisible((prev) => ({ ...prev, [bookId]: false }));
-  };
 
   if (books.length === 0) {
     return <p className="text-center">Aucun livre en cours de lecture.</p>;
@@ -54,7 +33,7 @@ export default function CurrentlyReading() {
         const { id: bookId, title, authors, thumbnail, pageCount } = item.book;
 
         return (
-          <div className="card mb-3 w-50 mx-auto" key={item.id}>
+          <div className="card border-0 mb-3 w-50 mx-auto" key={item.id}>
             <div className="row g-0">
               <div className="col-md-3">
                 <img
@@ -82,54 +61,67 @@ export default function CurrentlyReading() {
                     ></div>
                   </div>
 
-                  {/* BOUTON toggle + FORMULAIRE */}
-                  <div className="text-center my-3">
-                    <button
-                      className="btn btn-outline-primary btn-sm"
-                      type="button"
-                      onClick={() => toggleForm(bookId)}
-                    >
-                      Mettre à jour la progression
-                    </button>
-
-                    {formVisible[bookId] && (
-                      <form
-                        onSubmit={(e) => handleSubmit(e, bookId)}
-                        className="mt-3 col-9 col-sm-5 mx-auto"
+                                    {isOwnProfile && (
+                    <div className="text-center my-3">
+                      <button
+                        type="button"
+                        className="btn btn-outline-custom-blue text-center"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#ReadingListModal-${bookId}`}
                       >
-                        <div className="mb-2">
-                          <label htmlFor={`status-${bookId}`}>Statut</label>
-                          <select
-                            name="status"
-                            id={`status-${bookId}`}
-                            className="form-select"
-                            defaultValue={item.status}
-                          >
-                            <option value="reading">En cours</option>
-                            <option value="finished">Terminé</option>
-                            <option value="paused">En pause</option>
-                          </select>
-                        </div>
+                        Mettre à jour la progression
+                      </button>
 
-                        <div className="mb-2">
-                          <label htmlFor={`pagesRead-${bookId}`}>Pages lues</label>
-                          <input
-                            type="number"
-                            name="pagesRead"
-                            id={`pagesRead-${bookId}`}
-                            className="form-control"
-                            min={0}
-                            max={pageCount}
-                            defaultValue={item.pagesRead}
-                          />
+                      <div
+                        className="modal fade"
+                        id={`ReadingListModal-${bookId}`}
+                        tabIndex="-1"
+                        aria-labelledby="ReadingListModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div className="modal-dialog modal-dialog-centered">
+                          <div className="modal-content bg-color-black">
+                            <div className="modal-header">
+                              <h1
+                                className="modal-title fs-5 text-color-white"
+                                id="ReadingListModalLabel"
+                              >
+                                {title}
+                              </h1>
+                              <button
+                                type="button"
+                                data-bs-theme="dark"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div className="modal-body">
+                              <UserBooksReadingUpdateForm
+                                userBook={item}
+                                onUpdated={fetchBooks}
+                              />
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-outline-custom-red"
+                                data-bs-dismiss="modal"
+                              >
+                                Fermer
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-outline-custom"
+                              >
+                                Enregistrer
+                              </button>
+                            </div>
+                          </div>
                         </div>
-
-                        <button type="submit" className="btn btn-sm btn-primary w-100">
-                          Mettre à jour
-                        </button>
-                      </form>
-                    )}
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

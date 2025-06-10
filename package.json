@@ -26,6 +26,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@tabler/icons-react": "^3.34.0"
+        "@tabler/icons-react": "^3.34.0",
+        "react-router-dom": "^7.6.2"
     }
 }

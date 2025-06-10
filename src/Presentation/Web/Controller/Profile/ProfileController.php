@@ -10,12 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Users\Service\UploadService;
 use App\Presentation\Web\Form\Profile\AvatarType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
 use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
 use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
-use App\Presentation\Web\Transformer\UserBooksTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
@@ -73,19 +71,6 @@ final class ProfileController extends AbstractController
         return $this->render('profile/edit_profile.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    #[Route('/api/reading-list', name: 'profile_reading_list', methods: ['GET'])]
-    public function getReadingList(GetReadingListUserUseCase $getReadingListUserUseCase, UserBooksTransformer $transformer): JsonResponse
-    {
-        /** @var Users $user */
-        $user = $this->security->getUser();
-
-        $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
-
-        $data = $transformer->transformMany($currentlyReading);
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 
 }

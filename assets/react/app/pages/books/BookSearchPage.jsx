@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BookSearch from '../../../shared/components/SearchBook/BookSearch';
+import BookSearch from '../../shared/components/SearchBook/BookSearch';
 import BookSearchResultsPage from './BookSearchResultsPage';
 
 export default function BookSearchPage({ apiUrl, searchBookUrl, addBookUrl, currentPath }) {

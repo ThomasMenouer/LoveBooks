@@ -1,4 +1,4 @@
-import Home from '../app/features/home/pages/Home';
+import Home from '../app/pages/home/Home';
 
 export default function HomeController(props) {
     return <Home {...props} />;
