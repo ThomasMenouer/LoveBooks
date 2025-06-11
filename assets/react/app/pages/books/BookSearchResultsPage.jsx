@@ -16,12 +16,27 @@ export default function BookSearchResultsPage({ results, addBookUrl }) {
                 <button
                   className="btn btn-outline-custom"
                   onClick={() => {
-                    const p = new URLSearchParams({
-                      title: info.title || "",
-                      authors: info.authors?.[0] || ""
-                      // … autres champs
-                    });
-                    window.location.href = `${addBookUrl}?${p.toString()}`;
+                    const bookData = {
+                        title: info.title || "",
+                        authors: info.authors[0] || "",
+                        publisher: info.publisher || "",
+                        description: info.description || "",
+                        pageCount: info.pageCount || 0,
+                        publishedDate: info.publishedDate || "",
+                        thumbnail: info.imageLinks.thumbnail || ""
+                    };
+
+                    fetch(addBookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bookData),
+                        credentials: 'include',
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        window.location.href = '/library/home';
+                    })
+                    .catch(err => console.error(err));
                   }}
                 >
                   Ajouter le livre

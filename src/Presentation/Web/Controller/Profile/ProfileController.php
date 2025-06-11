@@ -23,19 +23,16 @@ final class ProfileController extends AbstractController
     public function __construct(private readonly Security $security){}
 
     #[Route("/{name}-{id}", name: "index")]
-    public function index(Users $user, GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
+    public function index(Users $user, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
     {
 
         $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
-
-        $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
 
         $userStats = $getUserLibraryStatsUseCase->getStats($user);
 
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
             'preferredBooks' => $preferredBooks,
-            'currentlyReading' => $currentlyReading,
             ...$userStats
         ]);
     }

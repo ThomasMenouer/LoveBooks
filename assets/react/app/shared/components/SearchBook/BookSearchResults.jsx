@@ -4,6 +4,8 @@ export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query })
   const maxResults = 5;
   const limitedResults = results.slice(0, maxResults);
 
+  console.log(results);
+
   return (
     <ul className="list-group position-absolute mt-1 z-3 shadow">
       {limitedResults.map((book, index) => {
@@ -14,7 +16,7 @@ export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query })
             key={index}
             className="list-group-item d-flex align-items-start gap-3"
           >
-            {info.imageLinks?.thumbnail && (
+            {info.imageLinks.thumbnail && (
               <img
                 src={info.imageLinks.thumbnail}
                 alt={info.title}
@@ -29,17 +31,26 @@ export const BookSearchResults = ({ results, addBookUrl, searchBookUrl, query })
                 onClick={(e) => {
                   e.preventDefault();
 
-                  const params = new URLSearchParams({
-                    title: info.title ?? "",
-                    authors: info.authors?.[0] ?? "",
-                    publisher: info.publisher ?? "",
-                    description: info.description ?? "",
-                    publishedDate: info.publishedDate ?? "",
-                    pageCount: info.pageCount ?? "",
-                    thumbnail: info.imageLinks?.thumbnail ?? "",
-                  });
+                  const bookData = {
+                    title: info.title,
+                    authors: info.authors?.[0],
+                    publisher: info.publisher,
+                    description: info.description,
+                    pageCount: info.pageCount,
+                    publishedDate: info.publishedDate,
+                    thumbnail: info.imageLinks?.thumbnail,
+                  };
 
-                  window.location.href = `${addBookUrl}?${params.toString()}`;
+                  fetch(addBookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookData),
+                    credentials: 'include',
+                  })
+                  .then(res => res.json())
+                  .then(data => {
+                    window.location.href = `/library/home`;
+                  });
                 }}
               >
                 Ajouter le livre

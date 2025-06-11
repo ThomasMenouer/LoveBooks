@@ -61,7 +61,7 @@ export default function CurrentlyReading({userId, isOwnProfile}) {
                     ></div>
                   </div>
 
-                                    {isOwnProfile && (
+                  {isOwnProfile && (
                     <div className="text-center my-3">
                       <button
                         type="button"

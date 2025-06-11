@@ -28,7 +28,6 @@ final class CurrentlyReadingController extends AbstractController
     #[Route("/reading-list/{id}", name: "reading_list", methods: ["GET"])]
     public function getReadingList(Users $user,GetReadingListUserUseCase $getReadingListUserUseCase, UserBooksTransformer $transformer): JsonResponse
     {
-        // $user = $this->security->getUser();
 
         $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
 
@@ -56,7 +55,7 @@ final class CurrentlyReadingController extends AbstractController
         }
 
         try {
-            $statusEnum = Status::from($data['status']); // <--- utilise la valeur ENUM directement
+            $statusEnum = Status::from($data['status']);
             $userBook->setStatus($statusEnum);
         } catch (\ValueError $e) {
             return new JsonResponse(['error' => 'Statut invalide'], 400);

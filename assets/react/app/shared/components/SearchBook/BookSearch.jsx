@@ -6,6 +6,8 @@ export default function BookSearch({ apiUrl, searchBookUrl, addBookUrl, currentP
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+    console.log(results);
+
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);

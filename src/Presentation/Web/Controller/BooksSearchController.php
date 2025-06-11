@@ -61,30 +61,38 @@ final class BooksSearchController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name:'add_book', methods:['GET'])]
-    public function addBook(Request $request, BookFacade $bookFacade)
+    #[Route('/add', name:'add_book')]
+    public function addBook(Request $request, BookFacade $bookFacade): JsonResponse
     {
-        $data = [
-            'title' => $request->query->get('title', 'Titre inconnu'),
-            'authors' => $request->query->get('authors', 'Auteur inconnu'),
-            'publisher' => $request->query->get('publisher', 'Editeur inconnu'),
-            'description' => $request->query->get('description', 'Pas de description'),
-            'pageCount' => $request->query->get('pageCount', 0),
-            'publishedDate' => $request->query->get('publishedDate', null),
-            'thumbnail' => $request->query->get('thumbnail', 'Pas d\'image'),
-        ];
+        // $data = [
+        //     'title' => $request->query->get('title', 'Titre inconnu'),
+        //     'authors' => $request->query->get('authors', 'Auteur inconnu'),
+        //     'publisher' => $request->query->get('publisher', 'Editeur inconnu'),
+        //     'description' => $request->query->get('description', 'Pas de description'),
+        //     'pageCount' => $request->query->get('pageCount', 0),
+        //     'publishedDate' => $request->query->get('publishedDate', null),
+        //     'thumbnail' => $request->query->get('thumbnail', 'Pas d\'image'),
+        // ];
         
+        // $bookDto = $bookFacade->getData($data);
+
+        // $book = $bookFacade->saveBook($bookDto);
+
+        // $bookFacade->saveUserBook($book);
+
+        // $this->addFlash('success', 'Le livre a bien été ajouté à votre bibliothèque');
+
+        // return $this->redirectToRoute('book_index', [
+        //     'id' => $book->getId(),
+        // ]);
+        
+        $data = json_decode($request->getContent(), true);
+    
         $bookDto = $bookFacade->getData($data);
-
         $book = $bookFacade->saveBook($bookDto);
-
         $bookFacade->saveUserBook($book);
 
-        $this->addFlash('success', 'Le livre a bien été ajouté à votre bibliothèque');
-
-        return $this->redirectToRoute('book_index', [
-            'id' => $book->getId(),
-        ]);
+        return new JsonResponse(['success' => true]);
     }
 
     #[Route('/api/books', name: 'api_books', methods: ['GET'])]

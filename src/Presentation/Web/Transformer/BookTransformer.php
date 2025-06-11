@@ -45,6 +45,7 @@ class BookTransformer implements TransformerInterface
             'authors' => $book->getAuthors(),
             'pageCount' => $book->getPageCount(),
             'thumbnail' => $book->getThumbnail(),
+            'globalRating' => $book->getGlobalRating(),
 
             // Ajouter suite des infos si necessaire plus tard.
         ];

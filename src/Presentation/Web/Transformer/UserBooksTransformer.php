@@ -17,6 +17,8 @@ class UserBooksTransformer
             'id' => $userBooks->getId(),
             'pagesRead' => $userBooks->getPagesRead(),
             'status' => $userBooks->getStatus()->value,
+            'rating' => $userBooks->getUserRating(),
+            
             'book' => $this->bookTransformer->transformToArray($book),
 
         ];

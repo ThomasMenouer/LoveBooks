@@ -21,27 +21,13 @@ final class LibraryController extends AbstractController
 {
     public function __construct(private readonly Security $security){}
 
-    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    public function profileHome(
-        GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase, 
-        GetReadingListUserUseCase $getReadingListUserUseCase): Response 
+    #[Route('/home', name: 'index', methods: ['GET'])]
+    public function profileHome(): Response 
     {
         $user = $this->security->getUser();
 
-        $userStats = $getUserLibraryStatsUseCase->getStats($user);
-        $books = $getReadingListUserUseCase->getReadingList($user);
-
-        $bookForms = [];
-
-        foreach ($books as $book) {
-            $form = $this->createForm(UserBooksReadingUpdateType::class, $book);
-            $bookForms[$book->getId()] = $form->createView();
-        }
-
         return $this->render('library/library.html.twig', [
-            ...$userStats, // spread operator, on insère les clefs/valeurs du tableau
-            'readingList' => $books,
-            'bookForms' => $bookForms,
+            "user" => $user,
         ]);
     }
 

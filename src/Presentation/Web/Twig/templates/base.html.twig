@@ -22,7 +22,6 @@
         <!-- ======= Header ======= -->
         <header>
             {% if app.request.attributes.get('_route') not in ['home_index', 'app_login', 'app_register'] %}
-                {# {% include "partials/_navbar.html.twig" %} #}
 
     <div {{ react_component('Navbar', {
         user: {
@@ -34,7 +33,7 @@
         logoutUrl: path('app_logout'),
         searchBookUrl: path('search_book'),
         apiUrl: path('search_api_books'),
-        addBookUrl: path('search_add_book'),
+        addBookUrl: path('api_user_books_add'),
         currentPath: app.request.getPathInfo(),
     }) }}></div>
                 <div class="pb-5"></div>
