@@ -41,18 +41,22 @@ export default function Books({ userId }) {
     <div>
       <h3 className="text-center mb-4">Mes livres</h3>
 
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Rechercher un livre..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
+      <div className="row justify-content-center mb-3">
+        <div className="col-auto col-sm-auto">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Rechercher un livre..."
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+          />
+
+        </div>
+
       </div>
 
       <div className="table-responsive" style={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <table className="table table-hover">
+        <table className="table table-hover text-center">
           <thead className="sticky-top">
             <tr>
               <th></th>
@@ -84,7 +88,7 @@ export default function Books({ userId }) {
                 </td>
                 <td>{userBook.status}</td>
                 <td>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(userBook.id)}>
+                    <button className="btn btn-outline-custom-red btn-sm" onClick={() => handleDelete(userBook.id)}>
                     Supprimer
                   </button></td>
               </tr>

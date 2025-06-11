@@ -20,7 +20,7 @@ final class GetUserLibraryStatsUseCase
         foreach ($bookStats as $status => $count) {
             $statusEnum = Status::from($status);  // Convertit le string en Enum
             $bookStatsWithEnum[] = [
-            'status' => $statusEnum->value,
+            'status' => $statusEnum->name,
             'label' => $statusEnum->label(),
             'color' => $statusEnum->color(),
             'count' => $count,

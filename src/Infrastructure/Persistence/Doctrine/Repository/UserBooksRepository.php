@@ -49,26 +49,26 @@ class UserBooksRepository extends ServiceEntityRepository implements UserBooksRe
     public function countByStatusForUser(Users $users): array
     {
         $qb = $this->createQueryBuilder('b')
-            ->select('b.status, COUNT(b.id) as count')
+            ->select('b.status AS status', 'COUNT(b.id) AS count')
             ->where('b.user = :user')
             ->setParameter('user', $users)
             ->groupBy('b.status');
 
-        $result = $qb->getQuery()->getResult();
+        $result = $qb->getQuery()->getArrayResult();
 
-        // Initialise le tableau avec toutes les valeurs possibles de l'enum
         $counts = array_fill_keys(array_map(
             fn(Status $status) => $status->value,
             Status::cases()
         ), 0);
 
         foreach ($result as $row) {
-            $status = $row['status'];
-            $counts[$status->value] = (int)$row['count'];
+            $statusEnum = $row['status'];
+            $counts[$statusEnum->value] = (int)$row['count'];
         }
 
         return $counts;
     }
+
 
     public function getTotalPagesReadForUser(Users $users): int
     {
