@@ -15,6 +15,7 @@ use App\Presentation\Web\Transformer\UserBooksTransformer;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Application\UserBooks\UseCase\UpdateUserBookReadingProgressUseCase;
 
 #[IsGranted("ROLE_USER")]
 #[Route("/api", name: "api_")]
@@ -22,7 +23,8 @@ final class CurrentlyReadingController extends AbstractController
 {
     public function __construct(
         private UserBooksRepositoryInterface $userBooksRepositoryInterface,
-        private readonly Security $security   
+        private readonly Security $security,
+        private readonly UpdateUserBookReadingProgressUseCase $updateUserBookReadingProgressUseCase
     ) {}
 
     #[Route("/reading-list/{id}", name: "reading_list", methods: ["GET"])]
@@ -63,7 +65,8 @@ final class CurrentlyReadingController extends AbstractController
 
         $userBook->setPagesRead((int) $data['pagesRead']);
 
-        $this->userBooksRepositoryInterface->save($userBook);
+
+        $this->updateUserBookReadingProgressUseCase->update($userBook);
 
         return new JsonResponse(['success' => true]);
     }

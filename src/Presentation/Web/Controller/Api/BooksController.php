@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Application\Users\UseCase\SearchAbookUseCase;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
@@ -22,10 +23,11 @@ final class BooksController extends AbstractController
     public function __construct(
         private readonly Security $security,
         private UserBooksTransformer $userBooksTransformer,
-        private UserBooksRepositoryInterface $userBooksRepositoryInterface
+        private UserBooksRepositoryInterface $userBooksRepositoryInterface,
+        private readonly SearchAbookUseCase $searchAbookUseCase
     ) {}
 
-    #[Route("/books", name: "books", methods: ["GET"])]
+    #[Route("/user-books", name: "books", methods: ["GET"])]
     public function getUsersBooks(): JsonResponse
     {
         /** @var Users $user  */
@@ -67,6 +69,25 @@ final class BooksController extends AbstractController
 
         $this->userBooksRepositoryInterface->delete($userBook);
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+    #[Route("/user-books/search", name: "search_books", methods: ["GET"])]
+    public function search(Request $request, UserBooksTransformer $transformer): JsonResponse
+    {
+        /** @var Users $user */
+        $user = $this->security->getUser();
+
+        $query = $request->query->get('query', '');
+
+        $filters = [];
+        if (!empty($query)) {
+            $filters['query'] = $query;
+        }
+
+        $results = $this->searchAbookUseCase->getSearchBook($user, $filters);
+
+        return new JsonResponse($transformer->transformMany($results));
     }
 
 }

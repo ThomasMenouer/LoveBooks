@@ -46,6 +46,8 @@ final class BooksController extends AbstractController
                 ->createView();
         }
 
+        dd($book);
+
 
         return $this->render('books/book_details.html.twig', [
             'book' => $book,

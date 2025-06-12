@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function BookSearchResultsPage({ results, addBookUrl }) {
+
+  console.log(results);
   return (
     <div className="row row-cols-1 row-cols-2 row-cols-sm-1 row-cols-sm-4 g-4">
       {results.map((b, idx) => {

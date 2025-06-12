@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { IconSearch } from "@tabler/icons-react";
 
 export default function Books({ userId }) {
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
 
-  useEffect(() => {
-      fetch(`/api/books`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", 
-    })
-      .then((res) => res.json())
-      .then((data) => setBooks(data));
-  }, []);
+useEffect(() => {
+    const fetchBooks = () => {
+      const url = query 
+        ? `/api/user-books/search?query=${encodeURIComponent(query)}`
+        : `/api/user-books`;
+
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => setBooks(data));
+    };
+
+    fetchBooks();
+}, [query]);
 
     const handleDelete = (id) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce livre ?")) return;
@@ -43,14 +52,19 @@ export default function Books({ userId }) {
 
       <div className="row justify-content-center mb-3">
         <div className="col-auto col-sm-auto">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Rechercher un livre..."
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-
+          <div className="input-group">
+            <span className="input-group-text">
+              <IconSearch size={20} />
+            </span>
+            <input
+              name="search-user-books"
+              type="search"
+              className="form-control"
+              placeholder="Rechercher un livre..."
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+          </div>
         </div>
 
       </div>
@@ -73,7 +87,7 @@ export default function Books({ userId }) {
                 <td>
                   <img src={userBook.book.thumbnail} className="img rounded" alt={userBook.book.title} width="120" />
                 </td>
-                <td>{userBook.book.title}</td>
+                <td><a href={`/book/books/${userBook.book.id}`} className="text-color-white">{userBook.book.title}</a></td>
                 <td>{userBook.book.authors}</td>
                 <td>
                   {userBook.rating ? (

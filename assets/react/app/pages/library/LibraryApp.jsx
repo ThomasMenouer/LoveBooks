@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Home from "./Home";
 import Books from "./Books";
 
-export default function LibraryApp({ userId, isOwnProfile }) {
+export default function LibraryApp({ userId, isOwnProfile, bookDetailUrl }) {
   return (
     <BrowserRouter basename="/library">
       <div className="row my-4">

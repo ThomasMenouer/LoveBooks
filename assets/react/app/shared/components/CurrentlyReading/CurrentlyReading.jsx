@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserBooksReadingUpdateForm from "./UserBooksReadingUpdateForm";
 
-export default function CurrentlyReading({userId, isOwnProfile}) {
+export default function CurrentlyReading({userId, isOwnProfile, refreshStats}) {
   const [books, setBooks] = useState([]);
 
   const fetchBooks = () => {
@@ -99,7 +99,10 @@ export default function CurrentlyReading({userId, isOwnProfile}) {
                             <div className="modal-body">
                               <UserBooksReadingUpdateForm
                                 userBook={item}
-                                onUpdated={fetchBooks}
+                                onUpdated={() => {
+                                  fetchBooks();  // Refresh la liste des livres
+                                  refreshStats();  // Refresh les stats
+                                }}
                               />
                             </div>
                             <div className="modal-footer">
