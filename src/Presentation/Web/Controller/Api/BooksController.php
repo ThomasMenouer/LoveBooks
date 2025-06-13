@@ -42,19 +42,23 @@ final class BooksController extends AbstractController
     #[Route("/user-books/add", name: "user_books_add",  methods: ["POST"])]
     public function addUserBook(Request $request, BookFacade $bookFacade): JsonResponse
     {
+
         /** @var Users $user */
         $user = $this->security->getUser();
 
         $content = $request->getContent();
-        dump($content);
         $data = json_decode($content, true);
-        dump($data);
+
+        try {
+            $bookDto = $bookFacade->getData($data);
+        } catch (\InvalidArgumentException $e) {
+            return new JsonResponse(['success' => false, 'error' => $e->getMessage()], 400);
+        }
     
-        $bookDto = $bookFacade->getData($data);
         $book = $bookFacade->saveBook($bookDto);
         $bookFacade->saveUserBook($book);
 
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse(['success' => true, 'message' => "Le livre à bien été ajouté dans votre bibliothèque."]);
     }
 
     #[Route("/user-books/delete/{id}", name: "books_delete", methods: ["DELETE"])]

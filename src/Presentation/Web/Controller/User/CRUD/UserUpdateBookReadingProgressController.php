@@ -38,7 +38,7 @@ final class UserUpdateBookReadingProgressController extends AbstractController
                 ], new Response('', Response::HTTP_OK, ['Content-Type' => 'text/vnd.turbo-stream.html']));
             }
 
-            return $this->redirectToRoute('library_index');
+            return $this->redirectToRoute('library');
         }
 
         return $this->render('library/library.html.twig', [

@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     {
         // if the user is already authenticated, redirect to the homepage
         if ($this->getUser()) {
-            return $this->redirectToRoute('library_index');
+            return $this->redirectToRoute('library');
         }
 
         // get the login error if there is one

@@ -6,29 +6,41 @@
 
 <main>
     <div class="container mt-5">
-        <div class="row g-0 mb-4">
-            <div class="col-3 col-sm-2">
-                {% if user.avatar %}
-                    <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="Avatar" 
-                        class="img-fluid rounded-circle" 
-                        style="height: 100px; width: 100px; object-fit: cover;">
-                {% else %}
-                    <p>Pas d’avatar.</p>
-                {% endif %}
-            </div>
+        <div class="row mb-4">
+            <div class="col-12 col-md-6 mx-auto">
+                <div class="card border-0 rounded-5" style="height: 150px;">  
+                    <div class="row g-0 my-auto">
+                        <div class="col-3 col-md-3 text-center my-auto">
+                            {% if user.avatar %}
+                                <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="Avatar" 
+                                    class="img-fluid rounded-circle"
+                                    style="height: 100px; width: 100px; object-fit: cover;" >
+                            {% else %}
+                                <p>Pas d’avatar.</p>
+                            {% endif %}
+                        </div>                        
 
-            <div class="col-9 col-sm-10">
-                <div class="card border-0">  
-                    <div class="card-body">
-                        <h5 class="card-title">{{ user.name }}</h5>
-                        {% if app.user and app.user.id == user.id %}
-                            <a href="{{ path('profile_edit_avatar') }}" class="text-color-white">Edit Profile</a>
-                        {% endif %}
-                        
-                        
+                        <div class="col-9 col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">{{ user.name }}</h5>
+
+                                {% if app.user and app.user.id == user.id %}
+                                    <div class="d-inline-flex gap-3 text-center">
+                                        <a href="{{ path('profile_edit_avatar') }}" class="btn btn-outline-custom-yellow text-decoration-none">Modifier profil</a>
+                                        <a href="{{ path('app_logout') }}" class="btn btn-outline-custom-red text-decoration-none">Déconnexion</a>
+                                    </div>
+                                    
+                                {% endif %}
+                                
+                            </div>                        
+                        </div>
+
+                    
                     </div>
                 </div>
+            
             </div>
+
         </div>
 
         <div class="row mb-4">

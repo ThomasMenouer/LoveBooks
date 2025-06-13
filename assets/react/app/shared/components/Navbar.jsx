@@ -1,7 +1,7 @@
 import React, { use, useState } from 'react';
 import BookSearch from './SearchBook/BookSearch';
 
-export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, searchBookUrl,  apiUrl, addBookUrl, currentPath }) {
+export default function Navbar({ user, libraryUrl, profileUrl, searchBookUrl,  apiUrl, addBookUrl, currentPath }) {
 
     const isActive = (url) => url === currentPath ? 'nav-link active' : 'nav-link';
 
@@ -36,9 +36,6 @@ export default function Navbar({ user, libraryUrl, profileUrl, logoutUrl, search
                                 </li>
                                 <li className="nav-item">
                                     <a className={isActive(profileUrl)} href={profileUrl}>Mon profil</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href={logoutUrl}>Déconnexion</a>
                                 </li>
                             </>
                         ) : null}

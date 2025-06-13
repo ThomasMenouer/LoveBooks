@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     {
         
         if ($this->getUser()) {
-            return $this->redirectToRoute('library_index');
+            return $this->redirectToRoute('library');
         }
 
         $user = new Users();
