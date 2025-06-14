@@ -23,11 +23,14 @@ final class BooksController extends AbstractController
     public function __construct(private readonly Security $security) {}
 
     #[Route('/books/{id}', name: 'index')]
-    public function index(Books $book, GetReviewsOfBookUseCase $getReviewsOfBookUseCase, FormFactoryInterface $formFactory): Response
-    {
+    public function index(
+        Books $book,
+        GetReviewsOfBookUseCase $getReviewsOfBookUseCase,
+    ): Response {
         /** @var \App\Domain\Users\Entity\Users $user */
         $user = $this->security->getUser();
 
+        // Récupération du UserBook s'il existe
         $userBook = $user->getUserBooks()->filter(function ($userBook) use ($book) {
             return $userBook->getBook()->getId() === $book->getId();
         })->first();
@@ -36,26 +39,13 @@ final class BooksController extends AbstractController
             throw $this->createNotFoundException('Le livre n\'existe pas');
         }
 
-        // Récupération des reviews du livre
-        $reviews = $getReviewsOfBookUseCase->getReviews($book);
-
-        $commentForms = [];
-        foreach ($reviews as $review) {
-            $commentForms[$review->getId()] = $formFactory
-                ->create( ReviewCommentsType::class)
-                ->createView();
-        }
-
-        dd($book);
-
+        // Reviews du livre (on pourrait ne pas les passer si React va chercher en Ajax)
+        
 
         return $this->render('books/book_details.html.twig', [
             'book' => $book,
             'userBook' => $userBook,
-            'reviews' => $reviews,
-            'createReviewForm' => $this->createForm(ReviewType::class)->createView(), // formulaire vide
-            'editReviewForm' => $this->createForm(ReviewType::class, $userBook->getReview())->createView(), // formulaire vide
-            'commentForms' => $commentForms,
+            // suppression des forms symfony
         ]);
     }
 

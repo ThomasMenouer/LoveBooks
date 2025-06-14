@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, IconStar, IconStarFilled } from "@tabler/icons-react";
 
 export default function Books({ userId }) {
   const [books, setBooks] = useState([]);
@@ -93,7 +93,7 @@ useEffect(() => {
                   {userBook.rating ? (
                     <div>
                       {Array.from({ length: 5 }, (_, i) => i + 1).map(i =>
-                        i <= userBook.rating ? "★" : "☆"
+                        i <= userBook.rating ? <IconStarFilled size={20} className="text-color-yellow"/> : <IconStar size={20} className="text-color-yellow"/>
                       )}
                     </div>
                   ) : (

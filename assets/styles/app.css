@@ -109,6 +109,10 @@ body{
     background-color: var(--black-color) !important;
 }
 
+.bg-color-black::placeholder{
+    color: var(--white-color);
+}
+
 .progress-bar-gradient {
     background-image: linear-gradient(to right, var(--red-color), var(--yellow-color), var(--green-color));
 }

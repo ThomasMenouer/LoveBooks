@@ -100,7 +100,15 @@
             </div>
         </div>
 
-        {% include "components/reviews/reviews_book.html.twig" %}
+        <div {{ react_component('ReviewSection', {
+            bookId: book.id,
+            }) }}></div>
+
+        <div {{ react_component('ReviewList', {
+            bookId: book.id,
+            }) 
+        }}>
+        </div>
 
     </div>
 </main>
