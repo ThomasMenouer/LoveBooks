@@ -11,11 +11,14 @@ final class EditUserBookUseCase
     public function __construct(private UserBooksRepositoryInterface $userBooksRepository){
     }
 
-    public function editBook(UserBooks $book): void
+    public function editBook(UserBooks $book, array $data): void
     {
-
-        // TODO : VOIR pour un formulaire dynamique
-        // Si statut = non Lu, alors input pagesRead est caché
+        // On met à jour l'entité avec les données reçues
+        $book->setStatus(Status::from($data['status']));
+        $book->setPagesRead($data['pagesRead']);
+        $book->setIsPreferred($data['isPreferred']);
+        $book->setUserRating($data['userRating'] ?? null);
+        
         $pageCount = $book->getBook()->getPageCount();
 
         match ($book->getStatus()) {

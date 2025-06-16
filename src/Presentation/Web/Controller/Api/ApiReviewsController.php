@@ -2,19 +2,18 @@
 
 namespace App\Presentation\Web\Controller\Api;
 
-use PHPUnit\Util\Json;
+
 use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
 use App\Domain\Reviews\Entity\Reviews;
-use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\Application\Books\Service\BookFacade;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Application\Books\Service\GoogleBooksService;
-use App\Application\Users\UseCase\SearchAbookUseCase;
+use App\Application\ReviewComments\DTO\CreateCommentDTO;
+use App\Application\ReviewComments\UseCase\CreateReviewCommentsUseCase;
+use App\Application\ReviewComments\UseCase\DeleteReviewCommentsUseCase;
 use App\Presentation\Web\Transformer\ReviewTransformer;
 use App\Application\Reviews\UseCase\CreateReviewUseCase;
 use App\Application\Reviews\UseCase\DeleteReviewUseCase;
@@ -22,9 +21,8 @@ use App\Application\Reviews\UseCase\EditReviewUseCase;
 use App\Presentation\Web\Transformer\CommentTransformer;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\Reviews\UseCase\GetUserReviewUseCase;
-use App\Presentation\Web\Transformer\UserBooksTransformer;
 use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
-use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
+use App\Domain\ReviewComments\Entity\ReviewComments;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
@@ -52,19 +50,13 @@ final class ApiReviewsController extends AbstractController
         $user = $this->security->getUser();
 
         $review = $getUserReviewUseCase->getUserReview($book, $user);
+
+        if (!$review) 
+        {
+            return new JsonResponse(['error' => 'Aucune review trouvée.'], Response::HTTP_NOT_FOUND);
+        }
         $reviewDTO = $this->reviewTransformer->transform($review);
         $data = $this->reviewTransformer->transformToArray($reviewDTO);
-
-        //dd($data);
-
-        return new JsonResponse($data);
-    }
-
-    #[Route("/reviews/{id}/comments", name: "review_comments", methods: ["GET"])]
-    public function getComments(Reviews $review, CommentTransformer $commentTransformer): JsonResponse
-    {
-        $comments = $review->getComments()->toArray();
-        $data = $commentTransformer->transformManyToArray($comments);
 
         return new JsonResponse($data);
     }
@@ -132,4 +124,53 @@ final class ApiReviewsController extends AbstractController
         return new JsonResponse(['success' => true, 'message' => 'Votre review à bien été supprimée.']);
     }
 
+    #[Route("/reviews/{id}/comments", name: "review_comments", methods: ["GET"])]
+    public function getComments(Reviews $review, CommentTransformer $commentTransformer): JsonResponse
+    {
+        /**
+         * @var Users $user
+         */
+        $user = $this->security->getUser();
+
+        $comments = $review->getComments()->toArray();
+        $data = $commentTransformer->transformManyToArray($comments);
+
+        return new JsonResponse([
+            'comments' => $data,
+            'currentUserId' => $user->getId()]);
+    }
+
+    #[Route("/review/{id}/comment/create", name: "create_comment", methods: ["POST"])]
+    public function createComment(Reviews $review, Request $request,
+        CreateReviewCommentsUseCase $createReviewCommentsUseCase): JsonResponse
+    {
+        $user = $this->security->getUser();
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data['content'])) {
+            return new JsonResponse(['error' => 'Le contenu est obligatoire'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $CommentDTO = new CreateCommentDTO($review, $user, $data['content']);
+        $createReviewCommentsUseCase->createReviewComment($CommentDTO);
+
+        return new JsonResponse(['success' => true], Response::HTTP_CREATED);
+    }
+
+    #[Route("/comment/{id}", "delete_comment", methods:["DELETE"])]
+    public function deleteComment(ReviewComments $reviewComments, DeleteReviewCommentsUseCase $deleteReviewCommentsUseCase): JsonResponse
+    {
+        /** @var Users $user */
+        $user = $this->security->getUser();
+
+        if ($user->getId() !== $reviewComments->getUser()->getId())
+        {
+            return new JsonResponse(['message' => 'Accès interdit.'], Response::HTTP_FORBIDDEN);
+        }
+
+        $deleteReviewCommentsUseCase->deleteReviewComment($reviewComments);
+
+        return new JsonResponse(['success' => true, 'message' => 'Votre commentaire à bien été supprimé.']);
+
+    }
 }

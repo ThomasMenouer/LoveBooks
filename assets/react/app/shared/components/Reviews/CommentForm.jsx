@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function CommentForm({ reviewId }) {
+export default function CommentForm({ reviewId, onCommentAdded }) {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -10,15 +10,21 @@ export default function CommentForm({ reviewId }) {
 
     setIsSubmitting(true);
 
-    fetch(`/api/reviews/${reviewId}/comments`, {
+    fetch(`/api/review/${reviewId}/comment/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ content }),
     })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erreur lors de l'envoi");
+        }
+        return response.json();
+      })
       .then(() => {
         setContent('');
         setIsSubmitting(false);
-        // On peut aussi déclencher un refresh global des commentaires ici
+        if (onCommentAdded) onCommentAdded(); // ici le refresh
       })
       .catch(() => {
         alert('Erreur lors de l\'ajout du commentaire');
@@ -27,19 +33,24 @@ export default function CommentForm({ reviewId }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="my-3">
-      <div className="mb-2">
+    <form onSubmit={handleSubmit} className="row row-cols-auto my-3">
+      <div className="col-md-10">
         <textarea
           className="form-control"
-          rows="3"
+          rows="1"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Ajouter un commentaire..."
         />
       </div>
-      <button type="submit" className="btn btn-outline-primary btn-sm" disabled={isSubmitting}>
-        {isSubmitting ? "Envoi..." : "Publier"}
-      </button>
+
+      <div className="col-md-2">
+        <button type="submit" className="btn btn-outline-custom-blue" disabled={isSubmitting}>
+          {isSubmitting ? "Envoi..." : "Publier"}
+        </button>
+
+      </div>
+
     </form>
   );
 }

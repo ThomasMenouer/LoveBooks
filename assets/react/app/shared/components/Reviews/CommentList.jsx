@@ -1,31 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function CommentList({ reviewId }) {
-  const [comments, setComments] = useState([]);
+export default function CommentList({ comments, currentUserId, onCommentDeleted }) {
 
-  useEffect(() => {
-    fetch(`/api/reviews/${reviewId}/comments`)
-      .then(res => res.json())
-      .then(data => setComments(data))
-      .catch(err => console.error("Erreur chargement commentaires", err));
-  }, [reviewId]);
-
-  if (comments.length === 0) {
-    return <p>Aucun commentaire.</p>;
+  function handleDelete(commentId) {
+    fetch(`/api/comment/${commentId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Erreur lors de la suppression");
+      onCommentDeleted();  // Appel pour recharger les commentaires
+    })
+    .catch(err => console.error(err));
   }
 
   return (
     <div className="mt-3">
       <h5>Commentaires</h5>
       {comments.map(comment => (
-        <div key={comment.id} className="card bg-dark text-white mb-3">
+        <div key={comment.id} className="card bg-color-black text-color-white mb-3">
           <div className="card-header d-flex align-items-center">
             {comment.user.avatar && (
               <img
                 src={`/uploads/avatars/${comment.user.avatar}`}
                 alt="Avatar"
                 className="rounded-circle me-2"
-                style={{ height: 40, width: 40, objectFit: 'cover' }}
+                style={{ height: 60, width: 60, objectFit: 'cover' }}
               />
             )}
             <strong>{comment.user.name}</strong>
@@ -37,9 +40,9 @@ export default function CommentList({ reviewId }) {
           </div>
 
           <div className="card-footer text-end">
-            {comment.user.isCurrentUser && (
+            {comment.user.id === currentUserId && (
               <button
-                className="btn btn-sm btn-outline-danger"
+                className="btn btn-sm btn-outline-custom-red"
                 onClick={() => handleDelete(comment.id)}
               >
                 Supprimer
@@ -50,14 +53,4 @@ export default function CommentList({ reviewId }) {
       ))}
     </div>
   );
-
-  function handleDelete(commentId) {
-    if (!window.confirm("Supprimer ce commentaire ?")) return;
-
-    fetch(`/api/comments/${commentId}`, {
-      method: 'DELETE',
-    })
-      .then(() => setComments(comments.filter(c => c.id !== commentId)))
-      .catch(err => alert("Erreur suppression"));
-  }
 }

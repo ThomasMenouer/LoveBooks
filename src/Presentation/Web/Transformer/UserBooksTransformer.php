@@ -9,6 +9,17 @@ class UserBooksTransformer
 {
     public function __construct(private BookTransformer $bookTransformer) {}
 
+    public function transformForEdit(UserBooks $userBook): array
+    {
+        return [
+            'id' => $userBook->getId(),
+            'status' => $userBook->getStatus()->value,
+            'pagesRead' => $userBook->getPagesRead(),
+            'isPreferred' => $userBook->GetIsPreferred(),
+            'userRating' => $userBook->getUserRating(),
+        ];
+    }
+
     public function transform(UserBooks $userBooks): array
     {
         $book = $userBooks->getBook();

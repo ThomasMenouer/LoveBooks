@@ -2,9 +2,7 @@
 
 namespace App\Presentation\Web\Controller\Api;
 
-use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
-use App\Domain\Reviews\Entity\Reviews;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Application\Books\Service\BookFacade;
@@ -13,25 +11,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Books\Service\GoogleBooksService;
+use App\Application\UserBooks\UseCase\DeleteUserBookUseCase;
 use App\Application\Users\UseCase\SearchAbookUseCase;
 use App\Presentation\Web\Transformer\ReviewTransformer;
-use App\Presentation\Web\Transformer\CommentTransformer;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Application\UserBooks\UseCase\EditUserBookUseCase;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
-use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
-use App\Application\Reviews\UseCase\GetUserReviewUseCase;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted("ROLE_USER")]
 #[Route("/api", name: "api_")]
-final class BooksController extends AbstractController
+final class ApiBooksController extends AbstractController
 {
     public function __construct(
         private readonly Security $security,
         private UserBooksTransformer $userBooksTransformer,
-        private UserBooksRepositoryInterface $userBooksRepositoryInterface,
         private readonly SearchAbookUseCase $searchAbookUseCase,
         private readonly ReviewTransformer $reviewTransformer,
     ) {}
@@ -49,6 +44,47 @@ final class BooksController extends AbstractController
 
         return new JsonResponse($results, Response::HTTP_OK, [],  false);
     }
+
+
+
+    #[Route("/user-books/{id}", name: "user_book", methods: ["GET"])]
+    public function getUserBook(UserBooks $userBook): JsonResponse
+    {
+        /** @var Users $user */
+        $user = $this->security->getUser();
+
+        if ($user !== $userBook->getUser()) {
+            return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
+        }
+
+        $data = $this->userBooksTransformer->transformForEdit($userBook);
+
+
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    #[Route("/user-books/{id}/edit", name: "user_book_edit", methods: ["POST"])]
+    public function editUserBook(
+        UserBooks $userBook,
+        Request $request,
+        EditUserBookUseCase $editUserBookUseCase
+    ): JsonResponse {
+        
+        /** @var Users $user */
+        $user = $this->security->getUser();
+
+        if ($user !== $userBook->getUser()) {
+            return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $editUserBookUseCase->editBook($userBook, $data);
+
+        return new JsonResponse(['success' => true], Response::HTTP_OK);
+    }
+
 
     #[Route("/user-books", name: "user_books", methods: ["GET"])]
     public function getUsersBooks(): JsonResponse
@@ -85,7 +121,7 @@ final class BooksController extends AbstractController
     }
 
     #[Route("/user-books/delete/{id}", name: "user_books_delete", methods: ["DELETE"])]
-    public function deleteUserBook(UserBooks $userBook): JsonResponse
+    public function deleteUserBook(UserBooks $userBook, DeleteUserBookUseCase $deleteUserBookUseCase): JsonResponse
     {
         /** @var Users $user */
         $user = $this->security->getUser();
@@ -94,7 +130,8 @@ final class BooksController extends AbstractController
             return new JsonResponse(['message' => 'Accès interdit.'], Response::HTTP_FORBIDDEN);
         }
 
-        $this->userBooksRepositoryInterface->delete($userBook);
+        $deleteUserBookUseCase->execute($userBook);
+        
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 

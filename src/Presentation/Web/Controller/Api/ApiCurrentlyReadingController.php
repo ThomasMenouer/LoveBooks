@@ -19,7 +19,7 @@ use App\Application\UserBooks\UseCase\UpdateUserBookReadingProgressUseCase;
 
 #[IsGranted("ROLE_USER")]
 #[Route("/api", name: "api_")]
-final class CurrentlyReadingController extends AbstractController
+final class ApiCurrentlyReadingController extends AbstractController
 {
     public function __construct(
         private UserBooksRepositoryInterface $userBooksRepositoryInterface,

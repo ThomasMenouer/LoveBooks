@@ -14,7 +14,8 @@ final class ReviewDTO
         private int $rating,
         private string $createdAt,
         private string $status,
-        private UsersDTO $user
+        private UsersDTO $user,
+        private int $commentsCount,
 
     ) {}
 
@@ -46,6 +47,11 @@ final class ReviewDTO
     public function getUser(): UsersDTO
     {
         return $this->user;
+    }
+
+    public function getCommmentsCount(): int
+    {
+        return $this->commentsCount;
     }
 
 }

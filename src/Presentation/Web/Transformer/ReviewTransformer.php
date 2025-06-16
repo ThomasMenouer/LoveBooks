@@ -23,7 +23,8 @@ class ReviewTransformer
                 id: $user->getId(),
                 name: $user->getName(),
                 avatar: $user->getAvatar()
-            )
+            ),
+            commentsCount: $review->getComments()->count(),
         );
     }
 
@@ -40,6 +41,7 @@ class ReviewTransformer
                 'name' => $review->getUser()->getName(),
                 'avatar' => $review->getUser()->getAvatar()
             ],
+            'commentsCount' => $review->getCommmentsCount()
         ];
     }
 

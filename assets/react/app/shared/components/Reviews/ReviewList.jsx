@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReviewCard from './ReviewCard';
 
-export default function ReviewList({ bookId }) {
+export default function ReviewList({ bookId, currentUserId }) {
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
@@ -32,6 +32,8 @@ export default function ReviewList({ bookId }) {
                             key={review.id} 
                             review={review}
                             profileUrl={`/profile/${review.user.name}-${review.user.id}`}
+                            currentUserId={currentUserId}
+                            commentsCount={review.commentsCount}
                         />
                     ))
                 )}
