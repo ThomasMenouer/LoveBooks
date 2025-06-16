@@ -5,6 +5,7 @@ namespace App\Application\Books\Service;
 
 use App\Domain\Books\Entity\Books;
 use App\Application\Books\DTO\BookDto;
+use App\Domain\Books\Service\BookValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
 use App\Domain\UserBooks\Enum\Status;
@@ -13,20 +14,18 @@ use App\Presentation\Web\Transformer\BookTransformer;
 
 class BookFacade{
 
-    private EntityManagerInterface $em;
-    private BookTransformer $bookTransformer;
-    private Security $security;
-
-
-    public function __construct(EntityManagerInterface $em, BookTransformer $bookTransformer, Security $security)
+    public function __construct(
+        private EntityManagerInterface $em, 
+        private BookTransformer $bookTransformer, 
+        private Security $security,
+        private BookValidator $bookValidator)
     {
-        $this->em = $em;
-        $this->bookTransformer = $bookTransformer;
-        $this->security = $security;
     }
 
     public function getData(array $data): BookDto
     {
+        // Controler les datas
+        $this->bookValidator->validate($data);
         // book DTO à l'aide du DataTransformer
         $bookDto = $this->bookTransformer->transform($data);
 
@@ -80,6 +79,11 @@ class BookFacade{
         // todo : On pourrait vérifié si l'utilisateur à déjà le livre
         $this->em->persist($userBook);
         $this->em->flush();
+
+    }
+
+    public function controlBookData(array $data)
+    {
 
     }
 

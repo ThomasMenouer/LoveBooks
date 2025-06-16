@@ -3,32 +3,14 @@
 {% block title %}library{% endblock %}
 
 {% block body %}
-
 <main>
-    <div class="container">
-        <div class="row my-4">
-            <ul class="nav nav-underline justify-content-center" data-controller="active-link-menu">
-                <li class="nav-item">
-                    <a class="nav-link active" 
-                    href="{{ path("library_index") }}"
-                    data-action="click->active-link-menu#setActive"
-                    data-turbo-frame="library_content">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" 
-                    href="{{ path("library_books") }}" 
-                    data-action="click->active-link-menu#setActive"
-                    data-turbo-frame="library_content">Mes livres</a>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <turbo-frame id="library_content">
-                {% include 'library/home.html.twig' %}
-            </turbo-frame>
+    <div class="container my-4">
+        <div 
+            {{ react_component('LibraryApp', {
+                userId: user.id,
+                isOwnProfile: app.user and app.user.id == user.id,
+            }) }}>
         </div>
     </div>
 </main>
-
 {% endblock %}

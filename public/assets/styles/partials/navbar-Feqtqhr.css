@@ -1,0 +1,15 @@
+.navbar .navbar-brand, .nav-link, .dropdown-item {
+    color: var(--white-color) !important;
+}
+
+.navbar .nav-link:hover {
+    color: var(--green-color) !important;
+}
+
+.navbar .nav-link.active {
+    color: var(--green-color) !important;
+}
+
+.navbar .dropdown-item:hover {
+    color: var(--green-color) !important;
+}

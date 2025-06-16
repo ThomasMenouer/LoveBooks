@@ -1,23 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<main>
-    <div class="container">
-        <div class="row text-center my-4">
-            <h1>Rechercher un livre</h1>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-auto col-sm-auto">
-                {{ form_start(form, {attr: {'data-turbo-frame': 'books_results', 'class': 'row row-cols-auto g-3 align-items-center'}}) }}
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.submit) }}
-                {{ form_end(form) }}
-            
-            </div>
-        </div>
+	<main>
+	
+		<div {{ react_component('BookSearchPage', {
+				apiUrl: path('api_search_books'),
+				addBookUrl: path('api_user_books_add'),
+				searchBookUrl: path('search_book'),
+				currentPath: app.request.getPathInfo(),
 
-        {% include 'search/results.html.twig'  with { books: books } %}
+				}) 
+			}}>
+		</div>
 
-    </div>
-</main>
+	</main>
 {% endblock %}

@@ -3,10 +3,12 @@
 namespace App\Domain\Reviews\Repository;
 
 use App\Domain\Books\Entity\Books;
+use App\Domain\Users\Entity\Users;
 use App\Domain\Reviews\Entity\Reviews;
 
 interface ReviewsRepositoryInterface
 {
+    public function getUserReview(Books $book, Users $user): ?Reviews;
 
     public function getReviewsOfBook(Books $book): array;
 

@@ -2,7 +2,6 @@
 
 namespace App\Presentation\Web\Controller\Profile;
 
-use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
 use App\Domain\Users\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -10,10 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Users\Service\UploadService;
-use App\Application\Users\UseCase\GetReadingListUserUseCase;
-use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
 use App\Presentation\Web\Form\Profile\AvatarType;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Application\Users\UseCase\GetReadingListUserUseCase;
+use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
+use App\Application\UserBooks\UseCase\GetPreferredBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
@@ -23,20 +23,17 @@ final class ProfileController extends AbstractController
     public function __construct(private readonly Security $security){}
 
     #[Route("/{name}-{id}", name: "index")]
-    public function index(Users $user, GetReadingListUserUseCase $getReadingListUserUseCase, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
+    public function index(Users $user, GetPreferredBookUseCase $getPreferredBookUseCase, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): Response
     {
 
         $preferredBooks = $getPreferredBookUseCase->getPreferredBook($user);
-
-        $currentlyReading = $getReadingListUserUseCase->getReadingList($user);
 
         $userStats = $getUserLibraryStatsUseCase->getStats($user);
 
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
+            'stats' => $userStats,
             'preferredBooks' => $preferredBooks,
-            'currentlyReading' => $currentlyReading,
-            ...$userStats
         ]);
     }
 
@@ -72,4 +69,5 @@ final class ProfileController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }

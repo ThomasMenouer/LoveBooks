@@ -3,30 +3,10 @@
 {% block title %}LoveBooks{% endblock %}
 
 {% block body %}
-
-<main id="home-main">
-    <div class="container">
-        <div class="row d-flex flex-column min-vh-100 justify-content-center align-items-center">
-            <div class="col-12 col-sm-8">
-
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="card-title text-center">LoveBooks !</h1>
-                        
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item card-text">📚 Enregistrez vos livres : Ajoutez facilement vos ouvrages et organisez votre bibliothèque.</li>
-                            <li class="list-group-item card-text">✅ Suivez vos lectures : Identifiez d’un coup d’œil vos livres lus, en cours ou à lire.</li>
-                            <li class="list-group-item card-text">📖 Tracker votre progression : Notez le nombre de pages lues et suivez vos avancées en temps réel.</li>
-                        </ul>
-                    </div>
-                    <div class="card-body d-flex justify-content-center gap-3">
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-custom text-decoration-none">Se connecter</a>
-                        <a href="{{ path('app_register') }}" class="btn btn-outline-custom text-decoration-none">S'inscrire</a>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div {{ react_component('Home', {
+        loginUrl: path('app_login'),
+        registerUrl: path('app_register')
+    }) }}>
+        Chargement...
     </div>
-</main>
 {% endblock %}

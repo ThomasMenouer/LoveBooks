@@ -46,7 +46,26 @@
                 </div>
 
                 <div class="my-3">
-                    <a href="{{ path("book_edit", { "id": userBook.id }) }}" class="btn btn-outline-custom-yellow" data-turbo="false">Modifier</a>
+                    <!-- Bouton qui ouvre le modal -->
+                    <button type="button" class="btn btn-outline-custom-yellow" data-bs-toggle="modal" data-bs-target="#editUserBookModal">
+                        Modifier
+                    </button>
+                </div>
+
+                <!-- Modal Bootstrap -->
+                <div class="modal fade" id="editUserBookModal" tabindex="-1" aria-labelledby="editUserBookModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-color-black">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editUserBookModalLabel">Modifier le livre</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                            </div>
+                            <!-- Composant React intégré dans le modal -->
+                            <div {{ react_component("EditUserBook", {
+                            userBookId: userBook.id,
+                            }) }}></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -73,7 +92,7 @@
                                             {{ ux_icon('tabler:star', { style: 'width: 1.5rem; height: 1.5rem;' }) }}
                                         {% endif %}
                                     {% endfor %}
-                                    <span class="ms-2 text-color-white">{{ book.globalRating.rating|number_format(1) }}/5 ({{book.globalRating.count }} avis)</span>
+                                    <span class="ms-2 text-color-white">{{ book.globalRating.rating|number_format(1) }}/5 ({{book.globalRating.count }} notes)</span>
                                 </div>
                             {% else %}
                                 <h4>Note Globale :</h4>
@@ -94,13 +113,22 @@
                     </div>
 
                     <div class="mt-4 text-center">
-                        <a href="{{ path('library_index') }}" class="btn btn-outline-custom">Retour à ma bibliothèque</a>
+                        <a href="{{ path('library') }}" class="btn btn-outline-custom">Retour à ma bibliothèque</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        {% include "components/reviews/reviews_book.html.twig" %}
+        <div {{ react_component('ReviewSection', {
+            bookId: book.id,
+            }) }}></div>
+
+        <div {{ react_component('ReviewList', {
+            bookId: book.id,
+            currentUserId: app.user.id
+            }) 
+        }}>
+        </div>
 
     </div>
 </main>

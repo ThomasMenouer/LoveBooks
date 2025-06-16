@@ -1,0 +1,35 @@
+.btn-outline-custom {
+    color: var(--green-color) !important;
+    border-color: var(--green-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-custom:hover {
+    color: var(--black-color) !important;
+    border-color: var(--green-color) !important;
+    background-color: var(--green-color) !important;
+}
+
+.btn-outline-custom-red {
+    color: var(--red-color) !important;
+    border-color: var(--red-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-custom-red:hover {
+    color: var(--black-color) !important;
+    border-color: var(--red-color) !important;
+    background-color: var(--red-color) !important;
+}
+
+.btn-outline-custom-yellow {
+    color: var(--yellow-color) !important;
+    border-color: var(--yellow-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-custom-yellow:hover {
+    color: var(--black-color) !important;
+    border-color: var(--yellow-color) !important;
+    background-color: var(--yellow-color) !important;
+}

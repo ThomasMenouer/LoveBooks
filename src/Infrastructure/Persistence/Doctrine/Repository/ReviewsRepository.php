@@ -4,10 +4,13 @@ namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 
 use Dom\Entity;
+use Doctrine\ORM\Query\Parameter;
 use App\Domain\Books\Entity\Books;
+use App\Domain\Users\Entity\Users;
 use App\Domain\Reviews\Entity\Reviews;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Domain\Reviews\Repository\ReviewsRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -53,6 +56,21 @@ class ReviewsRepository extends ServiceEntityRepository implements ReviewsReposi
     {
         $this->em->remove($review);
         $this->em->flush();
+    }
+
+    public function getUserReview(Books $book, Users $user): ?Reviews
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->join('r.userBook', 'ub')
+            ->where('ub.book = :book')
+            ->andWhere('ub.user = :user')
+            ->setParameters(new ArrayCollection([
+                new Parameter('book', $book),
+                new Parameter('user', $user),
+            ]))
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

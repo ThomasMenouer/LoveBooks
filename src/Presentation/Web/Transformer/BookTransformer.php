@@ -3,6 +3,7 @@
 namespace App\Presentation\Web\Transformer;
 
 
+use App\Domain\Books\Entity\Books;
 use App\Application\Books\DTO\BookDto;
 use App\Presentation\Web\Transformer\Interface\TransformerInterface;
 
@@ -33,6 +34,22 @@ class BookTransformer implements TransformerInterface
             );
 
         return $dataBook;
+    }
+
+    public function transformToArray(Books $book): array
+    {
+
+        return [
+            'id' => $book->getId(),
+            'title' => $book->getTitle(),
+            'authors' => $book->getAuthors(),
+            'pageCount' => $book->getPageCount(),
+            'thumbnail' => $book->getThumbnail(),
+            'globalRating' => $book->getGlobalRating(),
+
+            // Ajouter suite des infos si necessaire plus tard.
+        ];
+        
     }
 
 }

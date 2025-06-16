@@ -7,8 +7,6 @@ use App\Domain\UserBooks\Entity\UserBooks;
 
 interface UserBooksRepositoryInterface
 {
-
-    
     public function searchABook(Users $users, array $filters = []): array;
 
     public function getReadingListForUser(Users $users): array;

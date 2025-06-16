@@ -14,7 +14,7 @@ final class HomePageController extends AbstractController
     public function index(): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('library_index');
+            return $this->redirectToRoute('library');
         }
 
 
