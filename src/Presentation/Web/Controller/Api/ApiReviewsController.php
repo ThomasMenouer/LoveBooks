@@ -9,7 +9,7 @@ use App\Domain\Reviews\Entity\Reviews;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\ReviewComments\DTO\CreateCommentDTO;
 use App\Application\ReviewComments\UseCase\CreateReviewCommentsUseCase;

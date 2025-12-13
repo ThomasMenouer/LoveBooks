@@ -1,7 +1,6 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        password: '%env(DATABASE_PASSWORD)%'
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -12,7 +11,6 @@ doctrine:
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         identity_generation_preferences:

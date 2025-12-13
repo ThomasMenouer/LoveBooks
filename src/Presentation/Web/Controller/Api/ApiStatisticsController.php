@@ -6,7 +6,7 @@ use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
 use App\Domain\Users\Entity\Users;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;

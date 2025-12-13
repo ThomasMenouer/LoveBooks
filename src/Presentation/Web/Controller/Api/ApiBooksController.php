@@ -8,7 +8,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use App\Application\Books\Service\BookFacade;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Books\Service\GoogleBooksService;
 use App\Application\UserBooks\UseCase\DeleteUserBookUseCase;
