@@ -6,10 +6,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Books\Entity\Books;
 use App\Domain\Users\Entity\Users;
-use App\Domain\Reviews\Entity\Reviews;
+use ApiPlatform\Metadata\ApiResource;
 use App\Domain\UserBooks\Enum\Status;
+use App\Domain\Reviews\Entity\Reviews;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserBooksRepository;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: UserBooksRepository::class)]
 #[ORM\UniqueConstraint(name: 'unique_user_book', columns: ['user_id', 'book_id'])]
 class UserBooks

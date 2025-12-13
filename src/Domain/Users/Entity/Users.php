@@ -2,6 +2,7 @@
 
 namespace App\Domain\Users\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Infrastructure\Persistence\Doctrine\Repository\UsersRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+
+#[ApiResource]
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]

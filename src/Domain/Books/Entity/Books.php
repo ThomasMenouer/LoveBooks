@@ -6,11 +6,14 @@ namespace App\Domain\Books\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
+use ApiPlatform\Metadata\ApiResource;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Infrastructure\Persistence\Doctrine\Repository\BooksRepository;
 
+
+#[ApiResource]
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
 class Books
 {

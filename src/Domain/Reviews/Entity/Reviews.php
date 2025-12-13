@@ -5,12 +5,14 @@ namespace App\Domain\Reviews\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Domain\ReviewComments\Entity\ReviewComments;
 use App\Infrastructure\Persistence\Doctrine\Repository\ReviewsRepository;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ReviewsRepository::class)]
 class Reviews
 {

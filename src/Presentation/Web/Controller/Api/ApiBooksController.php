@@ -17,7 +17,8 @@ use App\Presentation\Web\Transformer\ReviewTransformer;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\UserBooks\UseCase\EditUserBookUseCase;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
-use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted("ROLE_USER")]
@@ -29,6 +30,7 @@ final class ApiBooksController extends AbstractController
         private UserBooksTransformer $userBooksTransformer,
         private readonly SearchAbookUseCase $searchAbookUseCase,
         private readonly ReviewTransformer $reviewTransformer,
+        private LoggerInterface $logger,
     ) {}
 
     #[Route('/books', name: 'search_books', methods: ['GET'])]
@@ -70,7 +72,7 @@ final class ApiBooksController extends AbstractController
         Request $request,
         EditUserBookUseCase $editUserBookUseCase
     ): JsonResponse {
-        
+
         /** @var Users $user */
         $user = $this->security->getUser();
 
@@ -97,7 +99,7 @@ final class ApiBooksController extends AbstractController
 
         return new JsonResponse($booksArray, Response::HTTP_OK);
     }
-    
+
     #[Route("/user-books/add", name: "user_books_add",  methods: ["POST"])]
     public function addUserBook(Request $request, BookFacade $bookFacade): JsonResponse
     {
@@ -113,7 +115,7 @@ final class ApiBooksController extends AbstractController
         } catch (\InvalidArgumentException $e) {
             return new JsonResponse(['success' => false, 'error' => $e->getMessage()], 400);
         }
-    
+
         $book = $bookFacade->saveBook($bookDto);
         $bookFacade->saveUserBook($book);
 
@@ -131,7 +133,7 @@ final class ApiBooksController extends AbstractController
         }
 
         $deleteUserBookUseCase->execute($userBook);
-        
+
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -142,16 +144,21 @@ final class ApiBooksController extends AbstractController
         /** @var Users $user */
         $user = $this->security->getUser();
 
-        $query = $request->query->get('query', '');
+        try {
+            $query = $request->query->get('query', '');
 
-        $filters = [];
-        if (!empty($query)) {
-            $filters['query'] = $query;
+            $filters = [];
+            if (!empty($query)) {
+                $filters['query'] = $query;
+            }
+
+            $results = $this->searchAbookUseCase->getSearchBook($user, $filters);
+
+            return new JsonResponse($transformer->transformMany($results));
+        } catch (\Throwable $th) {
+            $this->logger->error('Erreur lors de la recherche de livres utilisateur : ' . $th->getMessage());
+            return new JsonResponse(['message' => 'Une erreur est survenue lors de la recherche.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $results = $this->searchAbookUseCase->getSearchBook($user, $filters);
-
-        return new JsonResponse($transformer->transformMany($results));
     }
-
 }
