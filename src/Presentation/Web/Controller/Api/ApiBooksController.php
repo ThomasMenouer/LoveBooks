@@ -13,12 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Books\Service\GoogleBooksService;
 use App\Application\UserBooks\UseCase\DeleteUserBookUseCase;
 use App\Application\Users\UseCase\SearchAbookUseCase;
-use App\Presentation\Web\Transformer\ReviewTransformer;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Application\UserBooks\UseCase\EditUserBookUseCase;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted("ROLE_USER")]
@@ -29,8 +26,6 @@ final class ApiBooksController extends AbstractController
         private readonly Security $security,
         private UserBooksTransformer $userBooksTransformer,
         private readonly SearchAbookUseCase $searchAbookUseCase,
-        private readonly ReviewTransformer $reviewTransformer,
-        private LoggerInterface $logger,
     ) {}
 
     #[Route('/books', name: 'search_books', methods: ['GET'])]
@@ -49,7 +44,7 @@ final class ApiBooksController extends AbstractController
 
 
 
-    #[Route("/user-books/{id}", name: "user_book", methods: ["GET"])]
+    #[Route("/user-books/{id<\d+>}", name: "user_book", methods: ["GET"])]
     public function getUserBook(UserBooks $userBook): JsonResponse
     {
         /** @var Users $user */
@@ -156,7 +151,6 @@ final class ApiBooksController extends AbstractController
 
             return new JsonResponse($transformer->transformMany($results));
         } catch (\Throwable $th) {
-            $this->logger->error('Erreur lors de la recherche de livres utilisateur : ' . $th->getMessage());
             return new JsonResponse(['message' => 'Une erreur est survenue lors de la recherche.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Infrastructure\Persistence\Doctrine\Repository\BooksRepository;
 
 
-#[ApiResource]
+// #[ApiResource]
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
 class Books
 {

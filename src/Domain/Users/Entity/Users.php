@@ -2,8 +2,9 @@
 
 namespace App\Domain\Users\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,13 +25,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private int $id;
 
-    #[ORM\Column(length: 180)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    #[ORM\Column(length: 180, unique: true)]
     private string $email;
 
     /**
-     * @var list<string> The user roles
+     * @var list<string>
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
