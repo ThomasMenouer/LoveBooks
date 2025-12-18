@@ -9,7 +9,7 @@ export default function Navbar({ user, libraryUrl, profileUrl, searchBookUrl,  a
         <nav className="navbar fixed-top navbar-expand-lg bg-color-black">
             <div className="container-fluid">
                 <span className="navbar-text">
-                    <a className="navbar-brand" href="/library">LoveBooks!</a>
+                    <a className="navbar-brand" href="/library">LoveBooks</a>
                 </span>
 
                 <button

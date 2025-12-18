@@ -1,4 +1,10 @@
-.navbar .navbar-brand, .nav-link, .dropdown-item {
+.navbar-brand {
+  font-weight: 800 !important;
+  color: var(--green-color) !important;
+  letter-spacing: 1px !important;
+}
+
+.navbar .nav-link, .dropdown-item {
     color: var(--white-color) !important;
 }
 
