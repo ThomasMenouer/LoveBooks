@@ -19,6 +19,17 @@ class BooksRepository extends ServiceEntityRepository implements BooksRepository
         parent::__construct($registry, Books::class);
     }
 
+    public function saveBook(Books $book): void
+    {
+        $this->em->persist($book);
+        $this->em->flush();
+    }
+
+    public function findBook(int $id): ?Books
+    {
+       return $this->find($id);
+    }
+
     public function deleteBook(Books $book): void
     {
         $this->em->remove($book);

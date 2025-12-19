@@ -5,6 +5,7 @@ namespace App\Application\Books\Service;
 
 use App\Domain\Books\Entity\Books;
 use App\Application\Books\DTO\BookDto;
+use App\Domain\Books\Repository\BooksRepositoryInterface;
 use App\Domain\Books\Service\BookValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
@@ -18,7 +19,8 @@ class BookFacade{
         private EntityManagerInterface $em, 
         private BookTransformer $bookTransformer, 
         private Security $security,
-        private BookValidator $bookValidator)
+        private BookValidator $bookValidator,
+        private readonly BooksRepositoryInterface $booksRepositoryInterface)
     {
     }
 
@@ -55,8 +57,8 @@ class BookFacade{
             );
 
             // Sauvegarder le livre en BDD
-            $this->em->persist($existingBook);
-            $this->em->flush();
+            $this->booksRepositoryInterface->saveBook($existingBook);
+
         }
 
         return $existingBook;

@@ -4,11 +4,10 @@ namespace App\Domain\ReviewComments\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Domain\Users\Entity\Users;
-use ApiPlatform\Metadata\ApiResource;
 use App\Domain\Reviews\Entity\Reviews;
 use App\Infrastructure\Persistence\Doctrine\Repository\ReviewCommentsRepository;
 
-#[ApiResource]
+
 #[ORM\Entity(repositoryClass: ReviewCommentsRepository::class)]
 class ReviewComments
 {
