@@ -5,7 +5,7 @@
 	
 		<div {{ react_component('BookSearchPage', {
 				apiUrl: path('api_search_books'),
-				addBookUrl: path('api_user_books_add'),
+				addBookUrl: '/api/user_books',
 				searchBookUrl: path('search_book'),
 				currentPath: app.request.getPathInfo(),
 

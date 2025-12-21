@@ -56,8 +56,6 @@ final class ApiBooksController extends AbstractController
 
         $data = $this->userBooksTransformer->transformForEdit($userBook);
 
-
-
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
@@ -95,42 +93,42 @@ final class ApiBooksController extends AbstractController
         return new JsonResponse($booksArray, Response::HTTP_OK);
     }
 
-    #[Route("/user-books/add", name: "user_books_add",  methods: ["POST"])]
-    public function addUserBook(Request $request, BookFacade $bookFacade): JsonResponse
-    {
+    // #[Route("/user-books/add", name: "user_books_add",  methods: ["POST"])]
+    // public function addUserBook(Request $request, BookFacade $bookFacade): JsonResponse
+    // {
 
-        /** @var Users $user */
-        $user = $this->security->getUser();
+    //     /** @var Users $user */
+    //     $user = $this->security->getUser();
 
-        $content = $request->getContent();
-        $data = json_decode($content, true);
+    //     $content = $request->getContent();
+    //     $data = json_decode($content, true);
 
-        try {
-            $bookDto = $bookFacade->getData($data);
-        } catch (\InvalidArgumentException $e) {
-            return new JsonResponse(['success' => false, 'error' => $e->getMessage()], 400);
-        }
+    //     try {
+    //         $bookDto = $bookFacade->getData($data);
+    //     } catch (\InvalidArgumentException $e) {
+    //         return new JsonResponse(['success' => false, 'error' => $e->getMessage()], 400);
+    //     }
 
-        $book = $bookFacade->saveBook($bookDto);
-        $bookFacade->saveUserBook($book);
+    //     $book = $bookFacade->saveBook($bookDto);
+    //     $bookFacade->saveUserBook($book);
 
-        return new JsonResponse(['success' => true, 'message' => "Le livre à bien été ajouté dans votre bibliothèque."]);
-    }
+    //     return new JsonResponse(['success' => true, 'message' => "Le livre à bien été ajouté dans votre bibliothèque."]);
+    // }
 
-    #[Route("/user-books/delete/{id}", name: "user_books_delete", methods: ["DELETE"])]
-    public function deleteUserBook(UserBooks $userBook, DeleteUserBookUseCase $deleteUserBookUseCase): JsonResponse
-    {
-        /** @var Users $user */
-        $user = $this->security->getUser();
+    // #[Route("/user-books/delete/{id}", name: "user_books_delete", methods: ["DELETE"])]
+    // public function deleteUserBook(UserBooks $userBook, DeleteUserBookUseCase $deleteUserBookUseCase): JsonResponse
+    // {
+    //     /** @var Users $user */
+    //     $user = $this->security->getUser();
 
-        if ($user  !== $userBook->getUser()) {
-            return new JsonResponse(['message' => 'Accès interdit.'], Response::HTTP_FORBIDDEN);
-        }
+    //     if ($user  !== $userBook->getUser()) {
+    //         return new JsonResponse(['message' => 'Accès interdit.'], Response::HTTP_FORBIDDEN);
+    //     }
 
-        $deleteUserBookUseCase->execute($userBook);
+    //     $deleteUserBookUseCase->execute($userBook);
 
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-    }
+    //     return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    // }
 
 
     #[Route("/user-books/search", name: "search_user_books", methods: ["GET"])]

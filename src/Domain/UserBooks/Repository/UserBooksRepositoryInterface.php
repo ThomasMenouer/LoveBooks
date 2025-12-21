@@ -13,6 +13,8 @@ interface UserBooksRepositoryInterface
 
     public function countByStatusForUser(Users $users): array;
 
+    public function getUserBooksById(int $id): ?UserBooks;
+
     public function getTotalPagesReadForUser(Users $users): int;
 
     public function getTotalBooksForUser(Users $users): int;

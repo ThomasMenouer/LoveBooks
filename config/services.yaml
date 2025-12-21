@@ -29,17 +29,18 @@ services:
         arguments:
             $googleApiKey: '%google_api_key%'
             $apiBaseUrl: '%api_base_url%'
+
+    App\Presentation\Api\Provider\Books\BooksSearchProvider:
+        arguments:
+            $googleApiKey: '%google_api_key%'
+            $apiBaseUrl: '%api_base_url%'
+        tags: ['api_platform.state_provider']
     
     App\Application\Users\Service\UploadService:
         arguments:
             $avatarDirectory: '%avatars_directory%'
-    
-    App\Presentation\ApiResource\DataProvider\UserLibraryStatsDataProvider:
-        tags: ['api_platform.state_provider']
-    
-    # App\Presentation\Web\Twig\Components\:
-    #     resource: '../src/Presentation/Web/Twig/Components'
-    #     tags: ['twig.component', 'live_component']
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

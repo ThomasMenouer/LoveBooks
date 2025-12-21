@@ -13,36 +13,51 @@ export const BookSearchResults = ({
 
   const handleAddBook = (info) => {
     const bookData = {
-      title: info.title ?? null,
-      authors: info.authors?.[0] ?? null,
-      publisher: info.publisher ?? null,
-      description: info.description ?? null,
-      pageCount: info.pageCount > 0 ? info.pageCount : null,
-      publishedDate: info.publishedDate ?? null,
-      thumbnail: info.imageLinks?.thumbnail ?? null,
+      book: {
+        title: info.title ?? null,
+        authors: info.authors?.[0] ?? null,
+        publisher: info.publisher ?? null,
+        description: info.description ?? null,
+        pageCount: info.pageCount > 0 ? info.pageCount : null,
+        publishedDate: info.publishedDate ?? null,
+        thumbnail: info.imageLinks?.thumbnail ?? null,
+      }
     };
 
     fetch(addBookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/ld+json" },
       body: JSON.stringify(bookData),
       credentials: "include",
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (res.ok) {
           setAlert({
-            message: data.message || "Livre ajouté !",
+            message: "Livre ajouté !",
             type: "success",
+          });
+        } else if (data.violations) {
+          const messages = data.violations.map((v) => v.message).join(", ");
+          setAlert({
+            message: messages,
+            type: "danger",
           });
         } else {
           setAlert({
-            message: data.error || "Erreur inconnue",
+            message: data["hydra:description"] || "Erreur lors de l'ajout",
             type: "danger",
           });
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setAlert({
+          message: "Erreur de connexion",
+          type: "danger",
+        });
+      });
   };
 
   return (

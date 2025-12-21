@@ -23,6 +23,11 @@ class UserBooksRepository extends ServiceEntityRepository implements UserBooksRe
         $this->em = $em;
     }
 
+    public function getUserBooksById(int $id): ?UserBooks
+    {
+        return $this->find($id);
+    }
+
     public function save(UserBooks $book): void
     {
         $this->em->persist($book);

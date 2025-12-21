@@ -2,6 +2,8 @@
 
 namespace App\Application\Books\DTO;
 
+use DateTimeInterface;
+
 class BookDto
 {
     private string $title;
@@ -9,7 +11,7 @@ class BookDto
     private string $publisher;
     private string $description;
     private int $pageCount;
-    private \DateTimeInterface $publishedDate;
+    private DateTimeInterface $publishedDate;
     private string $thumbnail;
 
 
@@ -19,7 +21,7 @@ class BookDto
         string $publisher, 
         string $description, 
         int $pageCount, 
-        \DateTimeInterface $publishedDate,
+        DateTimeInterface $publishedDate,
         string $thumbnail,
         )
     {
@@ -33,38 +35,38 @@ class BookDto
 
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getAuthors()
+    public function getAuthors(): string
     {
 
         return $this->authors;
     }
 
-    public function getPublisher()
+    public function getPublisher(): string
     {
         return $this->publisher;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getPageCount()
+    public function getPageCount(): int
     {
         return $this->pageCount;
     }
 
-    public function getPublishedDate()
+    public function getPublishedDate(): DateTimeInterface
     {
         return $this->publishedDate;
     }
 
-    public function getThumbnail()
+    public function getThumbnail(): string
     {
         return $this->thumbnail;
     }

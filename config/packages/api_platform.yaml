@@ -1,11 +1,10 @@
 api_platform:
+    show_webby: false
     mapping:
-        paths: 
-            # - '%kernel.project_dir%/src/Presentation/ApiResource'
-            - '%kernel.project_dir%/src/Domain/'
+        paths: ['%kernel.project_dir%/src/Presentation/Api']
     title: API Platform
     version: 1.0.0
     defaults:
-        stateless: true
+        stateless: false
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']

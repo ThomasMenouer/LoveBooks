@@ -36,7 +36,7 @@ export default function Books({ userId }) {
   const handleDelete = (id) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce livre ?")) return;
 
-    fetch(`/api/user-books/delete/${id}`, {
+    fetch(`/api/user_books/${id}`, {
       method: "DELETE",
       credentials: "include",
     })

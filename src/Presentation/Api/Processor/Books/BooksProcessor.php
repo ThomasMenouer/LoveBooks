@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Presentation\Api\Processor;
+namespace App\Presentation\Api\Processor\Books;
 
 use App\Domain\Books\Entity\Books;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Presentation\Api\Resource\BooksResource;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Domain\Books\Repository\BooksRepositoryInterface;
-
 
 final class BooksProcessor implements ProcessorInterface
 {
@@ -24,7 +23,7 @@ final class BooksProcessor implements ProcessorInterface
      * @param array $context
      * @return void
      */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): object
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): JsonResponse
     {
 
         //  On crée une entité du domaine à partir du DTO
@@ -40,17 +39,12 @@ final class BooksProcessor implements ProcessorInterface
 
         $this->booksRepositoryInterface->saveBook($book);
 
-        return new BooksResource(
-            $book->getId(),
-            $book->getTitle(),
-            $book->getAuthors(),
-            $book->getPublisher(),
-            $book->getDescription(),
-            $book->getPageCount(),
-            $book->getThumbnail(),
-            $book->getPublishedDate(),
-            $book->getGlobalRating()['rating'] ?? null
-        );
+        return new JsonResponse(
+            [
+                'success' => true,
+                'message' => "Le livre à bien été ajouté dans votre bibliothèque."
+            ], JsonResponse::HTTP_CREATED);
+
 
         
     }

@@ -1,24 +1,31 @@
 <?php
 
 
-namespace App\Presentation\Api\Resource;
+namespace App\Presentation\Api\Resource\Books;
 
+use DateTimeInterface;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use App\Domain\Books\Entity\Books;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
-use App\Presentation\Api\Provider\BooksProvider;
-use App\Presentation\Api\Processor\BooksProcessor;
+use ApiPlatform\Metadata\GetCollection;
+use App\Presentation\Api\Provider\Books\BooksProvider;
+use App\Presentation\Api\Processor\Books\BooksProcessor;
 
 
 /**
- * Sert de DTO
+ * DTO pour l'entité Books
  */
 #[ApiResource(
 
+    security: "is_granted('ROLE_USER')",
     operations: [
-        new Get(),
         new Post(),
+        new GetCollection(),
+        new Get(),
+        new Patch(),
+        new Delete(),
     ],
     provider: BooksProvider::class,
     processor: BooksProcessor::class,
@@ -33,7 +40,7 @@ final class BooksResource
         private string $description,
         private int $pageCount,
         private ?string $thumbnail,
-        private \DateTimeInterface $publishedDate,
+        private DateTimeInterface $publishedDate,
         private ?float $globalRating
     ) {}
 
@@ -66,7 +73,7 @@ final class BooksResource
     {
         return $this->thumbnail;
     }
-    public function getPublishedDate(): \DateTimeInterface
+    public function getPublishedDate(): DateTimeInterface
     {
         return $this->publishedDate;
     }
