@@ -8,17 +8,22 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use ApiPlatform\Metadata\CollectionOperationInterface;
-use App\Presentation\Web\Transformer\BookTransformer;
+use App\Presentation\Api\Resource\Books\BooksResource;
+use App\Application\Users\UseCase\GetReadingListUserUseCase;
+use App\Domain\Books\Entity\Books;
 use App\Presentation\Api\Resource\UserBooks\UserBooksResource;
 use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
+use App\Presentation\Web\Transformer\UserBooksTransformer;
 
 final class UserBooksProvider implements ProviderInterface
 {
     public function __construct(
         private readonly Security $security,
-        private readonly BookTransformer $bookTransformer,
-        private readonly UserBooksRepositoryInterface $userBooksRepository
+        private readonly GetReadingListUserUseCase $getReadingListUserUseCase,
+        private readonly UserBooksTransformer $transformer,
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -30,6 +35,17 @@ final class UserBooksProvider implements ProviderInterface
             return null;
         }
 
+        if ($operation->getName() === 'reading_list') {
+
+            $currentlyReading = $this->getReadingListUserUseCase->getReadingList($user);
+
+            $data = $this->transformer->transformMany($currentlyReading);
+
+            return $data;
+        }
+
+        
+        // Pour les opérations GET sur une collection
         if ($operation instanceof CollectionOperationInterface) {
             $userBooks = $user->getUserBooks()->toArray();
             return array_map(fn(UserBooks $ub) => $this->toResource($ub), $userBooks);
@@ -59,6 +75,22 @@ final class UserBooksProvider implements ProviderInterface
     {
         $book = $userBook->getBook();
 
+        // getGlobalRating() renvoie un array ['rating' => float, 'count' => int] ou null
+        $globalRatingData = $book->getGlobalRating();
+        $globalRating = is_array($globalRatingData) ? $globalRatingData['rating'] : null;
+
+        $bookResource = new BooksResource(
+            id: $book->getId(),
+            title: $book->getTitle(),
+            authors: $book->getAuthors(),
+            publisher: $book->getPublisher(),
+            description: $book->getDescription(),
+            pageCount: $book->getPageCount(),
+            thumbnail: $book->getThumbnail(),
+            publishedDate: $book->getPublishedDate(),
+            globalRating: $globalRating,
+        );
+
         return new UserBooksResource(
             id: $userBook->getId(),
             bookId: $book->getId(),
@@ -66,7 +98,7 @@ final class UserBooksProvider implements ProviderInterface
             pagesRead: $userBook->getPagesRead(),
             isPreferred: $userBook->GetIsPreferred(),
             userRating: $userBook->getUserRating(),
-            book: $this->bookTransformer->transformToArray($book),
+            book: $bookResource,
             review: $userBook->getReview(),
         );
     }

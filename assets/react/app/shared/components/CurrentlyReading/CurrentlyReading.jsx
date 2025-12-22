@@ -5,7 +5,7 @@ export default function CurrentlyReading({userId, isOwnProfile, refreshStats}) {
   const [books, setBooks] = useState([]);
 
   const fetchBooks = () => {
-    fetch(`/api/reading-list/${userId}`, {
+    fetch('/api/user_books/reading-list', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

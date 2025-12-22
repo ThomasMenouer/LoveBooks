@@ -15,10 +15,11 @@ export default function UserBooksReadingUpdateForm({ userBook, onUpdated }) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`/api/reading-list/${userBook.id}/update`, {
-                method: "PUT",
+            const response = await fetch(`/api/user_books/${userBook.id}`, {
+                method: "PATCH",
                 headers: {
-                    "Content-Type": "application/json",
+                    // "Content-Type": "application/json",
+                    "Content-Type": "application/merge-patch+json",
                 },
                 credentials: "include",
                 body: JSON.stringify({

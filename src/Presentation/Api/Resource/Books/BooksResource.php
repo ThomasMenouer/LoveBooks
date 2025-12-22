@@ -3,13 +3,14 @@
 
 namespace App\Presentation\Api\Resource\Books;
 
-use DateTimeInterface;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Presentation\Api\Provider\Books\BooksProvider;
 use App\Presentation\Api\Processor\Books\BooksProcessor;
 
@@ -33,19 +34,46 @@ use App\Presentation\Api\Processor\Books\BooksProcessor;
 final class BooksResource
 {
     public function __construct(
-        private int $id,
-        private string $title,
-        private string $authors,
-        private string $publisher,
-        private string $description,
-        private int $pageCount,
-        private ?string $thumbnail,
-        private DateTimeInterface $publishedDate,
-        private ?float $globalRating
+        // userbook:read = visible dans les réponses GET
+        #[Groups(['userbook:read'])]
+        private ?int $id = null,
+
+        #[Assert\NotBlank(message: 'Le titre est requis')]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private string $title = '',
+
+        #[Assert\NotBlank(message: "L'auteur est requis")]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private string $authors = '',
+
+        #[Assert\NotBlank(message: "L'éditeur est requis")]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private string $publisher = '',
+
+        #[Assert\NotBlank(message: 'La description est requise')]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private string $description = '',
+
+        #[Assert\NotNull(message: 'Le nombre de pages est requis')]
+        #[Assert\PositiveOrZero(message: 'Le nombre de pages doit être positif ou nul')]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private int $pageCount = 0,
+
+        #[Assert\NotBlank(message: "L'image de couverture est requise")]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private string $thumbnail = '',
+
+        #[Assert\NotBlank(message: 'La date de publication est requise')]
+        #[Assert\Type("\DateTimeInterface", message: 'La date de publication doit être une date valide')]
+        #[Groups(['userbook:create', 'userbook:read'])]
+        private ?\DateTimeInterface $publishedDate = null,
+
+        #[Groups(['userbook:read'])]
+        private ?float $globalRating = null
     ) {}
 
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -69,11 +97,11 @@ final class BooksResource
     {
         return $this->pageCount;
     }
-    public function getThumbnail(): ?string
+    public function getThumbnail(): string
     {
         return $this->thumbnail;
     }
-    public function getPublishedDate(): DateTimeInterface
+    public function getPublishedDate(): \DateTimeInterface
     {
         return $this->publishedDate;
     }

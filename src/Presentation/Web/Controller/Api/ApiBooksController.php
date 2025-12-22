@@ -59,26 +59,26 @@ final class ApiBooksController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
-    #[Route("/user-books/{id}/edit", name: "user_book_edit", methods: ["POST"])]
-    public function editUserBook(
-        UserBooks $userBook,
-        Request $request,
-        EditUserBookUseCase $editUserBookUseCase
-    ): JsonResponse {
+    // #[Route("/user-books/{id}/edit", name: "user_book_edit", methods: ["POST"])]
+    // public function editUserBook(
+    //     UserBooks $userBook,
+    //     Request $request,
+    //     EditUserBookUseCase $editUserBookUseCase
+    // ): JsonResponse {
 
-        /** @var Users $user */
-        $user = $this->security->getUser();
+    //     /** @var Users $user */
+    //     $user = $this->security->getUser();
 
-        if ($user !== $userBook->getUser()) {
-            return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
-        }
+    //     if ($user !== $userBook->getUser()) {
+    //         return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
+    //     }
 
-        $data = json_decode($request->getContent(), true);
+    //     $data = json_decode($request->getContent(), true);
 
-        $editUserBookUseCase->editBook($userBook, $data);
+    //     $editUserBookUseCase->editBook($userBook, $data);
 
-        return new JsonResponse(['success' => true], Response::HTTP_OK);
-    }
+    //     return new JsonResponse(['success' => true], Response::HTTP_OK);
+    // }
 
 
     #[Route("/user-books", name: "user_books", methods: ["GET"])]

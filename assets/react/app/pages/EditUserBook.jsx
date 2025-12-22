@@ -18,8 +18,8 @@ export default function EditUserBook({ userBookId, onClose }) {
   const [alert, setAlert] = useState(null);
 
   useEffect(() => {
-    // Charge les données initiales via API
-    fetch(`/api/user-books/${userBookId}`)
+    // Charge les données initiales via API Platform
+    fetch(`/api/user_books/${userBookId}`)
       .then((res) => res.json())
       .then((data) => {
         setStatus(data.status);
@@ -37,9 +37,9 @@ export default function EditUserBook({ userBookId, onClose }) {
     e.preventDefault();
     setAlert(null);
 
-    fetch(`/api/user-books/${userBookId}/edit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    fetch(`/api/user_books/${userBookId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/merge-patch+json" },
       body: JSON.stringify({ status, pagesRead, isPreferred, userRating }),
       credentials: "include",
     })

@@ -5,6 +5,7 @@ namespace App\Presentation\Api\Processor\Books;
 use App\Domain\Books\Entity\Books;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Domain\Books\Repository\BooksRepositoryInterface;
 
@@ -43,7 +44,7 @@ final class BooksProcessor implements ProcessorInterface
             [
                 'success' => true,
                 'message' => "Le livre à bien été ajouté dans votre bibliothèque."
-            ], JsonResponse::HTTP_CREATED);
+            ], Response::HTTP_CREATED);
 
 
         

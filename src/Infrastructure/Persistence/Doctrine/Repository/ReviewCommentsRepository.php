@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Persistence\Doctrine\Repository;
 
 
-use App\Domain\Reviews\Entity\Reviews;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Domain\ReviewComments\Entity\ReviewComments;
@@ -18,7 +17,7 @@ class ReviewCommentsRepository extends ServiceEntityRepository implements Review
     private EntityManagerInterface $em;
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
-        parent::__construct($registry, Reviews::class);
+        parent::__construct($registry, ReviewComments::class);
         $this->em = $em;
     }
 

@@ -9,22 +9,43 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Presentation\Api\Resource\Books\BooksResource;
 use App\Presentation\Api\Provider\UserBooks\UserBooksProvider;
 use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
 
 
 /**
  * DTO pour l'entité UserBooks
+ *
+ * Les "groups" permettent de contrôler quelles propriétés sont :
+ * - Lues (normalization) : quand l'API RENVOIE des données (GET, réponse après POST/PATCH)
+ * - Écrites (denormalization) : quand l'API REÇOIT des données (body du POST/PATCH)
  */
 #[ApiResource(
     shortName: 'UserBook',
     security: "is_granted('ROLE_USER')",
+    normalizationContext: ['groups' => ['userbook:read']],
     operations: [
-        new Post(),
+        // POST : création d'un UserBook
+        // denormalizationContext : on dit à API Platform quelles propriétés il peut RECEVOIR
+        // Le groupe 'userbook:create' permet d'accepter l'objet "book" imbriqué
+        new Post(
+            validationContext: ['groups' => ['Default', 'create']],
+            denormalizationContext: ['groups' => ['userbook:create']]
+        ),
         new GetCollection(),
+        // Reading list : livres en cours de lecture
+        new GetCollection(
+            uriTemplate: '/user_books/reading-list',
+            name: 'reading_list',
+            formats: ['json']
+        ),
         new Get(),
-        new Patch(),
+        new Patch(
+            denormalizationContext: ['groups' => ['userbook:update']] //  Recevoir les données pour la mise à jour
+        ),
         new Delete(),
     ],
     provider: UserBooksProvider::class,
@@ -32,50 +53,28 @@ use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
 )]
 final class UserBooksResource
 {
-    #[Assert\NotNull(message: 'Les informations du livre sont requises')]
-    #[Assert\Collection(
-        fields: [
-            'title' => [
-                new Assert\NotBlank(message: 'Le titre est requis'),
-                new Assert\Type('string'),
-            ],
-            'authors' => [
-                new Assert\NotBlank(message: "L'auteur est requis"),
-                new Assert\Type('string'),
-            ],
-            'publisher' => [
-                new Assert\NotBlank(message: "L'éditeur est requis"),
-                new Assert\Type('string'),
-            ],
-            'description' => [
-                new Assert\NotBlank(message: 'La description est requise'),
-                new Assert\Type('string'),
-            ],
-            'pageCount' => [
-                new Assert\NotNull(message: 'Le nombre de pages est requis'),
-                new Assert\Type('integer'),
-            ],
-            'publishedDate' => [
-                new Assert\NotBlank(message: 'La date de publication est requise'),
-                new Assert\Type('string'),
-            ],
-            'thumbnail' => [
-                new Assert\NotBlank(message: "L'image de couverture est requise"),
-                new Assert\Type('string'),
-            ],
-        ],
-        allowExtraFields: true,
-    )]
-    private ?array $book = null;
+    // userbook:create = accepter l'objet book imbriqué en POST
+    // userbook:read = renvoyer l'objet book dans les réponses GET
+    #[Assert\NotNull(message: 'Les informations du livre sont requises', groups: ['create'])]
+    #[Assert\Valid(groups: ['create'])]
+    #[Groups(['userbook:create', 'userbook:read'])]
+    private ?BooksResource $book = null;
 
     public function __construct(
+
+        #[Groups(['userbook:read'])]
         private ?int $id = null,
         private ?int $bookId = null,
+
+        #[Groups(['userbook:read', 'userbook:update'])]
         private ?string $status = null,
+        #[Groups(['userbook:read', 'userbook:update'])]
         private ?int $pagesRead = null,
+        #[Groups(['userbook:read', 'userbook:update'])]
         private ?bool $isPreferred = null,
+        #[Groups(['userbook:read', 'userbook:update'])]
         private ?int $userRating = null,
-        ?array $book = null,
+        ?BooksResource $book = null,
         private ?array $review = null,
     ) {
         $this->book = $book;
@@ -111,7 +110,7 @@ final class UserBooksResource
         return $this->userRating;
     }
 
-    public function getBook(): ?array
+    public function getBook(): ?BooksResource
     {
         return $this->book;
     }
@@ -121,5 +120,27 @@ final class UserBooksResource
         return $this->review;
     }
 
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
 
+    public function setPagesRead(?int $pagesRead): self
+    {
+        $this->pagesRead = $pagesRead;
+        return $this;
+    }
+
+    public function setIsPreferred(?bool $isPreferred): self
+    {
+        $this->isPreferred = $isPreferred;
+        return $this;
+    }
+
+    public function setUserRating(?int $userRating): self
+    {
+        $this->userRating = $userRating;
+        return $this;
+    }
 }
