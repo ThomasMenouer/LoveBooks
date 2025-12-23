@@ -44,20 +44,20 @@ final class ApiBooksController extends AbstractController
 
 
 
-    #[Route("/user-books/{id<\d+>}", name: "user_book", methods: ["GET"])]
-    public function getUserBook(UserBooks $userBook): JsonResponse
-    {
-        /** @var Users $user */
-        $user = $this->security->getUser();
+    // #[Route("/user-books/{id<\d+>}", name: "user_book", methods: ["GET"])]
+    // public function getUserBook(UserBooks $userBook): JsonResponse
+    // {
+    //     /** @var Users $user */
+    //     $user = $this->security->getUser();
 
-        if ($user !== $userBook->getUser()) {
-            return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
-        }
+    //     if ($user !== $userBook->getUser()) {
+    //         return new JsonResponse(['message' => 'Accès interdit'], Response::HTTP_FORBIDDEN);
+    //     }
 
-        $data = $this->userBooksTransformer->transformForEdit($userBook);
+    //     $data = $this->userBooksTransformer->transformForEdit($userBook);
 
-        return new JsonResponse($data, Response::HTTP_OK);
-    }
+    //     return new JsonResponse($data, Response::HTTP_OK);
+    // }
 
     // #[Route("/user-books/{id}/edit", name: "user_book_edit", methods: ["POST"])]
     // public function editUserBook(
@@ -131,26 +131,26 @@ final class ApiBooksController extends AbstractController
     // }
 
 
-    #[Route("/user-books/search", name: "search_user_books", methods: ["GET"])]
-    public function searchUserBook(Request $request, UserBooksTransformer $transformer): JsonResponse
-    {
-        /** @var Users $user */
-        $user = $this->security->getUser();
+    // #[Route("/user-books/search", name: "search_user_books", methods: ["GET"])]
+    // public function searchUserBook(Request $request, UserBooksTransformer $transformer): JsonResponse
+    // {
+    //     /** @var Users $user */
+    //     $user = $this->security->getUser();
 
-        try {
-            $query = $request->query->get('query', '');
+    //     try {
+    //         $query = $request->query->get('query', '');
 
-            $filters = [];
-            if (!empty($query)) {
-                $filters['query'] = $query;
-            }
+    //         $filters = [];
+    //         if (!empty($query)) {
+    //             $filters['query'] = $query;
+    //         }
 
-            $results = $this->searchAbookUseCase->getSearchBook($user, $filters);
+    //         $results = $this->searchAbookUseCase->getSearchBook($user, $filters);
 
-            return new JsonResponse($transformer->transformMany($results));
-        } catch (\Throwable $th) {
-            return new JsonResponse(['message' => 'Une erreur est survenue lors de la recherche.'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+    //         return new JsonResponse($transformer->transformMany($results));
+    //     } catch (\Throwable $th) {
+    //         return new JsonResponse(['message' => 'Une erreur est survenue lors de la recherche.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+    //     }
 
-    }
+    // }
 }

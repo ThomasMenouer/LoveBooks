@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm run dev:*)",
       "Bash(php bin/console:*)",
-      "Bash(composer show:*)"
+      "Bash(composer show:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

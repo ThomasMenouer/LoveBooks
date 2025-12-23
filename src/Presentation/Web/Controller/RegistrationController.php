@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Web\Controller;
 
-use App\Security\EmailVerifier;
+use App\Infrastructure\Security\EmailVerifier;
 use App\Domain\Users\Entity\Users;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;

@@ -8,13 +8,14 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "amphp/http-client": "^5.3.4",
-        "api-platform/doctrine-orm": "^4.2.10",
-        "api-platform/symfony": "^4.2.10",
+        "api-platform/doctrine-orm": "^4.2.11",
+        "api-platform/symfony": "^4.2.11",
         "doctrine/dbal": "^3.10.4",
-        "doctrine/doctrine-bundle": "^2.18.1",
+        "doctrine/doctrine-bundle": "^2.18.2",
         "doctrine/doctrine-migrations-bundle": "^3.7",
-        "doctrine/orm": "^3.5.8",
+        "doctrine/orm": "^3.6.0",
         "knplabs/knp-paginator-bundle": "^6.10",
+        "lexik/jwt-authentication-bundle": "^3.2",
         "nelmio/api-doc-bundle": "^5.8.2",
         "nelmio/cors-bundle": "^2.6",
         "paragonie/sodium_compat": "^2.4",
@@ -105,7 +106,7 @@
         }
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "doctrine/doctrine-fixtures-bundle": "^4.3.1",
         "phpstan/phpstan-symfony": "^2.0.9",
         "phpunit/phpunit": "^9.6.31",
         "symfony/browser-kit": "7.4.*",
@@ -115,6 +116,6 @@
         "symfony/phpunit-bridge": "^8.0",
         "symfony/stopwatch": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*",
-        "zenstruck/foundry": "^2.8"
+        "zenstruck/foundry": "^2.8.2"
     }
 }

@@ -8,15 +8,13 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use App\Presentation\Api\Resource\Books\BooksResource;
 use App\Application\Users\UseCase\GetReadingListUserUseCase;
-use App\Domain\Books\Entity\Books;
+use App\Application\Users\UseCase\SearchAbookUseCase;
 use App\Presentation\Api\Resource\UserBooks\UserBooksResource;
-use App\Domain\UserBooks\Repository\UserBooksRepositoryInterface;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
+
 
 final class UserBooksProvider implements ProviderInterface
 {
@@ -24,6 +22,7 @@ final class UserBooksProvider implements ProviderInterface
         private readonly Security $security,
         private readonly GetReadingListUserUseCase $getReadingListUserUseCase,
         private readonly UserBooksTransformer $transformer,
+        private readonly SearchAbookUseCase $searchABooksUseCase,
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -35,6 +34,7 @@ final class UserBooksProvider implements ProviderInterface
             return null;
         }
 
+        //Récupération de la reading list
         if ($operation->getName() === 'reading_list') {
 
             $currentlyReading = $this->getReadingListUserUseCase->getReadingList($user);
@@ -44,6 +44,19 @@ final class UserBooksProvider implements ProviderInterface
             return $data;
         }
 
+        // Recherche un livre de l'utilisateur
+        if($operation->getNAme() === 'search_user_books') {
+
+            $filters = [];
+
+            if(!empty($context['filters']['titre'])) {
+                $filters['query'] = $context['filters']['titre'];
+            }
+
+            $books = $this->searchABooksUseCase->getSearchBook($user, $filters);
+
+            return $this->transformer->transformMany($books);
+        }
         
         // Pour les opérations GET sur une collection
         if ($operation instanceof CollectionOperationInterface) {

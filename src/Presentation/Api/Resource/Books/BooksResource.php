@@ -61,7 +61,7 @@ final class BooksResource
 
         #[Assert\NotBlank(message: "L'image de couverture est requise")]
         #[Groups(['userbook:create', 'userbook:read'])]
-        private string $thumbnail = '',
+        private ?string $thumbnail = '',
 
         #[Assert\NotBlank(message: 'La date de publication est requise')]
         #[Assert\Type("\DateTimeInterface", message: 'La date de publication doit être une date valide')]
@@ -97,11 +97,11 @@ final class BooksResource
     {
         return $this->pageCount;
     }
-    public function getThumbnail(): string
+    public function getThumbnail(): ?string
     {
         return $this->thumbnail;
     }
-    public function getPublishedDate(): \DateTimeInterface
+    public function getPublishedDate(): ?\DateTimeInterface
     {
         return $this->publishedDate;
     }

@@ -4,6 +4,8 @@ import Alert from "../../shared/components/Alert/Alert";
 export default function BookSearchResultsPage({ results, addBookUrl }) {
   const [alert, setAlert] = useState({ message: "", type: "info" });
 
+  console.log(results);
+
   return (
     <>
       <Alert
@@ -11,8 +13,10 @@ export default function BookSearchResultsPage({ results, addBookUrl }) {
         type={alert.type}
         onClose={() => setAlert({ message: "", type: "info" })}
       />
+
       
     <div className="row row-cols-1 row-cols-2 row-cols-sm-1 row-cols-sm-4 g-4">
+
       {results.map((b, idx) => {
         const info = b.volumeInfo || {};
         return (

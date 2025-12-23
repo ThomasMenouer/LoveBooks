@@ -29,12 +29,6 @@ services:
         arguments:
             $googleApiKey: '%google_api_key%'
             $apiBaseUrl: '%api_base_url%'
-
-    App\Presentation\Api\Provider\Books\BooksSearchProvider:
-        arguments:
-            $googleApiKey: '%google_api_key%'
-            $apiBaseUrl: '%api_base_url%'
-        tags: ['api_platform.state_provider']
     
     App\Application\Users\Service\UploadService:
         arguments:

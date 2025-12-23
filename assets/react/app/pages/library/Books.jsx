@@ -9,8 +9,8 @@ export default function Books({ userId }) {
     // Crée un timeout
     const timeoutId = setTimeout(() => {
       const url = query
-        ? `/api/user-books/search?query=${encodeURIComponent(query)}`
-        : `/api/user-books`;
+        ?  `/api/user_books/search?titre=${encodeURIComponent(query)}`
+        : `/api/user_books`;
 
       fetch(url, {
         method: "GET",

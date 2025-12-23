@@ -4,11 +4,13 @@
 namespace App\Presentation\Api\Resource\UserBooks;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Presentation\Api\Resource\Books\BooksResource;
@@ -35,12 +37,33 @@ use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
             validationContext: ['groups' => ['Default', 'create']],
             denormalizationContext: ['groups' => ['userbook:create']]
         ),
-        new GetCollection(),
+        // GET collection : liste des UserBooks
+        new GetCollection(
+            uriTemplate: '/user_books',
+            name: 'get_user_books',
+            formats: ['json' => 'application/json']
+        ),
         // Reading list : livres en cours de lecture
         new GetCollection(
             uriTemplate: '/user_books/reading-list',
             name: 'reading_list',
             formats: ['json']
+        ),
+
+        /**
+         * Recherche un livre de l'utilisateur
+         */
+        new GetCollection(
+            uriTemplate: '/user_books/search',
+            name: 'search_user_books',
+            formats: ['json' => 'application/json'],
+            parameters: [
+                'titre' => new QueryParameter(
+                    description: 'Recherche dans le titre du livre',
+                    required: false,
+                    schema: ['type' => 'string']
+                ),
+            ],
         ),
         new Get(),
         new Patch(
