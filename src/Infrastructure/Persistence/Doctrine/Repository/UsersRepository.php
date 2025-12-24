@@ -24,6 +24,7 @@ class UsersRepository extends ServiceEntityRepository implements UsersRepository
 
     /**
      * Deletes a user from the repository.
+     * @return void
      */
     public function delete(Users $user): void
     {
@@ -31,6 +32,39 @@ class UsersRepository extends ServiceEntityRepository implements UsersRepository
         $this->em->flush();
     }
 
+    /**
+     * Saves a user to the repository.
+     * @return void
+     */
+    public function save(Users $user): void
+    {
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    /**
+     * Retrieves a user by their ID.
+     * @return Users|null
+     */
+    public function getUserById(int $id): ?Users
+    {
+        return $this->find($id);
+    }
+
+    /**
+     * Retrieves a user by their email address.
+     * @return Users|null
+     */
+    public function getUserByEmail(string $email): ?Users
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+
+    /**
+     * Retrieves all users from the repository.
+     * @return Users[]
+     */
     public function getAllUsers(): array
     {
         return $this->findAll();

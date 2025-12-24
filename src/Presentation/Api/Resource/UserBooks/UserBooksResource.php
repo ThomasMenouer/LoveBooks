@@ -4,7 +4,6 @@
 namespace App\Presentation\Api\Resource\UserBooks;
 
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
@@ -12,8 +11,9 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Presentation\Api\Resource\Books\BooksResource;
+use App\Presentation\Api\Resource\Users\UsersResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Presentation\Api\Provider\UserBooks\UserBooksProvider;
 use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
 
@@ -41,13 +41,13 @@ use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
         new GetCollection(
             uriTemplate: '/user_books',
             name: 'get_user_books',
-            formats: ['json' => 'application/json']
+            formats: ['jsonld' => 'application/ld+json', 'json' => 'application/json']
         ),
         // Reading list : livres en cours de lecture
         new GetCollection(
             uriTemplate: '/user_books/reading-list',
             name: 'reading_list',
-            formats: ['json']
+            formats: ['jsonld' => 'application/ld+json', 'json' => 'application/json']
         ),
 
         /**
@@ -56,7 +56,7 @@ use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
         new GetCollection(
             uriTemplate: '/user_books/search',
             name: 'search_user_books',
-            formats: ['json' => 'application/json'],
+            formats: ['jsonld' => 'application/ld+json', 'json' => 'application/json'],
             parameters: [
                 'titre' => new QueryParameter(
                     description: 'Recherche dans le titre du livre',
@@ -64,6 +64,11 @@ use App\Presentation\Api\Processor\UserBooks\UserBooksProcessor;
                     schema: ['type' => 'string']
                 ),
             ],
+        ),
+        new GetCollection(
+            uriTemplate: '/user_books/stats',
+            name: 'user_books_stats',
+            formats: ['jsonld' => 'application/ld+json', 'json' => 'application/json']
         ),
         new Get(),
         new Patch(
@@ -83,12 +88,13 @@ final class UserBooksResource
     #[Groups(['userbook:create', 'userbook:read'])]
     private ?BooksResource $book = null;
 
+    private ?UsersResource $user = null;
+
     public function __construct(
 
         #[Groups(['userbook:read'])]
         private ?int $id = null,
         private ?int $bookId = null,
-
         #[Groups(['userbook:read', 'userbook:update'])]
         private ?string $status = null,
         #[Groups(['userbook:read', 'userbook:update'])]
@@ -98,6 +104,10 @@ final class UserBooksResource
         #[Groups(['userbook:read', 'userbook:update'])]
         private ?int $userRating = null,
         ?BooksResource $book = null,
+
+        #[Groups(['userbook:read'])]
+        ?UsersResource $user = null,
+
         private ?array $review = null,
     ) {
         $this->book = $book;
@@ -111,6 +121,17 @@ final class UserBooksResource
     public function getBookId(): ?int
     {
         return $this->bookId;
+    }
+
+    #[Groups(['userbook:read'])] # Renvoie le titre du livre imbriqué
+    public function getBookTitle(): ?string
+    {
+        return $this->book?->getTitle();
+    }
+
+    public function getUser(): ?UsersResource
+    {
+        return $this->user;
     }
 
     public function getStatus(): ?string

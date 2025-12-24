@@ -16,17 +16,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route("/api", name: "api_")]
 final class ApiStatisticsController extends AbstractController
 {
-    public function __construct(
-        private UserBooksRepositoryInterface $userBooksRepositoryInterface,
-        private readonly Security $security   
-    ) {}
+    // public function __construct(
+    //     private UserBooksRepositoryInterface $userBooksRepositoryInterface,
+    //     private readonly Security $security   
+    // ) {}
 
-    #[Route("/stats/{id}", name: "statistics", methods: ["GET"])]
-    public function getReadingList(Users $user, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): JsonResponse
-    {
-        $stats = $getUserLibraryStatsUseCase->getStats($user);
+    // #[Route("/stats/{id}", name: "statistics", methods: ["GET"])]
+    // public function getReadingList(Users $user, GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase): JsonResponse
+    // {
+    //     $stats = $getUserLibraryStatsUseCase->getStats($user);
 
 
-        return new JsonResponse($stats, Response::HTTP_OK);
-    }
+    //     return new JsonResponse($stats, Response::HTTP_OK);
+    // }
 }

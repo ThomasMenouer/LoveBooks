@@ -11,7 +11,7 @@ use App\Application\Admin\Users\UseCase\GetAllUsersUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_ADMIN', message: 'Accès refusé.', statusCode: Response::HTTP_FORBIDDEN)]
-#[Route('/', name: 'admin_')]
+#[Route('/custom', name: 'admin_')]
 final class AdminUsersManagementController extends AbstractController
 {
     #[Route('/admin/users_management', name: 'users_management')]

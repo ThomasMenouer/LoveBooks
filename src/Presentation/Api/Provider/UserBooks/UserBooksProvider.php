@@ -8,12 +8,15 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Domain\UserBooks\Entity\UserBooks;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Application\Users\UseCase\SearchAbookUseCase;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use App\Presentation\Api\Resource\Books\BooksResource;
-use App\Application\Users\UseCase\GetReadingListUserUseCase;
-use App\Application\Users\UseCase\SearchAbookUseCase;
-use App\Presentation\Api\Resource\UserBooks\UserBooksResource;
 use App\Presentation\Web\Transformer\UserBooksTransformer;
+use App\Application\Users\UseCase\GetReadingListUserUseCase;
+use App\Application\Users\UseCase\GetUserLibraryStatsUseCase;
+use App\Presentation\Api\Resource\UserBooks\UserBooksResource;
 
 
 final class UserBooksProvider implements ProviderInterface
@@ -23,6 +26,7 @@ final class UserBooksProvider implements ProviderInterface
         private readonly GetReadingListUserUseCase $getReadingListUserUseCase,
         private readonly UserBooksTransformer $transformer,
         private readonly SearchAbookUseCase $searchABooksUseCase,
+        private readonly GetUserLibraryStatsUseCase $getUserLibraryStatsUseCase,
     ) {}
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -41,27 +45,40 @@ final class UserBooksProvider implements ProviderInterface
 
             $data = $this->transformer->transformMany($currentlyReading);
 
-            return $data;
+            return new JsonResponse($data, Response::HTTP_OK);
         }
 
         // Recherche un livre de l'utilisateur
-        if($operation->getNAme() === 'search_user_books') {
+        if ($operation->getNAme() === 'search_user_books') {
 
             $filters = [];
 
-            if(!empty($context['filters']['titre'])) {
+            if (!empty($context['filters']['titre'])) {
                 $filters['query'] = $context['filters']['titre'];
             }
 
             $books = $this->searchABooksUseCase->getSearchBook($user, $filters);
 
-            return $this->transformer->transformMany($books);
+            $data = $this->transformer->transformMany($books);
+
+            return new JsonResponse($data, Response::HTTP_OK);
         }
-        
+
+        // Récupérer les statistiques
+        if ($operation->getName() === 'user_books_stats') {
+
+            $stats = $this->getUserLibraryStatsUseCase->getStats($user);
+
+            return new JsonResponse($stats, Response::HTTP_OK);
+        }
+
         // Pour les opérations GET sur une collection
         if ($operation instanceof CollectionOperationInterface) {
             $userBooks = $user->getUserBooks()->toArray();
-            return array_map(fn(UserBooks $ub) => $this->toResource($ub), $userBooks);
+
+            $data = $this->transformer->transformMany($userBooks);
+
+            return new JsonResponse($data, Response::HTTP_OK);
         }
 
         // Pour les opérations GET sur un élément spécifique
@@ -94,7 +111,6 @@ final class UserBooksProvider implements ProviderInterface
 
         $bookResource = new BooksResource(
             id: $book->getId(),
-            title: $book->getTitle(),
             authors: $book->getAuthors(),
             publisher: $book->getPublisher(),
             description: $book->getDescription(),
@@ -114,5 +130,29 @@ final class UserBooksProvider implements ProviderInterface
             book: $bookResource,
             review: $userBook->getReview(),
         );
+    }
+
+    public function toArray(UserBooks $userBook): array
+    {
+        $book = $userBook->getBook();
+
+        return [
+            'id' => $userBook->getId(),
+            'status' => $userBook->getStatus()->value,
+            'pagesRead' => $userBook->getPagesRead(),
+            'isPreferred' => $userBook->GetIsPreferred(),
+            'rating' => $userBook->getUserRating(),
+            'book' => [
+                'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'authors' => $book->getAuthors(),
+                'publisher' => $book->getPublisher(),
+                'description' => $book->getDescription(),
+                'pageCount' => $book->getPageCount(),
+                'thumbnail' => $book->getThumbnail(),
+                'publishedDate' => $book->getPublishedDate()?->format('Y-m-d'),
+                'globalRating' => $book->getGlobalRating()['rating'] ?? null,
+            ],
+        ];
     }
 }

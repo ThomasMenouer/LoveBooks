@@ -7,7 +7,7 @@ export default function Home({ userId }) {
   const [stats, setStats] = useState(null);
 
   const fetchStats = () => {
-    fetch(`/api/stats/${userId}`, {
+    fetch(`/api/user_books/stats`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

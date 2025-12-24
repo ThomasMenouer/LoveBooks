@@ -11,6 +11,8 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use App\Application\Books\Service\GoogleBooksService;
 use App\Domain\Books\Repository\BooksRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class BooksProvider implements ProviderInterface
 {
@@ -34,7 +36,8 @@ final class BooksProvider implements ProviderInterface
         }
         if ($operation instanceof CollectionOperationInterface) {
             $books = $this->booksRepositoryInterface->getAllBooks();
-            return  array_map(fn(Books $b) => $this->toResource($b), $books);
+            $data = array_map(fn(Books $b) => $this->toArray($b), $books);
+            return new JsonResponse($data, Response::HTTP_OK);
         }
 
         $book = $this->booksRepositoryInterface->findBook($uriVariables['id'] ?? null);
@@ -55,5 +58,20 @@ final class BooksProvider implements ProviderInterface
             $book->getPublishedDate(),
             $book->getGlobalRating()['rating'] ?? null
         );
+    }
+
+    public function toArray(Books $book): array
+    {
+        return [
+            'id' => $book->getId(),
+            'title' => $book->getTitle(),
+            'authors' => $book->getAuthors(),
+            'publisher' => $book->getPublisher(),
+            'description' => $book->getDescription(),
+            'pageCount' => $book->getPageCount(),
+            'thumbnail' => $book->getThumbnail(),
+            'publishedDate' => $book->getPublishedDate()?->format('Y-m-d'),
+            'globalRating' => $book->getGlobalRating()['rating'] ?? null,
+        ];
     }
 }

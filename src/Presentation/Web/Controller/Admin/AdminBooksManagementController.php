@@ -13,7 +13,7 @@ use App\Application\Reviews\UseCase\GetReviewsOfBookUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_ADMIN', message: 'Accès refusé.', statusCode: Response::HTTP_FORBIDDEN)]
-#[Route('/', name: 'admin_')]
+#[Route('/custom', name: 'admin_')]
 final class AdminBooksManagementController extends AbstractController
 {
     #[Route('/admin/books_management', name: 'books_management_index')]

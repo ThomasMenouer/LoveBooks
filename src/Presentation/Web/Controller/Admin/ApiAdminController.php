@@ -2,23 +2,17 @@
 
 namespace App\Presentation\Web\Controller\Admin;
 
-use App\Domain\Users\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use App\Application\Admin\Users\UseCase\DeleteUserUseCase;
-use App\Application\Admin\Users\UseCase\GetAllUsersUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_ADMIN', message: 'Accès refusé.', statusCode: Response::HTTP_FORBIDDEN)]
-#[Route('/custom', name: 'admin_')]
-final class AdminController extends AbstractController
+final class ApiAdminController extends AbstractController
 {
-    #[Route('/admin', name: 'index')]
+    #[Route('/admin', name: 'api_admin')]
     public function index(): Response
     {
-
-        return $this->render('admin/index.html.twig', [
-        ]);
+        return $this->render('admin/api_admin.html.twig');
     }
 }

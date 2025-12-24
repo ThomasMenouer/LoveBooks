@@ -81,17 +81,17 @@ final class ApiBooksController extends AbstractController
     // }
 
 
-    #[Route("/user-books", name: "user_books", methods: ["GET"])]
-    public function getUsersBooks(): JsonResponse
-    {
-        /** @var Users $user  */
-        $user = $this->security->getUser();
-        $data = $user->getUserBooks()->toArray();
+    // #[Route("/user-books", name: "user_books", methods: ["GET"])]
+    // public function getUsersBooks(): JsonResponse
+    // {
+    //     /** @var Users $user  */
+    //     $user = $this->security->getUser();
+    //     $data = $user->getUserBooks()->toArray();
 
-        $booksArray = $this->userBooksTransformer->transformMany($data);
+    //     $booksArray = $this->userBooksTransformer->transformMany($data);
 
-        return new JsonResponse($booksArray, Response::HTTP_OK);
-    }
+    //     return new JsonResponse($booksArray, Response::HTTP_OK);
+    // }
 
     // #[Route("/user-books/add", name: "user_books_add",  methods: ["POST"])]
     // public function addUserBook(Request $request, BookFacade $bookFacade): JsonResponse
